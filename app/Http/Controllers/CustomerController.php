@@ -258,26 +258,26 @@ class CustomerController extends Controller
         }
         $user->assignRole($data['user_type']);
         $message = __('messages.update_form',[ 'form' => __('messages.user') ] );
-		if($user->wasRecentlyCreated){
-			$message = __('messages.save_form',[ 'form' => __('messages.user') ] );
-			// if (in_array($data['user_type'], ['user', 'provider', 'handyman'])) {
-				$verificationLink = route('verify', ['id' => Crypt::encrypt($user->id)]);
-				try {
-                    $this->sendNotification([
-                        'activity_type'    => 'email_verification',
-                        'user_id'          => $user->id,
-                        'user_type'        => $user->user_type,
-                        'user_name'        => $user->display_name,
-                        'user_email'       => $user->email,
-                        'verification_link' => $verificationLink,
-                    ]);
-                    $message = __('messages.email_verification_sent');
-                } catch (\Throwable $e) {
-                    Log::error('========== admin create user verification notification failed: ' . $e->getMessage(), ['user_id' => $user->id, 'email' => $user->email]);
-                    $message = __('messages.email_send_failed_retry_later');
-                }
-			// }			
-		}
+		// if($user->wasRecentlyCreated){
+		// 	$message = __('messages.save_form',[ 'form' => __('messages.user') ] );
+		// 	// if (in_array($data['user_type'], ['user', 'provider', 'handyman'])) {
+		// 		$verificationLink = route('verify', ['id' => Crypt::encrypt($user->id)]);
+		// 		try {
+		//             $this->sendNotification([
+		//                 'activity_type'    => 'email_verification',
+		//                 'user_id'          => $user->id,
+		//                 'user_type'        => $user->user_type,
+		//                 'user_name'        => $user->display_name,
+		//                 'user_email'       => $user->email,
+		//                 'verification_link' => $verificationLink,
+		//             ]);
+		//             $message = __('messages.email_verification_sent');
+		//         } catch (\Throwable $e) {
+		//             Log::error('========== admin create user verification notification failed: ' . $e->getMessage(), ['user_id' => $user->id, 'email' => $user->email]);
+		//             $message = __('messages.email_send_failed_retry_later');
+		//         }
+		// 	// }			
+		// }
 
 		return redirect(route('user.index'))->withSuccess($message);
     }

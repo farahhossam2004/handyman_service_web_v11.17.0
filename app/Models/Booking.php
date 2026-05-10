@@ -47,7 +47,12 @@ class Booking extends Model
         'cancellation_charge_amount',
         'shop_id',
         'zone_id',
-
+        // Inspection workflow fields (added in 2026_05_07 migrations)
+        'quote_id',
+        'payment_status',
+        // Quote fields stored directly on the booking for easy Flutter access
+        'quote_price',
+        'quote_description',
     ];
 
     protected $casts = [
@@ -71,6 +76,8 @@ class Booking extends Model
         'final_coupon_discount_amount' => 'double',
         'redeemed_points' => 'integer',
         'redeemed_discount' => 'integer',
+        'quote_id'      => 'integer',
+        'quote_price'   => 'double',
     ];
     public function customer()
     {
@@ -95,6 +102,23 @@ class Booking extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class, 'booking_id')->withTrashed();
+    }
+
+    /**
+     * The active quote submitted by the provider for this booking.
+     * After approval this is the price the customer will pay.
+     */
+    public function quote()
+    {
+        return $this->belongsTo(Quote::class, 'quote_id', 'id');
+    }
+
+    /**
+     * All quotes ever submitted for this booking (in case of multiple rounds).
+     */
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class, 'booking_id', 'id');
     }
     public function bookingRating()
     {

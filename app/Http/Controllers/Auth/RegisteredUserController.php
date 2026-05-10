@@ -189,23 +189,23 @@ class RegisteredUserController extends Controller
                 }
             }
 
-            if ($user->user_type == 'user' || $user->user_type == 'provider' || $user->user_type == 'handyman') {
-                $user->assignRole($user->user_type);
-                $verificationLink = route('verify', ['id' =>  Crypt::encrypt($user->id)]);
-                try {
-                    $this->sendNotification([
-                        'activity_type'    => 'email_verification',
-                        'user_id'           => $user->id,
-                        'user_type'         => $user->user_type,
-                        'user_name'         => $user->display_name,
-                        'user_email'        => $user->email,
-                        'verification_link' => $verificationLink,
-                    ]);
-                } catch (\Throwable $e) {
-                    Log::error('Registration verification notification failed: ' . $e->getMessage(), ['user_id' => $user->id, 'email' => $user->email]);
-                }
-                return redirect()->route('auth.login');
-            }
+            // if ($user->user_type == 'user' || $user->user_type == 'provider' || $user->user_type == 'handyman') {
+            //     $user->assignRole($user->user_type);
+            //     $verificationLink = route('verify', ['id' =>  Crypt::encrypt($user->id)]);
+            //     try {
+            //         $this->sendNotification([
+            //             'activity_type'    => 'email_verification',
+            //             'user_id'           => $user->id,
+            //             'user_type'         => $user->user_type,
+            //             'user_name'         => $user->display_name,
+            //             'user_email'        => $user->email,
+            //             'verification_link' => $verificationLink,
+            //         ]);
+            //     } catch (\Throwable $e) {
+            //         Log::error('Registration verification notification failed: ' . $e->getMessage(), ['user_id' => $user->id, 'email' => $user->email]);
+            //     }
+            //     return redirect()->route('auth.login');
+            // }
         }
         event(new Registered($user));
         if (!empty($userType)) {

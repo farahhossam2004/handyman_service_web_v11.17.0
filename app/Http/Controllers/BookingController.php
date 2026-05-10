@@ -546,7 +546,10 @@ class BookingController extends Controller
         $data['tax'] = null;
 
         if ($request->id == null) {
-            $data['status'] = !empty($data['status']) ? $data['status'] : 'pending';
+            // New bookings enter the inspection workflow by default.
+            // They will not go directly to payment; the provider must inspect,
+            // submit a quote, and the user must approve before payment is collected.
+            $data['status'] = !empty($data['status']) ? $data['status'] : 'pending_inspection';
         }
 
         if (isset($data['booking_slot'])) {

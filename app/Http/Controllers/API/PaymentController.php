@@ -15,16 +15,25 @@ use App\Models\PaymentHistory;
 use App\Models\CommissionEarning;
 use App\Traits\NotificationTrait;
 use App\Http\Controllers\Controller;
+use App\Services\BookingWorkflowService;
 use App\Http\Resources\API\PaymentResource;
 use App\Http\Resources\API\PaymentGatewayResource;
 use App\Http\Resources\API\PaymentHistoryResource;
 use App\Http\Resources\API\GetCashPaymentHistoryResource;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 
 class PaymentController extends Controller
 {
     use NotificationTrait;
+
+    private BookingWorkflowService $workflowService;
+
+    public function __construct(BookingWorkflowService $workflowService)
+    {
+        $this->workflowService = $workflowService;
+    }
 
     public function savePayment(Request $request)
     {
@@ -33,6 +42,42 @@ class PaymentController extends Controller
         $result = Payment::create($data);
         $booking = Booking::find($request->booking_id);
         $bookingPackage = $booking->bookingPackage == null ? null : $booking->bookingPackage;
+
+        // ── ESCROW HOOK ──────────────────────────────────────────────────────
+        // If this booking is in the inspection workflow (status = quote_approved),
+        // hold the payment in escrow instead of releasing it immediately.
+        // The escrow is released when completeBooking() is called.
+        if ($booking->status === 'quote_approved' && $result->payment_status !== 'failed') {
+            $escrowResult = $this->workflowService->holdInEscrow($booking);
+            if (! $escrowResult['ok']) {
+                Log::warning('Escrow hold failed for booking #' . $booking->id . ': ' . $escrowResult['message']);
+            }
+            // Link payment to booking and return early — do NOT auto-start job.
+            $booking->payment_id = $result->id;
+            $booking->save();
+
+            $message = __('messages.payment_completed');
+            $activity_data = [
+                'activity_type' => 'payment_message_status',
+                'payment_status' => $data['payment_status'],
+                'booking_id'    => $booking->id,
+                'booking'       => $booking,
+                'booking_amount' => $request->total_amount,
+            ];
+            $this->sendNotification($activity_data);
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'Payment received and held in escrow. The provider will start once you confirm.',
+                'data'    => [
+                    'booking_id'     => $booking->id,
+                    'payment_status' => $booking->payment_status,
+                    'booking_status' => $booking->status,
+                ],
+            ], 200);
+        }
+        // ── END ESCROW HOOK ──────────────────────────────────────────────────
+
         if (!empty($result) && $result->payment_status == 'advanced_paid') {
             $booking->advance_paid_amount  = $request->advance_payment_amount;
             $booking->status  = 'pending';

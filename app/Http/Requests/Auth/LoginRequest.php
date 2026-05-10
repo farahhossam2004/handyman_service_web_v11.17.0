@@ -54,13 +54,13 @@ class LoginRequest extends FormRequest
         }
         $user = Auth::user();
 
-        // User, provider, handyman must have email verified to login
-        if (in_array($user->user_type, ['user', 'provider', 'handyman']) && $user->is_email_verified != 1) {
-            Auth::logout();
-            throw ValidationException::withMessages([
-                'email' => __('auth.please_verify_email_first')
-            ]);
-        }
+        // // User, provider, handyman must have email verified to login
+        // if (in_array($user->user_type, ['user', 'provider', 'handyman']) && $user->is_email_verified != 1) {
+        //     Auth::logout();
+        //     throw ValidationException::withMessages([
+        //         'email' => __('auth.please_verify_email_first')
+        //     ]);
+        // }
 
         if ($user->status == 0) {
             Auth::logout();

@@ -29,10 +29,10 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        if($user->is_email_verified != 1) {
-            Auth::logout();
-            return redirect()->back()->withErrors(['message' => __('auth.please_verify_email_first')]);
-        }
+        // if($user->is_email_verified != 1) {
+        //     Auth::logout();
+        //     return redirect()->back()->withErrors(['message' => __('auth.please_verify_email_first')]);
+        // }
         
         if ($user->status == 0) {
             Auth::logout();

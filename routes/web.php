@@ -108,10 +108,10 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::get('lang/{locale}', [HomeController::class, 'lang'])->name('switch-language');
-Route::get('/verify/{id}', [VerificationController::class, 'verify'])->name('verify');
-Route::get('/verify-success', [VerificationController::class, 'verifySuccess'])->name('verify-success');
+// Route::get('/verify/{id}', [VerificationController::class, 'verify'])->name('verify');
+// Route::get('/verify-success', [VerificationController::class, 'verifySuccess'])->name('verify-success');
 
-Route::group(['middleware' => ['auth', 'verified', 'prevent.demo.setting']], function () {
+Route::group(['middleware' => ['auth', /*'verified',*/ 'prevent.demo.setting']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::group(['namespace' => '', 'middleware' => ['permission:permission list']], function () {
         Route::resource('permission', PermissionController::class);

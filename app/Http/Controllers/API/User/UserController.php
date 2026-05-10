@@ -226,9 +226,10 @@ class UserController extends Controller
                 }
 
 
-                $verificationLink = route('verify', ['id' => Crypt::encrypt($id)]);
-
-                Log::error('Registration verification notification-----------------');
+//                $verificationLink = route('verify', ['id' => Crypt::encrypt($id)]);
+//
+//                Log::error('Registration verification notification-----------------');
+                $message = __('messages.save_form',[ 'form' => __('messages.user') ] );
                 try {
                     // Auto-assign free plan if enabled and user is provider (but don't send notification yet)
                     if ($user->user_type === 'provider' && default_earning_type() === 'subscription' && is_auto_assign_free_plan_enabled()) {
@@ -281,16 +282,16 @@ class UserController extends Controller
                         }
                     }
 
-                    // Send email verification link
-                    $this->sendNotification([
-                        'activity_type'    => 'email_verification',
-                        'user_id'          => $user->id,
-                        'user_type'        => $user->user_type,
-                        'user_name'        => $user->display_name,
-                        'user_email'       => $user->email,
-                        'verification_link' => $verificationLink,
-                    ]);
-                    $message = __('messages.email_verification_sent');
+                    // // Send email verification link
+                    // $this->sendNotification([
+                    //     'activity_type'    => 'email_verification',
+                    //     'user_id'          => $user->id,
+                    //     'user_type'        => $user->user_type,
+                    //     'user_name'        => $user->display_name,
+                    //     'user_email'       => $user->email,
+                    //     'verification_link' => $verificationLink,
+                    // ]);
+                    // $message = __('messages.email_verification_sent');
                 }catch (\Throwable $e) {
                     Log::error('Registration verification notification failed: ' . $e->getMessage(), ['user_id' => $user->id, 'email' => $user->email]);
                     $message = __('messages.email_send_failed_retry_later');
@@ -430,12 +431,12 @@ class UserController extends Controller
                 }
             }
 
-            // User, provider, handyman must have email verified to login
-            if (in_array($user->user_type, ['user', 'provider', 'handyman']) && $user->is_email_verified != 1) {
-                Auth::logout();
-                $message = trans('auth.please_verify_email_first');
-                return comman_message_response($message, 406);
-            }
+            // // User, provider, handyman must have email verified to login
+            // if (in_array($user->user_type, ['user', 'provider', 'handyman']) && $user->is_email_verified != 1) {
+            //     Auth::logout();
+            //     $message = trans('auth.please_verify_email_first');
+            //     return comman_message_response($message, 406);
+            // }
 
             $user->save();
 
@@ -1281,24 +1282,24 @@ class UserController extends Controller
         }
         $user = User::create($input);
         $user->assignRole($input['user_type']);
-        if (in_array($input['user_type'], ['user', 'provider', 'handyman'])) {
-             $verificationLink = route('verify', ['id' => Crypt::encrypt($user->id)]);
-            try {
-                $this->sendNotification([
-                    'activity_type'    => 'email_verification',
-                    'user_id'          => $user->id,
-                    'user_type'        => $user->user_type,
-                    'user_name'        => $user->display_name,
-                    'user_email'       => $user->email,
-                    'verification_link' => $verificationLink,
-                ]);
-                $message = __('messages.email_verification_sent');
-            } catch (\Throwable $e) {
-                Log::error('Registration verification notification failed: ' . $e->getMessage(), ['user_id' => $user->id, 'email' => $user->email]);
-                $message = __('messages.email_send_failed_retry_later');
-                // User remains unverified - they can request resend
-            }
-        }
+        // if (in_array($input['user_type'], ['user', 'provider', 'handyman'])) {
+        //      $verificationLink = route('verify', ['id' => Crypt::encrypt($user->id)]);
+        //     try {
+        //         $this->sendNotification([
+        //             'activity_type'    => 'email_verification',
+        //             'user_id'          => $user->id,
+        //             'user_type'        => $user->user_type,
+        //             'user_name'        => $user->display_name,
+        //             'user_email'       => $user->email,
+        //             'verification_link' => $verificationLink,
+        //         ]);
+        //         $message = __('messages.email_verification_sent');
+        //     } catch (\Throwable $e) {
+        //         Log::error('Registration verification notification failed: ' . $e->getMessage(), ['user_id' => $user->id, 'email' => $user->email]);
+        //         $message = __('messages.email_send_failed_retry_later');
+        //         // User remains unverified - they can request resend
+        //     }
+        // }
        
 
         $input['api_token'] = $user->createToken('auth_token')->plainTextToken;

@@ -407,23 +407,23 @@ class HandymanController extends Controller
 
         
       
-        if ($user->wasRecentlyCreated) {
-            $verificationLink = route('verify', ['id' => Crypt::encrypt($user->id)]);
-            try {
-                $this->sendNotification([
-                    'activity_type'    => 'email_verification',
-                    'user_id'          => $user->id,
-                    'user_type'        => $user->user_type,
-                    'user_name'        => $user->display_name,
-                    'user_email'       => $user->email,
-                    'verification_link' => $verificationLink,
-                ]);
-                $message = __('messages.email_verification_sent');
-            } catch (\Throwable $e) {
-                Log::error('Handyman verification email failed: ' . $e->getMessage());
-                $message = __('messages.email_send_failed_retry_later');
-            }
-        } 
+        // if ($user->wasRecentlyCreated) {
+        //     $verificationLink = route('verify', ['id' => Crypt::encrypt($user->id)]);
+        //     try {
+        //         $this->sendNotification([
+        //             'activity_type'    => 'email_verification',
+        //             'user_id'          => $user->id,
+        //             'user_type'        => $user->user_type,
+        //             'user_name'        => $user->display_name,
+        //             'user_email'       => $user->email,
+        //             'verification_link' => $verificationLink,
+        //         ]);
+        //         $message = __('messages.email_verification_sent');
+        //     } catch (\Throwable $e) {
+        //         Log::error('Handyman verification email failed: ' . $e->getMessage());
+        //         $message = __('messages.email_send_failed_retry_later');
+        //     }
+        // } 
         // if ($data['status'] == 1 && auth()->user()->hasAnyRole(['admin'])) {
         //     \Log::info("------------this call admin siodee--------");
         //     try {

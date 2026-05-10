@@ -59,7 +59,7 @@ Route::post('login', [API\User\UserController::class, 'login']);
 Route::post('forgot-password', [API\User\UserController::class, 'forgotPassword']);
 Route::post('social-login', [API\User\UserController::class, 'socialLogin']);
 Route::post('contact-us', [API\User\UserController::class, 'contactUs']);
-Route::post('user-email-verify', [API\User\UserController::class, 'verify']);
+// Route::post('user-email-verify', [API\User\UserController::class, 'verify']);
 
 
 
@@ -264,6 +264,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // PhonePe routes - support both v1 and v2 based on configuration
     Route::post('/phonepe/initiate', [API\BookingController::class, 'initiate']);
     Route::post('/phonepe/initiate-v2', [API\BookingController::class, 'initiateV2']);
+
+    // ── Inspection → Quote → Payment (Escrow) → Execution → Completion ───────
+    // Provider actions
+    Route::post('mark-inspected',    [API\QuoteController::class, 'markInspected']);  // pending_inspection → waiting_quote
+    Route::post('add-quote',         [API\QuoteController::class, 'addQuote']);        // waiting_quote|quote_rejected → quoted
+    Route::post('submit-quote',      [API\QuoteController::class, 'addQuote']);        // alias for add-quote
+    Route::post('booking-start',     [API\QuoteController::class, 'startBooking']);   // quote_approved+escrow → in_progress
+    Route::post('complete-booking',  [API\QuoteController::class, 'completeBooking']); // in_progress → completed + release escrow
+
+    // Customer (user) actions
+    Route::post('approve-quote',     [API\QuoteController::class, 'approveQuote']);   // quoted → quote_approved
+    Route::post('reject-quote',      [API\QuoteController::class, 'rejectQuote']);    // quoted → quote_rejected
+
+    // Shared – both customer and provider can view
+    Route::get('booking-quote',      [API\QuoteController::class, 'getQuote']);
+    // ─────────────────────────────────────────────────────────────────────────
 });
 // PhonePe callback routes
 Route::match(['get', 'post'], '/phonepe/callback', [API\BookingController::class, 'callback']);
