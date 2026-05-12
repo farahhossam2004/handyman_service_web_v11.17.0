@@ -951,7 +951,7 @@
                                                         class="text-primary fw-500 d-inline-block position-relative font-size-18">
                                                         <span>{{ getPriceFormat($service->price) }}</span></li>
                                                     <li class="d-inline-block fw-500 position-relative service-price">
-                                                        ({{ $service->duration }} Min)</li>
+</li>
                                                 </ul>
                                                 <div class="mt-3">
                                                     <div class="d-flex align-items-center gap-2">

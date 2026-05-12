@@ -9,7 +9,7 @@ class ServiceZone extends Model
 {
     //
     use SoftDeletes;
-    protected $fillable = ['name', 'coordinates', 'status'];
+    protected $fillable = ['name', 'status'];
 
     protected $casts = [
         'coordinates' => 'array',

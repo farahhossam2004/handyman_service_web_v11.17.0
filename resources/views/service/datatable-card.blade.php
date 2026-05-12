@@ -75,24 +75,6 @@
             @endif
          </li>
       @endif
-      @if(!empty($data->duration))
-    @php
-        $durationParts = explode(':', $data->duration);
-        $hours = isset($durationParts[0]) ? intval($durationParts[0]) : 0;
-        $minutes = isset($durationParts[1]) ? intval($durationParts[1]) : 0;
-    @endphp
-
-    @if($hours > 0 || $minutes > 0)
-        <li class="d-inline-block fw-500 position-relative service-price">
-            @if($hours > 0)
-                ({{ $hours }} hrs @if($minutes > 0) {{ $minutes }} min @endif)
-            @else
-                ({{ $minutes }} min)
-            @endif
-        </li>
-    @endif
-@endif
-
    </ul>
    <div
       class="mt-3">

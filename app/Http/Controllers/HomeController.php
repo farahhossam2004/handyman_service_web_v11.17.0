@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Slider;
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Models\Quote;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\Category;
@@ -64,13 +65,24 @@ class HomeController extends Controller
             'count_total_customer'              => User::where('user_type', 'user')->count(),
             'new_customer'                      => User::myUsers('get_customer')->orderBy('id', 'DESC')->take(5)->get(),
             'new_provider'                      => User::myUsers('get_provider')->with('getServiceRating')->orderBy('id', 'DESC')->take(5)->get(),
-            // 'upcomming_booking'                 => Booking::myBooking()->with('customer')->where('status', 'pending')->orderBy('id', 'DESC')->take(5)->get(),
             'upcomming_booking'                 => Booking::myBooking()->with('customer')->orderBy('id', 'DESC')->take(5)->get(),
             'top_services_list'                 => Booking::myBooking()->showServiceCount()->take(5)->get(),
             'count_handyman_pending_booking'    => Booking::myBooking()->where('status', 'pending')->count(),
             'count_handyman_complete_booking'   => Booking::myBooking()->where('status', 'completed')->count(),
             'count_handyman_cancelled_booking'  => Booking::myBooking()->where('status', 'cancelled')->count(),
             'top_handyman'                      => User::myUsers()->orderBy('id', 'DESC')->take(5)->get(),
+            // Sand specific metrics
+            'count_total_inspection_requests'   => Booking::myBooking()->whereIn('status', ['pending_inspection', 'inspection_requested'])->count(),
+            'count_pending_quotes'              => Quote::pending()->count(),
+            'count_approved_quotes'             => Quote::approved()->count(),
+            'count_held_payments'               => Booking::myBooking()->whereIn('payment_status', ['held', 'escrow'])->count(),
+            'count_released_payments'           => Booking::myBooking()->where('payment_status', 'released')->count(),
+            'count_refunded_payments'           => Booking::myBooking()->where('payment_status', 'refunded')->count(),
+            'count_active_providers'            => User::where('user_type', 'provider')->where('status', 1)->count(),
+            'count_elite_technicians'           => User::where('user_type', 'provider')->where('is_elite', 1)->count(),
+            'count_active_orders'               => Booking::myBooking()->whereIn('status', ['in_progress', 'on_going', 'quoted', 'quote_approved', 'waiting_quote'])->count(),
+            'count_completed_orders'            => Booking::myBooking()->where('status', 'completed')->count(),
+            'count_cancelled_orders'            => Booking::myBooking()->where('status', 'cancelled')->count(),
         ];
 
         $data['category_chart'] = [

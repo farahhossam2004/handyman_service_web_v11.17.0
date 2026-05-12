@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\EliteTechnicianController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ShopController;
@@ -610,6 +612,17 @@ Route::group(['middleware' => ['auth', /*'verified',*/ 'prevent.demo.setting']],
         Route::post('blog-bulk-action', [BlogController::class, 'bulk_action'])->name('blog.bulk-action');
         Route::post('blog-action', [BlogController::class, 'action'])->name('blog.action');
         Route::post('blog/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
+    });
+
+    Route::group(['middleware' => ['permission:booking list']], function () {
+        Route::get('quote', [QuoteController::class, 'index'])->name('quote.index');
+        Route::get('quote-index-data', [QuoteController::class, 'index_data'])->name('quote.index_data');
+    });
+
+    Route::group(['middleware' => ['permission:provider list']], function () {
+        Route::get('elite', [EliteTechnicianController::class, 'index'])->name('elite.index');
+        Route::get('elite-index-data', [EliteTechnicianController::class, 'index_data'])->name('elite.index_data');
+        Route::post('elite-toggle', [EliteTechnicianController::class, 'toggleElite'])->name('elite.toggle');
     });
 
     Route::group(['middleware' => ['permission:service list']], function () {

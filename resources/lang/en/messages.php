@@ -1652,5 +1652,25 @@
     'invoice_footer_message' => 'Thank you for your business!',
     'handyman_provider' => 'Handyman Provider',
     'service_price_must_be_greater_than_commission' => 'Service price must be greater than the fixed commission amount of :commission',
-    'knowns_languages' => 'knowns languages'
+    'knowns_languages' => 'knowns languages',
+    
+    // Sand Custom Localization
+    'total_inspection_requests' => 'Total Inspection Requests',
+    'pending_quotes' => 'Pending Quotes',
+    'approved_quotes' => 'Approved Quotes',
+    'active_orders' => 'Active Orders',
+    'completed_orders' => 'Completed Orders',
+    'cancelled_orders' => 'Cancelled Orders',
+    'held_payments' => 'Held Payments',
+    'released_payments' => 'Released Payments',
+    'refunded_payments' => 'Refunded Payments',
+    'active_providers' => 'Active Providers',
+    'elite_technicians' => 'Elite Technicians',
+    'total_platform_revenue' => 'Total Platform Revenue',
+    'bidding_management' => 'Bidding Management',
+    'elite_technician_analytics' => 'Elite Technician Analytics',
+    'elite_status_updated_successfully' => 'Elite status updated successfully',
+    'complaint_count' => 'Complaint Count',
+    'notes' => 'Notes',
+    'elite_technician' => 'Elite Technician'
 );

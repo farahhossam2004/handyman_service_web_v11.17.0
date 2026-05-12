@@ -59,7 +59,6 @@ class ServiceResource extends JsonResource
             'price_format'  => getPriceFormat($this->price),
             'type'          => $this->type,
             'discount'      => $this->discount,
-            'duration'      => $this->duration,
             'status'        => $this->status,
             'description'   => $this->getTranslation($this->translations, $headerValue, 'description', $this->description ?? null) ?? $this->description,
             'is_featured'   => $this->is_featured,

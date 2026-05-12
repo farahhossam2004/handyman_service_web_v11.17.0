@@ -1,4 +1,4 @@
-﻿<?php return array(
+<?php return array(
     'user' => 'المستخدم',
     'user_information' => 'معلومات المستخدم',
     'srno' => 'رقم',
@@ -1492,4 +1492,24 @@
      'invoice_footer_message' => 'شكراً لك على تعاملك معنا!',
      'handyman_provider' => 'مزود الخدمات',
      'service_price_must_be_greater_than_commission' => 'يجب أن يكون سعر الخدمة أكبر من مبلغ العمولة الثابت :commission',
+
+     // Sand Custom Localization
+     'total_inspection_requests' => 'إجمالي طلبات الفحص',
+     'pending_quotes' => 'عروض الأسعار المعلقة',
+     'approved_quotes' => 'عروض الأسعار المعتمدة',
+     'active_orders' => 'الطلبات النشطة',
+     'completed_orders' => 'الطلبات المكتملة',
+     'cancelled_orders' => 'الطلبات الملغاة',
+     'held_payments' => 'المدفوعات المحتجزة',
+     'released_payments' => 'المدفوعات المحررة',
+     'refunded_payments' => 'المدفوعات المستردة',
+     'active_providers' => 'مقدمو الخدمات النشطون',
+     'elite_technicians' => 'الفنيون النخبة',
+     'total_platform_revenue' => 'إجمالي إيرادات المنصة',
+     'bidding_management' => 'إدارة عروض الأسعار',
+     'elite_technician_analytics' => 'تحليلات الفنيين النخبة',
+     'elite_status_updated_successfully' => 'تم تحديث حالة النخبة بنجاح',
+     'complaint_count' => 'عدد الشكاوى',
+     'notes' => 'ملاحظات',
+     'elite_technician' => 'فني نخبة'
 );

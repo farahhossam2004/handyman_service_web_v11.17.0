@@ -540,6 +540,11 @@ class BookingController extends Controller
         if ($bookingdata->payment_id != null) {
             $payment_status = isset($data['payment_status']) ? $data['payment_status'] : 'pending';
             $paymentdata->update(['payment_status' => $payment_status]);
+
+            // Sand Marketplace: Automatically release escrow funds on job completion
+            if ($data['status'] === 'completed' && in_array($paymentdata->payment_status, ['escrow', 'pending_release'])) {
+                $paymentdata->update(['payment_status' => 'released']);
+            }
         }
 
         if ($data['status'] == 'completed' && $data['payment_status'] == 'pending_by_admin') {

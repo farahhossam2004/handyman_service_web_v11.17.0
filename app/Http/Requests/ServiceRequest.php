@@ -90,6 +90,26 @@ class ServiceRequest extends FormRequest
                 }
             }
         }
+
+        // Handle failed file uploads: if a file upload had an error (too large,
+        // connection issue, etc.), strip it so validation doesn't reject the request.
+        if ($this->is('api/*')) {
+            $attachmentCount = (int) $this->input('attachment_count', 0);
+            $validCount = 0;
+
+            for ($i = 0; $i < min($attachmentCount, 20); $i++) {
+                $file = $this->file('service_attachment_' . $i);
+                if ($file !== null && $file->isValid()) {
+                    $validCount++;
+                }
+            }
+
+            if ($validCount === 0) {
+                $this->merge(['attachment_count' => null]);
+            } elseif ($validCount !== $attachmentCount) {
+                $this->merge(['attachment_count' => $validCount]);
+            }
+        }
     }
 
     /**
@@ -182,19 +202,19 @@ class ServiceRequest extends FormRequest
             'service_attachment.*'           => 'image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB max per file
         ];
 
-        // Require at least one attachment for new services
+        // Attachments are optional
         if (!$id) {
             if ($isApi){
-                $rules['attachment_count'] = 'required|integer|min:1';
-                $rules['service_attachment_0'] = 'required|file|image|mimes:jpeg,png,jpg,gif|max:10240';
-                $rules['service_attachment_*'] = 'file|image|mimes:jpeg,png,jpg,gif|max:10240';
+                $rules['attachment_count'] = 'nullable|integer|min:1';
+                $rules['service_attachment_0'] = 'nullable';
+                $rules['service_attachment_*'] = 'nullable';
             } else {
-                $rules['service_attachment'] = 'required|array|min:1';
+                $rules['service_attachment'] = 'nullable|array|min:1';
                 $rules['service_attachment.*'] = 'image|mimes:jpeg,png,jpg,gif|max:10240';
             }
         } else {
             if ($isApi) {
-                $rules['service_attachment_*'] = 'file|image|mimes:jpeg,png,jpg,gif|max:10240';
+                $rules['service_attachment_*'] = 'nullable';
             } else {
                 $rules['service_attachment.*'] = 'image|mimes:jpeg,png,jpg,gif|max:10240';
             }

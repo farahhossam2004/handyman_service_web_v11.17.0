@@ -43,7 +43,8 @@ $serviceData = json_decode($service->content(), true);
     </a>
     <ul class="list-inline p-0 m-0 price-content">
        <li class="text-primary fw-500 d-inline-block position-relative font-size-18">{{ getPriceFormat($data->price) }}</li>
-       <li class="d-inline-block fw-500 position-relative service-price">({{ $data->duration }} min)</li>
+
+
     </ul> --}}
     @endforeach
  </div>

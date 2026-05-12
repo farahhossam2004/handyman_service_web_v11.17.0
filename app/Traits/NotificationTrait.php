@@ -979,7 +979,6 @@ trait NotificationTrait
             $notification_data['booking_services_name'] = isset($booking->service) ? $booking->service->name : '';
             $notification_data['description'] = isset($booking->service) ? $booking->service->description : '';
             $notification_data['booking_date'] = $date;
-            $notification_data['booking_duration'] = isset($booking->service) ? $booking->service->duration : '';
             $notification_data['booking_time'] = $time;
             $notification_data['venue_address'] = $booking->address;
             $notification_data['payment_status'] = isset($data['payment_status']) ? $data['payment_status'] : '';

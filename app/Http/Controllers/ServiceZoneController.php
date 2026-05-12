@@ -223,25 +223,12 @@ class ServiceZoneController extends Controller
         $auth_user = authSession();
         $servicezone = ServiceZone::find($id);
 
-        // Handle coordinates for existing service zone
         if ($servicezone) {
-            // Ensure coordinates are properly decoded
-            if (is_string($servicezone->coordinates)) {
-                $servicezone->coordinates = json_decode($servicezone->coordinates, true);
-            }
             $pageTitle = trans('messages.update_form_title', ['form' => trans('messages.servicezone')]);
         } else {
             $pageTitle = trans('messages.add_button_form', ['form' => trans('messages.servicezone')]);
             $servicezone = new ServiceZone;
-            $servicezone->coordinates = [];
         }
-
-        // Debug coordinates
-        \Log::info('Service Zone Coordinates:', [
-            'zone_id' => $id,
-            'coordinates' => $servicezone->coordinates,
-            'coordinates_type' => gettype($servicezone->coordinates)
-        ]);
 
         return view('servicezone.create', compact('pageTitle', 'servicezone', 'auth_user'));
     }
@@ -261,26 +248,15 @@ class ServiceZoneController extends Controller
 
         $request->validate([
             'name' => 'required|string|unique:service_zones,name,' . ($request->id ?? 'NULL') . ',id',
-            'coordinates' => ['required', 'json', function ($attribute, $value, $fail) {
-                $decoded = json_decode($value, true);
-
-                if (!is_array($decoded) || count($decoded) < 3) {
-                    $fail('Please draw a valid zone with at least 3 points.');
-                }
-            }],
         ]);
 
         try {
             $data = $request->all();
-           
-            // Ensure coordinates are properly formatted as JSON string
-            $coordinates = is_array($data['coordinates']) ? json_encode($data['coordinates']) : $data['coordinates'];
 
             $result = ServiceZone::updateOrCreate(
                 ['id' => $data['id'] ?? null],
                 [
                     'name' => $data['name'],
-                    'coordinates' => $coordinates,
                     'status' => $data['status'] ?? 1,
                 ]
             );

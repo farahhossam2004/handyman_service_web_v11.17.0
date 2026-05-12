@@ -30,7 +30,6 @@ class UserFavouriteResource extends JsonResource
             'price_format'  => getPriceFormat(optional($this->service)->price),
             'type'          => optional($this->service)->type,
             'discount'      => optional($this->service)->discount,
-            'duration'      => optional($this->service)->duration,
             'service_attchments' => getAttachments(optional($this->service)->getMedia('service_attachment'),null),
             'is_favourite'  => $this->service->getUserFavouriteService->where('user_id',$user_id)->first() ? 1 : 0,
             'total_rating'  => count($this->service->serviceRating) > 0 ? (float) number_format(max($this->service->serviceRating->avg('rating'),0), 2) : 0,

@@ -15,7 +15,7 @@ class Service extends Model implements HasMedia
     use TranslationTrait;
     protected $table = 'services';
     protected $fillable = [
-        'name', 'category_id', 'provider_id' , 'type' , 'is_slot','discount' , 'duration' ,'description',
+        'name', 'category_id', 'provider_id' , 'type' , 'is_slot','discount' ,'description',
         'is_featured', 'status' , 'price' , 'added_by','service_request_status','is_service_request','subcategory_id','service_type','visit_type',
         'is_enable_advance_payment','advance_payment_amount',
         'meta_title', 'meta_description', 'meta_keywords', 'canonical_url', 'slug', 'seo_enabled'

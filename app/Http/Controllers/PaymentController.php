@@ -281,7 +281,7 @@ class PaymentController extends Controller
 
         ->editColumn('payment_status', function($query) {
             $payment = $query->payment_status;
-            $statuses = ['failed', 'paid', 'pending']; // List your statuses here
+            $statuses = ['failed', 'paid', 'pending', 'escrow', 'released']; // List your statuses here
             $options = '';
             // Check if payment status is paid (case-insensitive)
             if (strtolower(trim($query->payment_type)) === 'cash') {
@@ -323,7 +323,7 @@ class PaymentController extends Controller
     // Validate the input
     $request->validate([
         'id' => 'required|exists:payments,id',  // Make sure the payment ID exists
-        'status' => 'required|in:failed,paid,pending',  // Validate status
+        'status' => 'required|in:failed,paid,pending,escrow,released',  // Validate status
     ]);
 
     // Find the payment record by ID

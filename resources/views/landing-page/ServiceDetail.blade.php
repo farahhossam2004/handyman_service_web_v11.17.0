@@ -29,22 +29,6 @@
                                                 {{ __('messages.reviews') }})</span></a></h6>
 
                                 </div>
-                                @if (!empty($serviceData['service_detail']['duration']))
-                                    @php
-                                        $durationParts = explode(':', $serviceData['service_detail']['duration']);
-                                        $hours = isset($durationParts[0]) ? intval($durationParts[0]) : 0;
-                                        $minutes = isset($durationParts[1]) ? intval($durationParts[1]) : 0;
-                                    @endphp
-
-                                    @if ($hours > 0 || $minutes > 0)
-                            <li>
-                                <h6 class="text-body">
-                                    ({{ $hours }} hrs @if ($minutes > 0)
-                                        {{ $minutes }} min
-                                    @endif)
-                                </h6>
-                            </li>
-                            @endif
                             @endif
 
                         </ul>

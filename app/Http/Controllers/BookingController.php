@@ -876,6 +876,11 @@ class BookingController extends Controller
         if ($old_status != $data['status']) {
             $bookingdata->old_status = $old_status;
 
+            // Sand Marketplace: Automatically release escrow funds on job completion
+            if ($data['status'] === 'completed' && $paymentdata && in_array($paymentdata->payment_status, ['escrow', 'pending_release'])) {
+                $data['payment_status'] = 'released';
+            }
+
             $activity_data = [
                 'activity_type' => $activity_type,
                 'booking_id' => $id,
@@ -1235,7 +1240,15 @@ class BookingController extends Controller
                 break;
             default:
 
-                $data = Booking::find($request->bookingId)->update(['status' => $request->status]);
+                $booking = Booking::find($request->bookingId);
+                $booking->update(['status' => $request->status]);
+
+                // Sand Marketplace: Automatically release escrow funds on job completion
+                if ($request->status === 'completed') {
+                    Payment::where('booking_id', $booking->id)
+                        ->whereIn('payment_status', ['escrow', 'pending_release'])
+                        ->update(['payment_status' => 'released']);
+                }
                 break;
         }
 

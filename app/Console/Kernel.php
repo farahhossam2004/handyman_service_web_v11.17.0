@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\CheckSubscription',
         '\App\Console\Commands\CheckPostJobRequest',
         \App\Console\Commands\OptimizeImages::class,
+        \App\Console\Commands\UpdateEliteTechnicians::class,
     ];
 
     /**
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
         }
 
         $schedule->command('check:postjobrequest')->daily();
+        $schedule->command('elite:update')->daily();
 
     }
 

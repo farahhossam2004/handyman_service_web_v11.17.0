@@ -176,12 +176,6 @@
 
 
                             <div class="form-group col-md-4">
-                                {{ html()->label(__('messages.duration') . ' (hours) ', 'duration')->class('form-control-label') }}
-                                {{ html()->text('duration', $servicedata->duration)->placeholder(__('messages.duration'))->class('form-control min-datetimepicker-time') }}
-                                <small class="help-block with-errors text-danger"></small>
-                            </div>
-
-                            <div class="form-group col-md-4">
                                 {{ html()->label(__('messages.status') . ' <span class="text-danger">*</span>', 'status')->class('form-control-label') }}
                                 {{ html()->select('status', ['1' => __('messages.active'), '0' => __('messages.inactive')], $servicedata->status)->class('form-select select2js')->required() }}
                                 <small class="help-block with-errors text-danger"></small>
