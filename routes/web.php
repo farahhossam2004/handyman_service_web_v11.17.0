@@ -484,6 +484,46 @@ Route::group(['middleware' => ['auth', /*'verified',*/ 'prevent.demo.setting']],
     });
     Route::match(['get', 'post'], '/push-notification', [SettingController::class, 'PushNotification'])->name('pushNotification.index');
     Route::post('send-push-notification', [SettingController::class, 'sendPushNotification'])->name('sendPushNotification');
+    // ── Sand Escrow Admin ───────────────────────────────────────────────────────
+    Route::group(['middleware' => ['permission:booking list']], function () {
+        Route::get('sand/escrow',                              [PaymentController::class, 'index'])->name('sand.escrow.index');
+        Route::get('sand/escrow-data',                         [PaymentController::class, 'index_data'])->name('sand.escrow.index_data');
+    });
+
+    // ── Sand Insurance Admin ─────────────────────────────────────────────────────
+    Route::group(['prefix' => 'sand/insurance', 'as' => 'sand.insurance.', 'middleware' => ['role:admin|demo_admin']], function () {
+        Route::get('/',                                        [\App\Http\Controllers\SettingController::class, 'settings'])->name('index');
+    });
+
+    // ── Sand Investigation Admin ────────────────────────────────────────────────
+    Route::group(['middleware' => ['permission:booking list']], function () {
+        Route::get('sand/investigations',                      [BookingController::class, 'index'])->name('sand.investigation.index');
+    });
+
+    // ── Sand Legal Agreements Admin ─────────────────────────────────────────────
+    Route::group(['prefix' => 'sand/agreements', 'as' => 'sand.agreements.', 'middleware' => ['role:admin|demo_admin']], function () {
+        Route::get('/',                                        [\App\Http\Controllers\SettingController::class, 'settings'])->name('index');
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Sand Financial Overview ──────────────────────────────────────────────────
+    Route::group(['prefix' => 'sand/financial', 'as' => 'sand.financial.', 'middleware' => ['role:admin|demo_admin']], function () {
+        Route::get('/',                                        [\App\Http\Controllers\HomeController::class, 'index'])->name('overview');
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Sand Commission Admin ────────────────────────────────────────────────────
+    Route::group(['prefix' => 'sand/commission', 'as' => 'sand.commission.', 'middleware' => ['role:admin|demo_admin']], function () {
+        Route::get('/',                                        [\App\Http\Controllers\SettingController::class, 'settings'])->name('index');
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Sand Dispute Admin ──────────────────────────────────────────────────────
+    Route::group(['prefix' => 'sand/disputes', 'as' => 'sand.disputes.', 'middleware' => ['role:admin|demo_admin']], function () {
+        Route::get('/',                                        [\App\Http\Controllers\BookingController::class, 'index'])->name('index');
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
     Route::post('save-earning-setting', [SettingController::class, 'saveEarningTypeSetting'])->name('saveEarningTypeSetting');
     Route::post('save-userdashboard-setting', [SettingController::class, 'saveUserDashboardTypeSetting'])->name('saveUserDashboardTypeSetting');
     // Route::post('advance-earning-setting' , [ SettingController::class , 'advanceEarningSetting'])->name('advanceEarningSetting');

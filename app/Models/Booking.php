@@ -10,6 +10,30 @@ use DateTime;
 class Booking extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public const STATUS_PENDING_INSPECTION  = 'pending_inspection';
+    public const STATUS_INSPECTED           = 'inspected';
+    public const STATUS_WAITING_QUOTE       = 'waiting_quote';
+    public const STATUS_QUOTE_SUBMITTED     = 'quote_submitted';
+    public const STATUS_QUOTED              = 'quoted';
+    public const STATUS_QUOTE_APPROVED      = 'quote_approved';
+    public const STATUS_QUOTE_REJECTED      = 'quote_rejected';
+    public const STATUS_PAYMENT_HELD        = 'payment_held';
+    public const STATUS_IN_PROGRESS         = 'in_progress';
+    public const STATUS_COMPLETED           = 'completed';
+    public const STATUS_RELEASED            = 'released';
+    public const STATUS_CANCELLED           = 'cancelled';
+    public const STATUS_DISPUTED            = 'disputed';
+    public const STATUS_UNDER_INVESTIGATION = 'under_investigation';
+    public const STATUS_RESOLVED            = 'resolved';
+
+    public const PAYMENT_PENDING    = 'pending';
+    public const PAYMENT_ESCROW     = 'escrow';
+    public const PAYMENT_HELD       = 'held';
+    public const PAYMENT_RELEASED   = 'released';
+    public const PAYMENT_REFUNDED   = 'refunded';
+    public const PAYMENT_FROZEN     = 'frozen_under_investigation';
+
     protected $table = 'bookings';
     protected $fillable = [
         'customer_id',
@@ -47,12 +71,15 @@ class Booking extends Model
         'cancellation_charge_amount',
         'shop_id',
         'zone_id',
-        // Inspection workflow fields (added in 2026_05_07 migrations)
         'quote_id',
         'payment_status',
-        // Quote fields stored directly on the booking for easy Flutter access
         'quote_price',
         'quote_description',
+        // Sand workflow fields
+        'dispute_reason',
+        'investigation_notes',
+        'frozen_until',
+        'investigated_by',
     ];
 
     protected $casts = [
@@ -78,6 +105,8 @@ class Booking extends Model
         'redeemed_discount' => 'integer',
         'quote_id'      => 'integer',
         'quote_price'   => 'double',
+        'frozen_until'  => 'datetime',
+        'investigated_by' => 'integer',
     ];
     public function customer()
     {
@@ -480,5 +509,50 @@ class Booking extends Model
             'related_id' => $bookingId,
             'description' => 'Package Booking',
         ]);
+    }
+
+    // ─── Sand Workflow Scopes ─────────────────────────────────
+
+    public function scopeDisputed($query)
+    {
+        return $query->whereIn('status', ['disputed', 'under_investigation']);
+    }
+
+    public function scopeActiveWorkflow($query)
+    {
+        return $query->whereIn('status', [
+            'pending_inspection', 'inspected', 'waiting_quote',
+            'quoted', 'quote_approved', 'payment_held', 'in_progress',
+        ]);
+    }
+
+    public function scopeEscrowHeld($query)
+    {
+        return $query->whereIn('payment_status', ['escrow', 'held', 'pending_release']);
+    }
+
+    public function scopeFrozen($query)
+    {
+        return $query->where('payment_status', 'frozen_under_investigation');
+    }
+
+    public function latestQuote()
+    {
+        return $this->belongsTo(Quote::class, 'quote_id', 'id');
+    }
+
+    public function escrow()
+    {
+        return $this->morphOne(EscrowTransaction::class, 'escrowable')->latestOfMany();
+    }
+
+    public function investigation()
+    {
+        return $this->hasOne(InvestigationLog::class)->latestOfMany();
+    }
+
+    public function investigatedBy()
+    {
+        return $this->belongsTo(User::class, 'investigated_by');
     }
 }

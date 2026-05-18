@@ -77,5 +77,6 @@ class Kernel extends HttpKernel
         'CheckInstallation' => \App\Http\Middleware\CheckInstallation::class,
         'prevent.demo.setting' => \App\Http\Middleware\PreventDemoAdminSettingChange::class,
         'shop.module.enabled' => \App\Http\Middleware\EnsureShopModuleEnabled::class,
+        'agreement.accepted' => \App\Http\Middleware\RequireAgreementAcceptance::class,
     ];
 }

@@ -4,339 +4,217 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Quote;
 use App\Services\BookingWorkflowService;
-use App\Traits\NotificationTrait;
-use App\Traits\EarningTrait;
-use Illuminate\Http\JsonResponse;
+use App\Services\AgreementService;
+use App\Http\Resources\API\QuoteResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 
-/**
- * QuoteController – Inspection → Quote → Approval → Payment workflow
- *
- * ┌──────────────────────────────────────────────────────────────────────────┐
- * │  Routes (all under auth:sanctum)                                         │
- * │                                                                          │
- * │  POST  api/mark-inspected    → markInspected()   provider only           │
- * │  POST  api/add-quote         → addQuote()         provider only           │
- * │  POST  api/submit-quote      → addQuote()         alias                  │
- * │  POST  api/approve-quote     → approveQuote()     user (customer) only   │
- * │  POST  api/reject-quote      → rejectQuote()      user (customer) only   │
- * │  POST  api/booking-start     → startBooking()     provider only          │
- * │  POST  api/complete-booking  → completeBooking()  provider only          │
- * │  GET   api/booking-quote     → getQuote()         both                   │
- * └──────────────────────────────────────────────────────────────────────────┘
- *
- * All responses conform to:
- *   Success: { "status": true,  "message": "...", "data": {...} }
- *   Error:   { "status": false, "message": "..."                }
- */
 class QuoteController extends Controller
 {
-    use NotificationTrait;
-    use EarningTrait;
-
     public function __construct(
-        private readonly BookingWorkflowService $workflow
+        protected BookingWorkflowService $workflowService,
+        protected AgreementService $agreementService,
     ) {}
 
-    // =========================================================================
-    // PROVIDER ACTIONS
-    // =========================================================================
-
-    /**
-     * POST api/mark-inspected
-     *
-     * Provider visited the site and inspected the job.
-     * pending_inspection → waiting_quote
-     *
-     * Body: { booking_id }
-     */
-    public function markInspected(Request $request): JsonResponse
+    public function submit(Request $request): JsonResponse
     {
-        $v = Validator::make($request->all(), [
-            'booking_id' => 'required|integer|exists:bookings,id',
-        ]);
-        if ($v->fails()) {
-            return $this->errorResponse($v->errors()->first(), 400);
-        }
-
-        $booking = Booking::findOrFail($request->booking_id);
-        $result  = $this->workflow->markInspected($booking, auth()->id());
-
-        if (! $result['ok']) {
-            return $this->errorResponse($result['message'], $result['code']);
-        }
-
-        // Notify relevant parties
-        $booking->old_status = $result['data']['old_status'];
-        $this->sendNotification([
-            'activity_type' => 'update_booking_status',
-            'booking_id'    => $booking->id,
-            'booking'       => $booking,
+        $validated = $request->validate([
+            'booking_id'        => 'required|exists:bookings,id',
+            'price'             => 'required|numeric|min:0',
+            'estimated_duration'=> 'nullable|integer|min:1',
+            'notes'             => 'nullable|string|max:2000',
+            'description'       => 'nullable|string|max:2000',
+            'inspection_notes'  => 'nullable|string|max:5000',
+            'handyman_id'       => 'nullable|exists:users,id',
         ]);
 
-        return $this->successResponse($result['message'], $result['data']);
-    }
+        $booking = Booking::findOrFail($validated['booking_id']);
+        $actorId = auth()->id();
 
-    /**
-     * POST api/add-quote  (also aliased as POST api/submit-quote)
-     *
-     * Provider adds a price quote after inspection.
-     * waiting_quote | quote_rejected → quoted
-     *
-     * Body: { booking_id, price, description? }
-     */
-    public function addQuote(Request $request): JsonResponse
-    {
-        $v = Validator::make($request->all(), [
-            'booking_id'  => 'required|integer|exists:bookings,id',
-            'price'       => 'required|numeric|min:0',
-            'description' => 'nullable|string|max:2000',
-        ]);
-        if ($v->fails()) {
-            return $this->errorResponse($v->errors()->first(), 400);
-        }
+        $description = $validated['notes'] ?? $validated['description'] ?? null;
 
-        $booking = Booking::findOrFail($request->booking_id);
-        $result  = $this->workflow->submitQuote(
+        $result = $this->workflowService->submitQuote(
             $booking,
-            auth()->id(),
-            (float) $request->price,
-            $request->description
+            $actorId,
+            $validated['price'],
+            $description,
         );
 
         if (! $result['ok']) {
-            return $this->errorResponse($result['message'], $result['code']);
+            return response()->json($result, $result['code']);
         }
 
-        // Notify customer that a quote has been submitted
-        $booking->refresh();
-        $booking->old_status = $result['data']['old_status'];
-        $this->sendNotification([
-            'activity_type' => 'update_booking_status',
-            'booking_id'    => $booking->id,
-            'booking'       => $booking,
-        ]);
+        $quote = Quote::find($booking->quote_id);
+        if ($quote) {
+            $quote->update([
+                'estimated_duration' => $validated['estimated_duration'],
+                'inspection_notes'   => $validated['inspection_notes'],
+                'handyman_id'        => $validated['handyman_id'],
+            ]);
+        }
 
-        return $this->successResponse($result['message'], $result['data']);
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.quote_submitted'),
+            'data'    => new QuoteResource($quote ?? $booking),
+        ]);
     }
 
-    // =========================================================================
-    // USER (CUSTOMER) ACTIONS
-    // =========================================================================
-
-    /**
-     * POST api/approve-quote
-     *
-     * User approves the provider's quote → quote_approved
-     * User can now proceed to payment.
-     *
-     * Body: { booking_id }
-     */
-    public function approveQuote(Request $request): JsonResponse
+    public function history(int $bookingId): JsonResponse
     {
-        $v = Validator::make($request->all(), [
-            'booking_id' => 'required|integer|exists:bookings,id',
-        ]);
-        if ($v->fails()) {
-            return $this->errorResponse($v->errors()->first(), 400);
-        }
+        $quotes = Quote::where('booking_id', $bookingId)
+            ->with(['provider:id,display_name', 'handyman:id,display_name'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        $booking = Booking::findOrFail($request->booking_id);
-        $result  = $this->workflow->approveQuote($booking, auth()->id());
+        return response()->json([
+            'status' => true,
+            'data'   => QuoteResource::collection($quotes),
+        ]);
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        $quote = Quote::with(['booking', 'provider', 'handyman'])->findOrFail($id);
+
+        return response()->json([
+            'status' => true,
+            'data'   => new QuoteResource($quote),
+        ]);
+    }
+
+    public function adminIndex(Request $request): JsonResponse
+    {
+        $quotes = Quote::with([
+            'booking:id,customer_id,status,quote_price,created_at',
+            'booking.customer:id,display_name,phone_number',
+            'provider:id,display_name,phone_number',
+            'handyman:id,display_name',
+        ])
+        ->when($request->status, fn($q, $s) => $q->where('status', $s))
+        ->when($request->provider_id, fn($q, $id) => $q->where('provider_id', $id))
+        ->orderBy('created_at', 'desc')
+        ->paginate($request->per_page ?? 15);
+
+        return response()->json([
+            'status' => true,
+            'data'   => QuoteResource::collection($quotes),
+        ]);
+    }
+
+    public function markInspected(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+        ]);
+
+        $booking = Booking::findOrFail($validated['booking_id']);
+        $actorId = auth()->id();
+
+        $result = $this->workflowService->markInspected($booking, $actorId);
 
         if (! $result['ok']) {
-            return $this->errorResponse($result['message'], $result['code']);
+            return response()->json($result, $result['code']);
         }
 
-        // Notify provider that quote was approved
-        $booking->refresh();
-        $booking->old_status = $result['data']['old_status'];
-        $this->sendNotification([
-            'activity_type' => 'update_booking_status',
-            'booking_id'    => $booking->id,
-            'booking'       => $booking,
-        ]);
-
-        return $this->successResponse($result['message'], $result['data']);
-    }
-
-    /**
-     * POST api/reject-quote
-     *
-     * User rejects the provider's quote → quote_rejected
-     * Provider may re-submit a revised quote via add-quote.
-     *
-     * Body: { booking_id, reason? }
-     */
-    public function rejectQuote(Request $request): JsonResponse
-    {
-        $v = Validator::make($request->all(), [
-            'booking_id' => 'required|integer|exists:bookings,id',
-            'reason'     => 'nullable|string|max:500',
-        ]);
-        if ($v->fails()) {
-            return $this->errorResponse($v->errors()->first(), 400);
-        }
-
-        $booking = Booking::findOrFail($request->booking_id);
-        $result  = $this->workflow->rejectQuote($booking, auth()->id(), $request->reason);
-
-        if (! $result['ok']) {
-            return $this->errorResponse($result['message'], $result['code']);
-        }
-
-        // Notify provider that quote was rejected
-        $booking->refresh();
-        $booking->old_status = $result['data']['old_status'];
-        $this->sendNotification([
-            'activity_type' => 'update_booking_status',
-            'booking_id'    => $booking->id,
-            'booking'       => $booking,
-        ]);
-
-        return $this->successResponse($result['message'], $result['data']);
-    }
-
-    // =========================================================================
-    // SHARED
-    // =========================================================================
-
-    /**
-     * GET api/booking-quote?booking_id=X
-     *
-     * Returns the full quote details for a booking.
-     * Both the customer and the provider can call this.
-     */
-    public function getQuote(Request $request): JsonResponse
-    {
-        $v = Validator::make($request->all(), [
-            'booking_id' => 'required|integer|exists:bookings,id',
-        ]);
-        if ($v->fails()) {
-            return $this->errorResponse($v->errors()->first(), 400);
-        }
-
-        $booking = Booking::with(['quote', 'quotes'])->findOrFail($request->booking_id);
-        $user    = auth()->user();
-
-        $isAuthorized = $user->id === $booking->customer_id
-            || $user->id === $booking->provider_id
-            || $user->hasAnyRole(['admin', 'demo_admin']);
-
-        if (! $isAuthorized) {
-            return $this->errorResponse('Unauthorised.', 403);
-        }
-
-        return $this->successResponse('Quote details retrieved.', [
-            'booking_id'        => $booking->id,
-            'booking_status'    => $booking->status,
-            'payment_status'    => $booking->payment_status,
-            'quote_price'       => $booking->quote_price,
-            'quote_description' => $booking->quote_description,
-            'active_quote'      => $booking->quote,
-            'all_quotes'        => $booking->quotes,
-        ]);
-    }
-
-    /**
-     * POST api/booking-start
-     *
-     * Provider starts the job after payment is confirmed.
-     * quote_approved (+ payment in escrow) → in_progress
-     *
-     * Body: { booking_id }
-     */
-    public function startBooking(Request $request): JsonResponse
-    {
-        $v = Validator::make($request->all(), [
-            'booking_id' => 'required|integer|exists:bookings,id',
-        ]);
-        if ($v->fails()) {
-            return $this->errorResponse($v->errors()->first(), 400);
-        }
-
-        $booking = Booking::findOrFail($request->booking_id);
-        $result  = $this->workflow->startBooking($booking, auth()->id());
-
-        if (! $result['ok']) {
-            return $this->errorResponse($result['message'], $result['code']);
-        }
-
-        // Notify customer that provider has started the job
-        $booking->refresh();
-        $booking->old_status = $result['data']['old_status'];
-        $this->sendNotification([
-            'activity_type' => 'update_booking_status',
-            'booking_id'    => $booking->id,
-            'booking'       => $booking,
-        ]);
-
-        return $this->successResponse($result['message'], $result['data']);
-    }
-
-    /**
-     * POST api/complete-booking
-     *
-     * Provider marks the booking as complete.
-     * in_progress → completed + payment_status = released (escrow released)
-     *
-     * Body: { booking_id }
-     */
-    public function completeBooking(Request $request): JsonResponse
-    {
-        $v = Validator::make($request->all(), [
-            'booking_id' => 'required|integer|exists:bookings,id',
-        ]);
-        if ($v->fails()) {
-            return $this->errorResponse($v->errors()->first(), 400);
-        }
-
-        $booking = Booking::findOrFail($request->booking_id);
-        $result  = $this->workflow->completeBooking($booking, auth()->id());
-
-        if (! $result['ok']) {
-            return $this->errorResponse($result['message'], $result['code']);
-        }
-
-        // Trigger commission calculation (same hook as existing bookingUpdate)
-        if (method_exists($this, 'addBookingCommission')) {
-            $this->addBookingCommission($booking->fresh());
-        }
-
-        // Notify both customer and provider
-        $booking->refresh();
-        $booking->old_status = $result['data']['old_status'];
-        $this->sendNotification([
-            'activity_type' => 'update_booking_status',
-            'booking_id'    => $booking->id,
-            'booking'       => $booking,
-        ]);
-
-        return $this->successResponse($result['message'], $result['data']);
-    }
-
-    // =========================================================================
-    // RESPONSE HELPERS
-    // =========================================================================
-
-    /** Standard success envelope. */
-    private function successResponse(string $message, array $data = []): JsonResponse
-    {
         return response()->json([
             'status'  => true,
-            'message' => $message,
-            'data'    => $data,
-        ], 200);
+            'message' => __('messages.booking_marked_as_inspected'),
+            'data'    => $result['data'],
+        ]);
     }
 
-    /** Standard error envelope. */
-    private function errorResponse(string $message, int $code = 400): JsonResponse
+    public function addQuote(Request $request): JsonResponse
     {
+        return $this->submit($request);
+    }
+
+    public function startBooking(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+        ]);
+
+        $booking = Booking::findOrFail($validated['booking_id']);
+        $actorId = auth()->id();
+
+        $result = $this->workflowService->startBooking($booking, $actorId);
+
+        if (! $result['ok']) {
+            return response()->json($result, $result['code']);
+        }
+
         return response()->json([
-            'status'  => false,
-            'message' => $message,
-        ], $code);
+            'status'  => true,
+            'message' => __('messages.booking_started'),
+            'data'    => $result['data'],
+        ]);
+    }
+
+    public function approveQuote(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+        ]);
+
+        $booking = Booking::findOrFail($validated['booking_id']);
+        $actorId = auth()->id();
+
+        $result = $this->workflowService->approveQuote($booking, $actorId);
+
+        if (! $result['ok']) {
+            return response()->json($result, $result['code']);
+        }
+
+        return response()->json([
+            'status'  => true,
+            'message' => __('messages.quote_approved'),
+            'data'    => $result['data'],
+        ]);
+    }
+
+    public function rejectQuote(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+            'reason'     => 'nullable|string|max:500',
+        ]);
+
+        $booking = Booking::findOrFail($validated['booking_id']);
+        $actorId = auth()->id();
+
+        $result = $this->workflowService->rejectQuote($booking, $actorId, $validated['reason'] ?? null);
+
+        if (! $result['ok']) {
+            return response()->json($result, $result['code']);
+        }
+
+        return response()->json([
+            'status'  => true,
+            'message' => __('messages.quote_rejected'),
+            'data'    => $result['data'],
+        ]);
+    }
+
+    public function getQuote(Request $request): JsonResponse
+    {
+        $bookingId = $request->booking_id ?? $request->id;
+
+        $booking = Booking::with(['quote', 'customer', 'provider'])
+            ->findOrFail($bookingId);
+
+        if (! $booking->quote) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'No quote found for this booking',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'data'   => new QuoteResource($booking->quote),
+        ]);
     }
 }

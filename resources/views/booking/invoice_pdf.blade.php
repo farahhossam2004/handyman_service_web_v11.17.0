@@ -198,7 +198,7 @@
                             ->where('key', 'theme-setup')
                             ->first();
                         
-                        $siteName = 'Handyman Service'; // Default
+                        $siteName = 'Sand | سند'; // Default
                         
                         // Get site name from general-setting in settings table
                         if ($generaldata && isset($generaldata->site_name)) {

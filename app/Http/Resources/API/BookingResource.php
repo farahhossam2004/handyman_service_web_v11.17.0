@@ -102,6 +102,14 @@ class BookingResource extends JsonResource
                 'contact_number' => $this->shop->contact_number,
                 'email'          => $this->shop->email,
             ] : null,
+            // Sand-specific fields
+            'quote_id'              => $this->quote_id,
+            'quote_price'           => $this->quote_price,
+            'quote_description'     => $this->quote_description,
+            'dispute_reason'        => $this->dispute_reason,
+            'investigation_notes'   => $this->investigation_notes,
+            'frozen_until'          => $this->frozen_until,
+            'investigated_by'       => $this->investigated_by,
         ];
     }
 

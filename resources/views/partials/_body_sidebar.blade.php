@@ -706,6 +706,85 @@
                 ['route' => 'earning'],
             )
             ->data('permission', 'earning list')
+            ->nickname('earning');
+
+        // ── Sand Financial Overview ─────────────────────────────────────────────
+        $menu
+            ->add(
+                '<span>' .
+                    __('messages.financial_overview') .
+                    '</span><span class="custom-tooltip"><span class="tooltip-text">' .
+                    __('messages.financial_overview') .
+                    '</span></span>',
+                ['route' => 'sand.financial.overview'],
+            )
+            ->prepend(
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 3V21H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M7 16L11 11L15 14L21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>',
+            )
+            ->nickname('sand_financial')
+            ->data('role', ['admin', 'demo_admin']);
+
+        // ── Sand Commission Admin ────────────────────────────────────────────────
+        $menu
+            ->add(
+                '<span>' .
+                    __('messages.commission_management') .
+                    '</span><span class="custom-tooltip"><span class="tooltip-text">' .
+                    __('messages.commission_management') .
+                    '</span></span>',
+                ['route' => 'sand.commission.index'],
+            )
+            ->prepend(
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+<path d="M8 12L10 14L16 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>',
+            )
+            ->nickname('sand_commission')
+            ->data('role', ['admin', 'demo_admin']);
+
+        // ── Sand Dispute Admin ───────────────────────────────────────────────────
+        $menu
+            ->add(
+                '<span>' .
+                    __('messages.dispute_management') .
+                    '</span><span class="custom-tooltip"><span class="tooltip-text">' .
+                    __('messages.dispute_management') .
+                    '</span></span>',
+                ['route' => 'sand.disputes.index'],
+            )
+            ->prepend(
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+<path d="M12 7V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="12" cy="16" r="1" fill="currentColor"/>
+</svg>',
+            )
+            ->nickname('sand_disputes')
+            ->data('role', ['admin', 'demo_admin']);
+
+        // ── Sand Financial ─────────────────────────────────────────────────────
+        $menu
+            ->add(
+                '<span>' .
+                    __('messages.escrow_management') .
+                    '</span><span class="custom-tooltip"><span class="tooltip-text">' .
+                    __('messages.escrow_management') .
+                    '</span></span>',
+                ['route' => 'sand.escrow.index'],
+            )
+            ->prepend(
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
+<path d="M12 6C10.9 6 10 6.9 10 8C10 9.1 10.9 10 12 10C13.1 10 14 9.1 14 8C14 6.9 13.1 6 12 6Z" fill="currentColor"/>
+<path d="M12 11C9.79 11 8 11.9 8 13V14H16V13C16 11.9 14.21 11 12 11Z" fill="currentColor"/>
+</svg>',
+            )
+            ->nickname('sand_escrow')
+            ->data('permission', 'booking list')
             ->prepend(
                 '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
@@ -1098,6 +1177,46 @@
             ->nickname('tax')
             ->data('permission', 'tax list');
 
+        // ── Sand Insurance ───────────────────────────────────────────────────────
+        $menu
+            ->add(
+                '<span>' .
+                    __('messages.insurance') .
+                    '</span><span class="custom-tooltip"><span class="tooltip-text">' .
+                    __('messages.insurance') .
+                    '</span></span>',
+                ['route' => 'sand.insurance.index'],
+            )
+            ->prepend(
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2L3 7V12C3 17.25 6.75 22 12 23C17.25 22 21 17.25 21 12V7L12 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+<path d="M12 12H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+<path d="M9 10C9 10 10 7 12 7C14 7 15 10 15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+</svg>',
+            )
+            ->nickname('sand_insurance')
+            ->data('role', ['admin', 'demo_admin']);
+
+        // ── Sand Investigations ──────────────────────────────────────────────────
+        $menu
+            ->add(
+                '<span>' .
+                    __('messages.investigations') .
+                    '</span><span class="custom-tooltip"><span class="tooltip-text">' .
+                    __('messages.investigations') .
+                    '</span></span>',
+                ['route' => 'sand.investigation.index'],
+            )
+            ->prepend(
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/>
+<path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M9 11H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+</svg>',
+            )
+            ->nickname('sand_investigation')
+            ->data('permission', 'booking list');
+
         if (optional($othersetting)->blog == 1) {
             $menu
                 ->add(
@@ -1290,7 +1409,27 @@
 </svg>',
             )
             ->nickname('document')
-            ->data('permission', 'document list')
+            ->data('permission', 'document list');
+
+        // ── Sand Legal Agreements ────────────────────────────────────────────────
+        $menu
+            ->add(
+                '<span>' .
+                    __('messages.legal_agreements') .
+                    '</span><span class="custom-tooltip"><span class="tooltip-text">' .
+                    __('messages.legal_agreements') .
+                    '</span></span>',
+                ['route' => 'sand.agreements.index'],
+            )
+            ->prepend(
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M9 16H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" stroke="currentColor" stroke-width="1.5"/>
+</svg>',
+            )
+            ->nickname('sand_agreements')
+            ->data('role', ['admin', 'demo_admin'])
             ->link->attr(['class' => ''])
             ->href('#document');
 

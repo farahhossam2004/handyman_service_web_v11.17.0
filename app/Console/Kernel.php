@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\CheckPostJobRequest',
         \App\Console\Commands\OptimizeImages::class,
         \App\Console\Commands\UpdateEliteTechnicians::class,
+        \App\Console\Commands\ReleaseScheduledEscrow::class,
     ];
 
     /**
@@ -35,6 +36,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('check:postjobrequest')->daily();
         $schedule->command('elite:update')->daily();
+        $schedule->command('sand:release-escrow')->dailyAt('02:00');
+        $schedule->command('sand:reconcile')->dailyAt('03:00');
+        $schedule->command('sand:retry-failed')->everyHour();
 
     }
 

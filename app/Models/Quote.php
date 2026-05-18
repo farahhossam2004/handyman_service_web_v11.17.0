@@ -6,19 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Quote Model
- *
- * Represents a price quote submitted by a provider after inspecting a booking.
- *
- * Workflow:
- *  1. Booking created → status = pending_inspection
- *  2. Provider views booking → status = waiting_quote
- *  3. Provider submits quote → Quote created, booking status = quoted
- *  4. User approves → booking status = quote_approved
- *  5. User pays → booking status = in_progress, payment_status = held
- *  6. Service complete → booking status = completed, payment_status = released
- */
 class Quote extends Model
 {
     use HasFactory, SoftDeletes;
@@ -28,18 +15,26 @@ class Quote extends Model
     protected $fillable = [
         'booking_id',
         'provider_id',
+        'handyman_id',
         'price',
+        'estimated_duration',
         'notes',
+        'inspection_notes',
         'status',
+        'approved_at',
+        'rejected_at',
+        'rejection_reason',
     ];
 
     protected $casts = [
-        'booking_id'  => 'integer',
-        'provider_id' => 'integer',
-        'price'       => 'double',
+        'booking_id'        => 'integer',
+        'provider_id'       => 'integer',
+        'handyman_id'       => 'integer',
+        'price'             => 'double',
+        'estimated_duration'=> 'integer',
+        'approved_at'       => 'datetime',
+        'rejected_at'       => 'datetime',
     ];
-
-    // ─── Relationships ────────────────────────────────────────────────────────
 
     public function booking()
     {
@@ -51,7 +46,10 @@ class Quote extends Model
         return $this->belongsTo(User::class, 'provider_id', 'id')->withTrashed();
     }
 
-    // ─── Scopes ───────────────────────────────────────────────────────────────
+    public function handyman()
+    {
+        return $this->belongsTo(User::class, 'handyman_id', 'id')->withTrashed();
+    }
 
     public function scopePending($query)
     {
@@ -61,5 +59,15 @@ class Quote extends Model
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
+    }
+
+    public function scopeRejected($query)
+    {
+        return $query->where('status', 'rejected');
+    }
+
+    public function scopeByProvider($query, int $providerId)
+    {
+        return $query->where('provider_id', $providerId);
     }
 }

@@ -107,6 +107,14 @@ class BookingDetailResource extends JsonResource
             'refund_status' => $netRefundAmount > 0 ? 'completed' : null,
             // 'handyman'              => isset($this->handymanAdded) ? $this->handymanAdded : [],
             // 'handyman_image'        => getSingleMedia($this->handyman, 'profile_image', null),
+            // Sand-specific fields
+            'quote_id'              => $this->quote_id,
+            'quote_price'           => $this->quote_price,
+            'quote_description'     => $this->quote_description,
+            'dispute_reason'        => $this->dispute_reason,
+            'investigation_notes'   => $this->investigation_notes,
+            'frozen_until'          => $this->frozen_until,
+            'investigated_by'       => $this->investigated_by,
         ];
     }
     private function getTaxData()

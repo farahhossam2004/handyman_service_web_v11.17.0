@@ -280,6 +280,83 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Shared – both customer and provider can view
     Route::get('booking-quote',      [API\QuoteController::class, 'getQuote']);
     // ─────────────────────────────────────────────────────────────────────────
+
+    // ── Escrow endpoints ────────────────────────────────────────────────────────
+    Route::prefix('escrow')->group(function () {
+        Route::get('status/{booking}',        [API\EscrowController::class, 'status'])->whereNumber('booking');
+        Route::get('my-history',              [API\EscrowController::class, 'myHistory']);
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Insurance endpoints ─────────────────────────────────────────────────────
+    Route::prefix('insurance')->group(function () {
+        Route::get('status',                  [API\InsuranceController::class, 'status']);
+        Route::post('deposit',                [API\InsuranceController::class, 'deposit']);
+        Route::get('transactions',            [API\InsuranceController::class, 'transactions']);
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Investigation / Dispute endpoints ───────────────────────────────────────
+    Route::prefix('investigation')->group(function () {
+        Route::get('show/{booking}',          [API\InvestigationController::class, 'show'])->whereNumber('booking');
+        Route::post('respond/{booking}',      [API\InvestigationController::class, 'respond'])->whereNumber('booking');
+    });
+
+    Route::prefix('dispute')->group(function () {
+        Route::post('create',                 [API\InvestigationController::class, 'createDispute']);
+        Route::get('list',                    [API\InvestigationController::class, 'listDisputes']);
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Legal Agreement endpoints ───────────────────────────────────────────────
+    Route::prefix('agreement')->group(function () {
+        Route::get('show/{type}',             [API\AgreementController::class, 'show']);
+        Route::post('accept/{type}',          [API\AgreementController::class, 'accept']);
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Wallet endpoints ────────────────────────────────────────────────────────
+    Route::prefix('wallet')->group(function () {
+        Route::get('summary',                 [API\WalletController::class, 'summary']);
+        Route::get('transactions',            [API\WalletController::class, 'getHistory']);
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Commission endpoints ────────────────────────────────────────────────────
+    Route::prefix('commission')->group(function () {
+        Route::get('details',                 [API\CommissionController::class, 'details']);
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Refund endpoint ─────────────────────────────────────────────────────────
+    Route::prefix('admin')->group(function () {
+        Route::post('refund/process',         [API\RefundController::class, 'process']);
+        Route::get('audit-logs',              function () {
+            $service = app(\App\Services\AdminActivityLogService::class);
+            return response()->json(['status' => 'true', 'data' => $service->getRecent(100)]);
+        });
+        Route::get('ledger',                  function (\Illuminate\Http\Request $r) {
+            $service = app(\App\Services\FinancialLedgerService::class);
+            return response()->json(['status' => 'true', 'data' => $service->getUserLedger($r->user_id ?? auth()->id(), $r->only(['type', 'from', 'to']))]);
+        });
+        Route::prefix('financial')->group(function () {
+            Route::get('failed-transactions', [API\FinancialAdminController::class, 'failedTransactions']);
+            Route::post('failed-transactions/{id}/retry', [API\FinancialAdminController::class, 'retryFailed']);
+            Route::get('reconciliation',      [API\FinancialAdminController::class, 'reconciliationReport']);
+            Route::get('reconciliation/history', [API\FinancialAdminController::class, 'reconciliationHistory']);
+            Route::post('reconciliation/run', [API\FinancialAdminController::class, 'runReconciliation']);
+            Route::get('trace-logs',          [API\FinancialAdminController::class, 'traceLog']);
+        });
+    });
+    // ────────────────────────────────────────────────────────────────────────────
+
+    // ── Sand Dashboard endpoints ────────────────────────────────────────────────
+    Route::prefix('sand')->group(function () {
+        Route::get('admin-metrics',           [API\DashboardController::class, 'metrics']);
+        Route::get('admin-charts',            [API\DashboardController::class, 'charts']);
+        Route::get('financial-overview',      [API\CommissionController::class, 'adminOverview']);
+    });
+    // ────────────────────────────────────────────────────────────────────────────
 });
 // PhonePe callback routes
 Route::match(['get', 'post'], '/phonepe/callback', [API\BookingController::class, 'callback']);

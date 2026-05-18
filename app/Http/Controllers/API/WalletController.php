@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\WalletHistory;
 use App\Models\Wallet;
 use App\Http\Resources\API\WalletHistoryResource;
@@ -13,6 +14,8 @@ use Carbon\Carbon;
 use App\Models\WithdrawMoney;
 use App\Models\PaymentGateway;
 use App\Models\User;
+use App\Models\EscrowTransaction;
+use App\Services\InsuranceService;
 use Validator;
 use App\Models\Bank;
 
@@ -353,5 +356,34 @@ class WalletController extends Controller
             $message = __('messages.money_transfer');
             return comman_message_response($message);
           }
+     }
+
+    public function summary(): JsonResponse
+    {
+        $user = auth()->user();
+        $wallet = Wallet::where('user_id', $user->id)->first();
+
+        $escrowHeld = EscrowTransaction::where(function ($q) use ($user) {
+            $q->where('customer_id', $user->id)
+              ->orWhere('provider_id', $user->id);
+        })->whereIn('status', ['held', 'frozen_under_investigation'])
+        ->sum('held_amount');
+
+        $frozenEscrow = EscrowTransaction::where(function ($q) use ($user) {
+            $q->where('customer_id', $user->id)
+              ->orWhere('provider_id', $user->id);
+        })->where('status', 'frozen_under_investigation')
+        ->sum('held_amount');
+
+        return response()->json([
+            'status' => 'true',
+            'data'   => [
+                'available_balance'  => (float) ($wallet->available_balance ?? $wallet->amount ?? 0),
+                'escrow_balance'     => (float) $escrowHeld,
+                'insurance_balance'  => (float) $user->insurance_balance,
+                'frozen_balance'     => (float) $frozenEscrow,
+                'total_balance'      => (float) (($wallet->available_balance ?? $wallet->amount ?? 0) + $escrowHeld),
+            ],
+        ]);
     }
 }

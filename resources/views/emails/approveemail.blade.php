@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Handyman Service</title>
+    <title>Sand | سند</title>
     <style>
         body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; }
         table { border-collapse: collapse; }
@@ -19,11 +19,11 @@
     <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
             <td align="center">
-                <p class="title-text" style="margin-top: 15px;">Handyman Service</p>
+                <p class="title-text" style="margin-top: 15px;">Sand | سند</p>
                 <table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
                         <td class="body-cell">
-                            <p>Welcome, your account has been approved!</p><p>Congratulations! Your account has been approved.</p><div><p>Best regards,<br>The Handyman Service Team</p>
+                            <p>@lang('messages.email_welcome_account_approved')</p><p>@lang('messages.email_congratulations_approved')</p><div><p>@lang('messages.email_best_regards')<br>@lang('messages.email_sand_team')</p>
                         </td>
                     </tr>
                 </table>

@@ -4,7 +4,13 @@ namespace App\Services;
 
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Models\PaymentHistory;
+use App\Models\BookingActivity;
+use App\Models\BookingStatus;
+use App\Models\User;
 use App\Models\Quote;
+use App\Services\CommissionService;
+use App\Services\EscrowService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -261,10 +267,9 @@ class BookingWorkflowService
         return DB::transaction(function () use ($booking) {
             $old = $booking->status;
             $booking->status         = 'completed';
-            $booking->payment_status = 'released'; // escrow released to provider
+            $booking->payment_status = 'released';
             $booking->save();
 
-            // Also update the Payment record so legacy logic stays aligned
             $payment = Payment::where('booking_id', $booking->id)
                 ->orderBy('id', 'desc')
                 ->first();
@@ -274,11 +279,146 @@ class BookingWorkflowService
                 $payment->save();
             }
 
+            $commissionService = app(CommissionService::class);
+            $commissionService->apply($booking);
+
+            $escrowService = app(EscrowService::class);
+            $escrowService->release($booking, $booking->provider_id);
+
             return $this->ok('Booking completed and payment released to provider.', [
                 'booking_id'     => $booking->id,
                 'status'         => $booking->status,
                 'old_status'     => $old,
                 'payment_status' => $booking->payment_status,
+            ]);
+        });
+    }
+
+    // =========================================================================
+    // DISPUTE / INVESTIGATION TRANSITIONS
+    // =========================================================================
+
+    /**
+     * Customer (or admin) opens a dispute on a booking.
+     * Booking must be in a state where payment has been held (escrow).
+     * Transition: quote_approved | in_progress | completed | cancelled → disputed
+     */
+    public function openDispute(Booking $booking, int $actorId, string $reason): array
+    {
+        if ($booking->customer_id !== $actorId && ! auth()->user()?->hasRole('admin')) {
+            return $this->forbidden(__('messages.dispute_forbidden'));
+        }
+
+        $allowed = ['quote_approved', 'in_progress', 'completed', 'cancelled'];
+        if (! in_array($booking->status, $allowed)) {
+            return $this->invalidTransition(
+                'open-dispute',
+                implode(' or ', $allowed),
+                $booking->status
+            );
+        }
+
+        return DB::transaction(function () use ($booking, $reason) {
+            $old = $booking->status;
+            $booking->status = 'disputed';
+            $booking->payment_status = 'frozen_under_investigation';
+            $booking->dispute_reason = $reason;
+            $booking->save();
+
+            return $this->ok(__('messages.dispute_opened'), [
+                'booking_id'     => $booking->id,
+                'status'         => $booking->status,
+                'old_status'     => $old,
+                'payment_status' => $booking->payment_status,
+                'dispute_reason' => $reason,
+            ]);
+        });
+    }
+
+    /**
+     * Admin escalates a dispute to a formal investigation.
+     * Transition: disputed → under_investigation
+     */
+    public function escalateToInvestigation(Booking $booking, int $actorId, ?string $notes): array
+    {
+        if ($booking->status !== 'disputed') {
+            return $this->invalidTransition('escalate-investigation', 'disputed', $booking->status);
+        }
+
+        return DB::transaction(function () use ($booking, $actorId, $notes) {
+            $old = $booking->status;
+            $booking->status = 'under_investigation';
+            $booking->investigation_notes = $notes;
+            $booking->investigated_by = $actorId;
+            $booking->save();
+
+            return $this->ok(__('messages.investigation_started'), [
+                'booking_id' => $booking->id,
+                'status'     => $booking->status,
+                'old_status' => $old,
+            ]);
+        });
+    }
+
+    /**
+     * Admin resolves an investigation and chooses the financial outcome.
+     * Transition: under_investigation → resolved
+     *
+     * Resolution types:
+     *   - released_to_provider   : escrow released
+     *   - refunded_to_customer   : escrow refunded
+     *   - partial_refund         : split escrow
+     *   - penalty_deducted       : penalty from provider insurance
+     *   - dismissed              : no action, escrow returned to customer
+     */
+    public function resolveInvestigation(Booking $booking, int $actorId, string $resolution, ?array $meta): array
+    {
+        if ($booking->status !== 'under_investigation') {
+            return $this->invalidTransition('resolve-investigation', 'under_investigation', $booking->status);
+        }
+
+        $allowedResolutions = [
+            'released_to_provider',
+            'refunded_to_customer',
+            'partial_refund',
+            'penalty_deducted',
+            'dismissed',
+        ];
+        if (! in_array($resolution, $allowedResolutions)) {
+            return $this->error(422, __('messages.invalid_resolution_type') . " [{$resolution}].");
+        }
+
+        return DB::transaction(function () use ($booking, $resolution, $meta) {
+            $old = $booking->status;
+            $booking->status = 'resolved';
+            $booking->investigation_notes = ($meta['notes'] ?? null) ?: $booking->investigation_notes;
+
+            switch ($resolution) {
+                case 'released_to_provider':
+                    $booking->payment_status = 'released';
+                    break;
+                case 'refunded_to_customer':
+                    $booking->payment_status = 'refunded';
+                    break;
+                case 'partial_refund':
+                    $booking->payment_status = 'partially_released';
+                    break;
+                case 'penalty_deducted':
+                    $booking->payment_status = 'released';
+                    break;
+                case 'dismissed':
+                    $booking->payment_status = 'released';
+                    break;
+            }
+
+            $booking->save();
+
+            return $this->ok(__('messages.investigation_resolved'), [
+                'booking_id'     => $booking->id,
+                'status'         => $booking->status,
+                'old_status'     => $old,
+                'payment_status' => $booking->payment_status,
+                'resolution'     => $resolution,
             ]);
         });
     }

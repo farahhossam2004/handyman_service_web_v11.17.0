@@ -71,7 +71,7 @@
 @endphp
 
 @if (!$pageTitle)
-    <title>{{ $seo_name ?? 'Handyman Service' }}</title>
+    <title>{{ $seo_name ?? 'Sand | سند' }}</title>
 @endif
 @if (!empty($metaTags['google_site_verification']))
     <meta name="google-site-verification" content="{{ $metaTags['google_site_verification'] }}" />

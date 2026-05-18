@@ -914,6 +914,87 @@ trait NotificationTrait
                 );
                 $providerId = [$data['provider_id']];
                 break;
+            // ── Sand Notification Types ──────────────────────────────────────────
+            case "inspection_requested":
+                $data['activity_message'] = __('messages.inspection_requested');
+                $data['activity_slug'] = 'inspection_requested';
+                $data['notify_to'] = ['provider', 'admin'];
+                if (isset($booking)) {
+                    $providerId = [$booking->provider_id];
+                    $data['user_name'] = $booking->customer->display_name ?? '';
+                    $data['booking_services_name'] = $booking->service->name ?? '';
+                }
+                break;
+
+            case "quote_submitted":
+                $data['activity_message'] = __('messages.quote_submitted');
+                $data['activity_slug'] = 'quote_submitted';
+                $data['notify_to'] = ['user', 'admin'];
+                if (isset($booking)) {
+                    $userId = $booking->customer_id;
+                    $data['amount'] = $booking->quote_price ?? '';
+                }
+                break;
+
+            case "quote_approved":
+                $data['activity_message'] = __('messages.quote_approved_notification');
+                $data['activity_slug'] = 'quote_approved';
+                $data['notify_to'] = ['provider', 'admin'];
+                if (isset($booking)) {
+                    $providerId = [$booking->provider_id];
+                }
+                break;
+
+            case "quote_rejected":
+                $data['activity_message'] = __('messages.quote_rejected_notification');
+                $data['activity_slug'] = 'quote_rejected';
+                $data['notify_to'] = ['provider', 'admin'];
+                if (isset($booking)) {
+                    $providerId = [$booking->provider_id];
+                    $data['reason'] = $booking->reason ?? '';
+                }
+                break;
+
+            case "payment_held":
+                $data['activity_message'] = __('messages.payment_held_escrow');
+                $data['activity_slug'] = 'payment_held';
+                $data['notify_to'] = ['provider', 'admin'];
+                if (isset($booking)) {
+                    $providerId = [$booking->provider_id];
+                    $data['amount'] = $booking->total_amount ?? '';
+                }
+                break;
+
+            case "payment_released":
+                $data['activity_message'] = __('messages.payment_released_to_provider');
+                $data['activity_slug'] = 'payment_released';
+                $data['notify_to'] = ['provider', 'admin'];
+                if (isset($booking)) {
+                    $providerId = [$booking->provider_id];
+                    $data['amount'] = $booking->total_amount ?? '';
+                }
+                break;
+
+            case "investigation_opened":
+                $data['activity_message'] = __('messages.investigation_opened');
+                $data['activity_slug'] = 'investigation_opened';
+                $data['notify_to'] = ['provider', 'user', 'admin'];
+                if (isset($booking)) {
+                    $providerId = [$booking->provider_id];
+                    $userId = $booking->customer_id;
+                    $data['dispute_reason'] = $booking->dispute_reason ?? '';
+                }
+                break;
+
+            case "insurance_deducted":
+                $data['activity_message'] = __('messages.insurance_deducted');
+                $data['activity_slug'] = 'insurance_deducted';
+                $data['notify_to'] = ['provider', 'admin'];
+                if (isset($data['provider_id'])) {
+                    $providerId = [$data['provider_id']];
+                }
+                break;
+            // ──────────────────────────────────────────────────────────────────────
             default:
                 $activity_data = [];
                 break;

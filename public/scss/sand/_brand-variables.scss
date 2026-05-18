@@ -1,0 +1,28 @@
+// ============================================================
+// Sand | سند — Brand Variables
+// Override handyman-design-system defaults
+// ============================================================
+
+$sand-primary:       #397D8D;
+$sand-primary-rgb:   57, 127, 141;
+$sand-primary-light: #4A9AAD;
+$sand-primary-dark:  #2B6070;
+$sand-primary-hover: #316D7D;
+$sand-primary-bg:    #E8F2F5;
+$sand-accent-gold:   #C9A84C;
+$sand-sidebar-bg:    #1A2E35;
+$sand-sidebar-text:  #C8DDE3;
+$sand-sidebar-active: $sand-primary-light;
+
+$primary:       $sand-primary;
+$sidebar-bg:    $sand-sidebar-bg;
+$sidebar-text:  $sand-sidebar-text;
+
+$btn-primary-bg:       $sand-primary;
+$btn-primary-hover-bg: $sand-primary-hover;
+$btn-primary-active-bg: $sand-primary-dark;
+$btn-primary-border:   $sand-primary;
+
+$chart-primary:   $sand-primary;
+$chart-secondary: $sand-primary-light;
+$chart-grid:      $sand-primary-bg;
