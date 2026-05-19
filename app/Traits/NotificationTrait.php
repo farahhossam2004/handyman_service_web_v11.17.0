@@ -1018,7 +1018,7 @@ trait NotificationTrait
             "notification-type" => $notification_type,
             'admin_name' => $admin ? $admin['display_name'] ?: default_user_name() : '',
             'logged_in_user_role' => $admin ? ucfirst($admin->user_type) ?? '-' : '',
-            'company_name' => env('APP_NAME'),
+            'company_name' => config('app.name'),
             'company_contact_info' => implode('', [
                 $generalsetting->helpline_number . PHP_EOL,
                 $generalsetting->inquriy_email,
@@ -1067,7 +1067,7 @@ trait NotificationTrait
             $notification_data['pay_amount'] = isset($booking->payment) ? getPriceFormat($booking->payment->total_amount) : '';
             $notification_data['admin_name'] = $admin ? $admin['display_name'] ?: default_user_name() : '';
             $notification_data['company_contact_info'] = $generalsetting->helpline_number;
-            $notification_data['company_name'] = env('APP_NAME');
+            $notification_data['company_name'] = config('app.name');
             $notification_data['check_booking_type'] = 'booking';
         } elseif (isset($data)) {
 
@@ -1112,7 +1112,7 @@ trait NotificationTrait
             $notification_data['payout_date'] = isset($data['payout_date']) ? $data['payout_date'] : '';
             $notification_data['admin_name'] = $admin ? $admin['display_name'] ?: default_user_name() : '';
             $notification_data['company_contact_info'] = $generalsetting->helpline_number;
-            $notification_data['company_name'] = env('APP_NAME');
+            $notification_data['company_name'] = config('app.name');
             $notification_data['pay_amount'] = isset($data['pay_amount']) ? $data['pay_amount'] : '';
             $notification_data['sender_name'] = isset($data['sender_name']) ? $data['sender_name'] : '';
             $notification_data['receiver_name'] = isset($data['receiver_name']) ? $data['receiver_name'] : '';

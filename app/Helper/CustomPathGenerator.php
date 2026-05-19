@@ -35,8 +35,8 @@ class CustomPathGenerator implements PathGenerator{
     protected function getBasePath(Media $media): string
     {
         $path = '';
-        if(env('MEDIA_DISK') == 'spaces') {
-            $path = env('DO_SPACES_PATH');
+        if(config('services.do_spaces.media_disk') == 'spaces') {
+            $path = config('services.do_spaces.path');
         }
         return $path.$media->getKey();
     }

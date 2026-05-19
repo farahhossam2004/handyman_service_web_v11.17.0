@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 
-        if (env('IS_DUMMY_DATA') == true) {
+        if (config('app.env') !== 'production' && env('IS_DUMMY_DATA') == true) {
 
             $data = [
                 [

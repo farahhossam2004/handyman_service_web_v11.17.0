@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         \Artisan::call('cache:clear');
         \Artisan::call('config:clear');
 
-        if (env('IS_DUMMY_DATA') == false) {
+        if (config('app.env') !== 'production' && (env('IS_DUMMY_DATA') == false)) {
             // \App\Models\User::factory(10)->create();
             $this->call([
                 AppSettingsTableSeeder::class,

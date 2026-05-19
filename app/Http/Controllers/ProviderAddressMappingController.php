@@ -139,7 +139,7 @@ class ProviderAddressMappingController extends Controller
         $googleMapKey = $sitesetupdata->google_map_keys;
 
         config(['geocoder.providers.Geocoder\Provider\Chain\Chain.Geocoder\Provider\GoogleMaps\GoogleMaps' => [
-            env('GOOGLE_MAPS_LOCALE', 'us'),
+            config('services.google_maps.locale', 'us'),
             $googleMapKey,
         ]]);
 

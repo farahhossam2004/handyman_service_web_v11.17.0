@@ -1305,7 +1305,7 @@ public function providerSubscription(Request $request, $id)
                 }
                 // Fallback to DEFAULT_LANGUAGE from .env
                 else {
-                    $locale = env('DEFAULT_LANGUAGE', 'en');
+                    $locale = config('app.locale', 'en');
                 }
             }
             

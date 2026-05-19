@@ -1135,7 +1135,7 @@ class UserController extends Controller
                 ),
                 function ($message) use ($request) {
                     $message->from($request->email);
-                    $message->to(env('MAIL_FROM_ADDRESS'));
+                    $message->to(config('mail.from.address'));
                 }
             );
             $messagedata = __('messages.contact_us_greetings');

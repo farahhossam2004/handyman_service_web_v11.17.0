@@ -54,7 +54,7 @@ return new class extends Migration
 
         // Fall back to environment variable
         if (empty($apiKey)) {
-            $apiKey = config('services.google_maps.key') ?? env('GOOGLE_MAPS_API_KEY');
+            $apiKey = config('services.google_maps.key');
         }
 
         // If still not found, log warning and skip geocoding (no .env dependency)

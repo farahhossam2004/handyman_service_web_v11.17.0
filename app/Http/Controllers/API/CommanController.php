@@ -408,7 +408,7 @@ class CommanController extends Controller
         $bookingdata = Booking::with('handymanAdded', 'payment', 'bookingExtraCharge', 'bookingPackage', 'bookingAddonService', 'shop')->where('id', $booking_id)->first();
         $payment = Payment::where('booking_id', $booking_id)->orderBy('id', 'desc')->first() ?? null;
         $emailData['email'] = $request->email;
-        $emailData['title'] = env('APP_NAME');
+        $emailData['title'] = config('app.name');
         $emailData['body'] = __('messages.invoice_mail_body', ['booking_id' => $booking_id]);
         $data = AppSetting::first();
         $pdf = PDF::loadView('booking.invoice_pdf', ['bookingdata' => $bookingdata, 'data' => $data, 'payment' => $payment]);

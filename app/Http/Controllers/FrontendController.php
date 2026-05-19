@@ -1728,7 +1728,7 @@ class FrontendController extends Controller
     public function userSubscribe(Request $request)
     {
         $emailData['email'] = $request->email;
-        $emailData['title'] = env('APP_NAME');
+        $emailData['title'] = config('app.name');
         $emailData['body'] = 'Thank you for subscribe us.';
         try {
             \Mail::send('customer.subscribe_email', $emailData, function ($message) use ($emailData) {

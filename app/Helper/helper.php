@@ -496,35 +496,37 @@ function envChanges($type, $value)
 {
     $path = base_path('.env');
 
+    if (!file_exists($path)) {
+        return;
+    }
+
+    $content = file_get_contents($path);
+
     $checkType = $type . '="';
-    if (strpos($value, ' ') || strpos(file_get_contents($path), $checkType) || preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $value)) {
+    if (strpos($value, ' ') || strpos($content, $checkType) || preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $value)) {
         $value = '"' . $value . '"';
     }
 
     $value = str_replace('\\', '\\\\', $value);
 
-    if (file_exists($path)) {
-        $typeValue = env($type);
-
-        if (strpos(env($type), ' ') || strpos(file_get_contents($path), $checkType)) {
-            $typeValue = '"' . env($type) . '"';
-        }
-
-        file_put_contents($path, str_replace(
-            $type . '=' . $typeValue,
+    if (preg_match('/^' . preg_quote($type, '/') . '=/m', $content)) {
+        $content = preg_replace(
+            '/^' . preg_quote($type, '/') . '=.*$/m',
             $type . '=' . $value,
-            file_get_contents($path)
-        ));
+            $content
+        );
+    } else {
+        $content .= "\n" . $type . '=' . $value;
+    }
 
-        $onesignal = collect(config('constant.ONESIGNAL'))->keys();
+    file_put_contents($path, $content);
 
-        $checkArray = \Arr::collapse([$onesignal, ['DEFAULT_LANGUAGE']]);
+    $onesignal = collect(config('constant.ONESIGNAL') ?? [])->keys();
+    $checkArray = \Arr::collapse([$onesignal, ['DEFAULT_LANGUAGE']]);
 
-
-        if (in_array($type, $checkArray)) {
-            if (env($type) === null) {
-                file_put_contents($path, "\n" . $type . '=' . $value, FILE_APPEND);
-            }
+    if (in_array($type, $checkArray)) {
+        if (!preg_match('/^' . preg_quote($type, '/') . '=/m', $content)) {
+            file_put_contents($path, "\n" . $type . '=' . $value, FILE_APPEND);
         }
     }
 }
@@ -2221,7 +2223,7 @@ function  getPaymentMethodkey($type)
 
 function getstripepayments($data)
 {
-    $baseURL = env('APP_URL');
+    $baseURL = config('app.url');
 
     $stripe_key_data = getPaymentMethodkey($data['payment_type']);
 
@@ -2283,7 +2285,7 @@ function default_user_name()
 function addWalletAmount($data)
 {
 
-    $baseURL = env('APP_URL');
+    $baseURL = config('app.url');
 
     // Retrieve the Stripe secret key
     $stripe_key_data = getPaymentMethodkey($data['payment_type']);

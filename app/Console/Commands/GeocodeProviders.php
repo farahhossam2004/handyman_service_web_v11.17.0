@@ -35,7 +35,7 @@ class GeocodeProviders extends Command
 
     public function handle(): int
     {
-        $apiKey = config('services.google_maps.key') ?? env('GOOGLE_MAPS_API_KEY');
+        $apiKey = config('services.google_maps.key');
 
         if (empty($apiKey)) {
             $this->error('GOOGLE_MAPS_API_KEY is not set in your .env file.');
