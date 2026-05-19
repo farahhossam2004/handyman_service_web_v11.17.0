@@ -32,6 +32,12 @@ return [
 
     'google_maps' => [
         'key' => env('GOOGLE_MAPS_API_KEY'),
+        'locale' => env('GOOGLE_MAPS_LOCALE', 'us'),
+    ],
+
+    'do_spaces' => [
+        'media_disk' => env('MEDIA_DISK', 'public'),
+        'path' => env('DO_SPACES_PATH', ''),
     ],
 
 

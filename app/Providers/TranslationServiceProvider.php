@@ -4,38 +4,49 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Schema;
+use Illuminate\Support\Facades\Schema;
+
 class TranslationServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
     public function boot()
     {
-        Cache::rememberForever('translations', function () {
-            $translations = collect();
-            $language_option =["ar","nl","en","fr","de","hi","it"];
+        try {
+            if (!Schema::hasTable('settings')) {
+                return;
+            }
+        } catch (\Throwable $e) {
+            Log::warning('TranslationServiceProvider: settings table not available during boot', [
+                'error' => $e->getMessage(),
+            ]);
+            return;
+        }
 
-            if( Schema::hasTable('settings')) {
-                if(\Session::get('setup_data') == ''){
+        try {
+            Cache::rememberForever('translations', function () {
+                $translations = collect();
+                $language_option = ["ar","nl","en","fr","de","hi","it"];
+
+                if (\Session::get('setup_data') == '') {
                     $setup_data = sitesetupSession('get');
                     if ($setup_data) {
                         $language_option = $setup_data->language_option;
                     }
                 }
-            }
-            foreach ($language_option as $locale) { // suported locales
-                $translations[$locale] = [
-                    'php' => $this->phpTranslations($locale),
-                    'json' => $this->jsonTranslations($locale),
-                ];
-            }
 
-            return $translations;
-        });
+                foreach ($language_option as $locale) {
+                    $translations[$locale] = [
+                        'php' => $this->phpTranslations($locale),
+                        'json' => $this->jsonTranslations($locale),
+                    ];
+                }
+
+                return $translations;
+            });
+        } catch (\Throwable $e) {
+            Log::error('TranslationServiceProvider: failed to cache translations: ' . $e->getMessage());
+        }
     }
 
     private function phpTranslations($locale)
