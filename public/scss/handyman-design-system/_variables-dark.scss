@@ -40,16 +40,16 @@ $light-border-subtle-dark:          $gray-700 !default;
 $dark-border-subtle-dark:           $gray-800 !default;
 // scss-docs-end theme-border-subtle-dark-variables
 
-$body-color-dark:                   #EFF0F1 !default;
-$body-bg-dark:                      #222222 !default;
+$body-color-dark:                   #B0B7C3 !default;
+$body-bg-dark:                      #1A1C23 !default;
 $body-secondary-color-dark:         rgba($body-color-dark, .75) !default;
-$body-secondary-bg-dark:            #050c21 !default;
+$body-secondary-bg-dark:            #22252E !default;
 $body-tertiary-color-dark:          rgba($body-color-dark, .5) !default;
 $body-tertiary-bg-dark:             mix($gray-800, $gray-900, 50%) !default;
 $body-emphasis-color-dark:          $white !default;
-$border-color-dark:                 #252525 !default;
+$border-color-dark:                 #363B47 !default;
 $border-color-translucent-dark:     rgba($white, .15) !default;
-$headings-color-dark:               #ffffff !default;
+$headings-color-dark:               #E8E8E8 !default;
 $link-color-dark:                   tint-color($primary, 40%) !default;
 $link-hover-color-dark:             shift-color($link-color-dark, -$link-shade-percentage) !default;
 $code-color-dark:                   tint-color($code-color, 40%) !default;

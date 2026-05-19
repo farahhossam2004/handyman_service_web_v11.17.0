@@ -21,4 +21,8 @@ $custom-colors: (
         "primary": #E586B3,
         "secondary": #25C799,
     )),
+    "theme-color-gold": map-merge($colors,(
+        "primary": #D4AF37,
+        "secondary": #2C2F36,
+    )),
 ) !default;
