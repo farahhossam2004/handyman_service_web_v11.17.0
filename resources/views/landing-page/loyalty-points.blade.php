@@ -218,7 +218,7 @@
                 if (shareBtn && referralCodeInput) {
                     shareBtn.addEventListener("click", function() {
                         const referralCode = referralCodeInput.value;
-                        const siteUrl = "{{ env('APP_URL') }}";
+                        const siteUrl = "{{ config('app.url') }}";
                         const referralUrl = `${siteUrl}/register-page?ref=${encodeURIComponent(referralCode)}`;
                         const shareText =
                             `Use my referral code ${referralCode} and earn {{ $referred_user_points }} Loyalty Points! Join here: ${referralUrl}`;

@@ -1,7 +1,7 @@
 
 <div class="bg-light p-5 rounded-3 position-relative mb-5">
    <?php
-   $baseURL = env('APP_URL');
+   $baseURL = config('app.url');
    ?>
    <div>
       <img src="{{!empty($serviceImages[0]) ? $serviceImages[0] : $baseURL.'/images/default.png' }}" alt="booking" class="img-fluid rounded-2 object-cover w-100 booking-img m-0">

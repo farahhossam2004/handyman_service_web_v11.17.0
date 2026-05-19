@@ -90,7 +90,7 @@
 
 <meta name="assert_url" content="{{ URL::to('') }}" />
 
-<meta name="baseUrl" content="{{ env('APP_URL') }}" />
+<meta name="baseUrl" content="{{ config('app.url') }}" />
 <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
 <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
 

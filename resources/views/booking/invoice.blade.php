@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>{{env('APP_NAME')}}</title>
+    <title>{{ config('app.name') }}</title>
 </head>
 <style type="text/css">
     :root {
