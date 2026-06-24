@@ -48,6 +48,9 @@ Route::get('coupon-list', [API\CouponController::class, 'getCouponList']);
 Route::post('configurations', [API\DashboardController::class, "configurations"]);
 Route::get('firebase-detail', [API\DashboardController::class, "firebaseDetails"]);
 
+// Public agreement endpoint - view terms without authentication
+Route::get('agreement/show/{type}', [API\AgreementController::class, 'show']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -310,7 +313,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // ── Legal Agreement endpoints ───────────────────────────────────────────────
     Route::prefix('agreement')->group(function () {
-        Route::get('show/{type}',             [API\AgreementController::class, 'show']);
         Route::post('accept/{type}',          [API\AgreementController::class, 'accept']);
     });
     // ────────────────────────────────────────────────────────────────────────────

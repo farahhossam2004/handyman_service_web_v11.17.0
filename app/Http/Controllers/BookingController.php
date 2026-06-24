@@ -596,7 +596,11 @@ class BookingController extends Controller
 
 
         $user = User::where('id', $data['provider_id'])->with('providertype')->first();
-      
+
+        // Block booking for providers who are not verification-approved
+        if ($request->id == null && $user && $user->verification_status !== 'approved') {
+            return comman_message_response(__('messages.provider_verification_pending'), 403);
+        }
 
 
         $result = Booking::updateOrCreate(['id' => $request->id], $data);

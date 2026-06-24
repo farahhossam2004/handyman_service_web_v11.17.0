@@ -137,6 +137,36 @@
                                 __('messages.city')])) }}
                             </div>
                             <div class="form-group col-md-4">
+                                {{ html()->label(__('messages.national_id'), 'national_id')->class('form-control-label') }}
+                                {{ html()->text('national_id', $providerdata->national_id)->placeholder(__('messages.national_id'))->class('form-control') }}
+                                <small class="help-block with-errors text-danger"></small>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                {{ html()->label(__('messages.national_id_image'), 'national_id_image')->class('form-control-label') }}
+                                <div class="custom-file">
+                                    <input type="file" name="national_id_image" class="custom-file-input" accept="image/*">
+                                    <label class="custom-file-label upload-label">{{ __('messages.choose_file',['file' => __('messages.national_id_image')]) }}</label>
+                                </div>
+                                @if($providerdata->national_id_image)
+                                <div class="mt-2">
+                                    <a href="{{ \Storage::url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        <i class="ri-eye-line"></i> {{ __('messages.preview') }}
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                {{ html()->label(__('messages.verification_status'), 'verification_status')->class('form-control-label') }}
+                                {{ html()->select('verification_status', [
+                                    'pending_verification' => __('messages.pending_verification'),
+                                    'approved' => __('messages.approved'),
+                                    'rejected' => __('messages.rejected'),
+                                ], $providerdata->verification_status)->class('form-select select2js') }}
+                            </div>
+
+                            <div class="form-group col-md-4">
                                 {{ html()->label(__('messages.select_name', ['select' => __('messages.tax')]),
                                 'tax_id')->class('form-control-label') }}
                                 <br />

@@ -20,6 +20,8 @@ class AgreementController extends Controller
             return response()->json(['status' => 'false', 'message' => __('messages.agreement_not_found')], 404);
         }
 
+        $user = auth()->user();
+
         return response()->json([
             'status' => 'true',
             'data'   => [
@@ -28,7 +30,7 @@ class AgreementController extends Controller
                 'content'   => $agreement->content_ar,
                 'content_en'=> $agreement->content_en,
                 'version'   => $agreement->version,
-                'accepted'  => $this->agreementService->hasAcceptedLatest(auth()->user(), $type),
+                'accepted'  => $user ? $this->agreementService->hasAcceptedLatest($user, $type) : false,
             ],
         ]);
     }

@@ -68,8 +68,14 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="d-flex align-items-center gap-3 justify-content-end">
+                            <div class="col-md-6 col-lg-5 col-xl-5">
+                                <div class="d-flex align-items-center gap-3 justify-content-end flex-wrap">
+                                    <select name="verification_status" id="verification_status_filter" class="form-select" style="width:180px">
+                                        <option value="">{{ __('messages.all') }}</option>
+                                        <option value="pending_verification">{{ __('messages.pending_verification') }}</option>
+                                        <option value="approved">{{ __('messages.approved') }}</option>
+                                        <option value="rejected">{{ __('messages.rejected') }}</option>
+                                    </select>
                                     <div class="input-group input-group-search ms-2">
                                         <span class="input-group-text" id="addon-wrapping"><i
                                                 class="fas fa-search"></i></span>
@@ -231,6 +237,12 @@
                         orderable: false,
                     },
                     {
+                        data: 'verification_status',
+                        name: 'verification_status',
+                        title: "{{ __('messages.verification_status') }}",
+                        searchable: true,
+                    },
+                    {
                         data: 'status',
                         name: 'status',
                         title: "{{ __('messages.status') }}"
@@ -264,7 +276,8 @@
                             value: $('.dt-search').val()
                         };
                         d.filter = {
-                            column_status: $('#column_status').val()
+                            column_status: $('#column_status').val(),
+                            verification_status: $('#verification_status_filter').val(),
                         };
                         d.zone_id = zone_id;
                     },
@@ -280,6 +293,11 @@
 
             // Handle search input
             $('.dt-search').on('keyup', function() {
+                window.renderedDataTable.draw();
+            });
+
+            // Handle verification status filter
+            $('#verification_status_filter').on('change', function() {
                 window.renderedDataTable.draw();
             });
 

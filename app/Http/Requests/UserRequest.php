@@ -67,12 +67,18 @@ class UserRequest extends FormRequest
             'contact_number' => 'required|unique:users,contact_number,' . $id,
             'profile_image'  => 'nullable|mimetypes:image/jpeg,image/png,image/jpg,image/gif',
             'address'        => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
-            // 'country_id'     => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
-            // 'state_id'       => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
-            // 'city_id'        => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
             'latitude'       => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
             'longitude'      => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
+            'terms_accepted' => 'required|accepted',
         ];
+
+        if ($this->input('user_type') === 'provider' && request()->is('api/*')) {
+            $rules['national_id'] = ['required', 'string', 'max:50'];
+            $rules['national_id_image'] = ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'];
+        } else {
+            $rules['national_id'] = 'nullable|string|max:50';
+            $rules['national_id_image'] = 'nullable|image|mimes:jpg,jpeg,png|max:5120';
+        }
 
         // Applies to user, provider, and handyman signup via API (register + add-user when no id)
         $passwordRule = 'required|string|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,12}$/';
@@ -143,6 +149,8 @@ class UserRequest extends FormRequest
             'password.regex'  => __('messages.password_must_contain'),
             'password.min'    => __('messages.password_length_8_12'),
             'password.max'    => __('messages.password_length_8_12'),
+            'terms_accepted.required' => __('messages.terms_must_be_accepted'),
+            'terms_accepted.accepted' => __('messages.terms_must_be_accepted'),
         ];
 
         if ($this->shouldShowLocationServiceMessage()) {

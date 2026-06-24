@@ -72,6 +72,9 @@ class ProviderController extends Controller
                 if (isset($filter['column_status'])) {
                     $query->where('status', $filter['column_status']);
                 }
+                if (isset($filter['verification_status']) && !empty($filter['verification_status'])) {
+                    $query->where('verification_status', $filter['verification_status']);
+                }
             }
             $query = $query->where('user_type', 'provider');
             if (auth()->user()->hasAnyRole(['admin'])) {
@@ -129,7 +132,16 @@ class ProviderController extends Controller
 
         // Only add provider-specific columns for non-subscription queries
         if ($request->list_status != 'subscribe') {
-            $datatable->editColumn('providertype_id', function ($query) {
+            $datatable->editColumn('verification_status', function ($query) {
+                $status = $query->verification_status ?? 'pending_verification';
+                $badges = [
+                    'approved' => '<span class="badge badge-active text-success bg-success-subtle">' . __('messages.approved') . '</span>',
+                    'rejected' => '<span class="badge text-danger bg-danger-subtle">' . __('messages.rejected') . '</span>',
+                    'pending_verification' => '<span class="badge text-warning bg-warning-subtle">' . __('messages.pending_verification') . '</span>',
+                ];
+                return $badges[$status] ?? '<span class="badge text-secondary bg-secondary-subtle">' . ucfirst($status) . '</span>';
+            })
+            ->editColumn('providertype_id', function ($query) {
                 return ($query->providertype_id != null && isset($query->providertype)) ? $query->providertype->name : '-';
             })
             ->editColumn('address', function ($query) {
@@ -228,7 +240,7 @@ class ProviderController extends Controller
         }
 
         return $datatable->addIndexColumn()
-            ->rawColumns(['check', 'display_name', 'wallet', 'action', 'status', 'shop'])
+            ->rawColumns(['check', 'display_name', 'wallet', 'action', 'status', 'shop', 'verification_status'])
             ->toJson();
     }
 
@@ -365,7 +377,11 @@ class ProviderController extends Controller
         $data['display_name'] = $data['first_name'] . " " . $data['last_name'];
 
         if ($id == null) {
+            $data['verification_status'] = 'pending_verification';
             $data['password'] = bcrypt($data['password']);
+            if ($request->hasFile('national_id_image')) {
+                $data['national_id_image'] = $request->file('national_id_image')->store('providers/national_ids', 'public');
+            }
             $user = User::create($data);
             $wallet = array(
                 'title' => $user->display_name,
@@ -375,6 +391,9 @@ class ProviderController extends Controller
             $result = Wallet::create($wallet);
         } else {
             $user = User::findOrFail($id);
+            if ($request->hasFile('national_id_image')) {
+                $data['national_id_image'] = $request->file('national_id_image')->store('providers/national_ids', 'public');
+            }
             $user->fill($data)->update();
         }
 
@@ -936,6 +955,43 @@ public function providerSubscription(Request $request, $id)
 
             return redirect()->back()->withError($msg);
         }
+    }
+
+    public function verificationAction(Request $request)
+    {
+        $id = $request->id;
+        $provider = User::find($id);
+
+        if (!$provider) {
+            $msg = __('messages.not_found_entry', ['name' => __('messages.provider')]);
+            if ($request->is('api/*')) {
+                return comman_message_response($msg, 404);
+            }
+            return redirect()->back()->withError($msg);
+        }
+
+        $action = $request->action ?? $request->verification_status;
+
+        if (!in_array($action, ['approved', 'rejected'])) {
+            $msg = 'Invalid verification action';
+            if ($request->is('api/*')) {
+                return comman_message_response($msg, 400);
+            }
+            return redirect()->back()->withError($msg);
+        }
+
+        $provider->verification_status = $action;
+        $provider->save();
+
+        $msg = $action === 'approved'
+            ? __('messages.verification_approved')
+            : __('messages.verification_rejected');
+
+        if ($request->is('api/*')) {
+            return comman_message_response($msg);
+        }
+
+        return redirect()->back()->withSuccess($msg);
     }
 
     public function getChangePassword(Request $request)

@@ -61,6 +61,13 @@ class UserController extends Controller
         $input['password'] = Hash::make($password);
         $input['contact_number'] = $input['contact_number'] ?? null;
 
+        if ($input['user_type'] === 'provider') {
+            $input['verification_status'] = 'pending_verification';
+            if ($request->hasFile('national_id_image')) {
+                $input['national_id_image'] = $request->file('national_id_image')->store('providers/national_ids', 'public');
+            }
+        }
+
         if (!empty($request->referral_code)) {
             $referral_rule = LoyaltyReferralRule::where('status', 1)->first();
             if($referral_rule){
@@ -298,7 +305,11 @@ class UserController extends Controller
                 }
                 
               
+                if ($input['user_type'] === 'provider') {
+                    $user->makeHidden('national_id_image');
+                }
                 $response = [
+                    'status' => true,
                     'message' => $message,
                     'data' => $user
                 ];
@@ -317,10 +328,35 @@ class UserController extends Controller
             $result = Wallet::create($wallet);
         }
 
+        // Record terms acceptance if provided during registration
+        if ($request->boolean('terms_accepted')) {
+            try {
+                $agreementType = match ($user->user_type) {
+                    'user' => 'customer_agreement',
+                    'provider', 'handyman' => 'provider_agreement',
+                    default => null,
+                };
+                if ($agreementType) {
+                    app(\App\Services\AgreementService::class)->accept(
+                        $user,
+                        $agreementType,
+                        $request->ip(),
+                        $request->userAgent()
+                    );
+                }
+            } catch (\Throwable $e) {
+                Log::warning('Failed to record terms acceptance during registration: ' . $e->getMessage(), ['user_id' => $user->id]);
+            }
+        }
+
         if (!empty($input['loginfrom']) && $input['loginfrom'] === 'vue-app') {
             if ($user->user_type != 'user') {
                 $message = trans('messages.save_form', ['form' => $input['user_type']]);
+                if ($input['user_type'] === 'provider') {
+                    $user->makeHidden('national_id_image');
+                }
                 $response = [
+                    'status' => true,
                     'message' => $message,
                     'data' => $user
                 ];
@@ -335,7 +371,11 @@ class UserController extends Controller
         $message = trans('messages.save_form', ['form' => $input['user_type']]);
 
         $user->api_token = $user->createToken('auth_token')->plainTextToken;
+        if ($input['user_type'] === 'provider') {
+            $user->makeHidden('national_id_image');
+        }
         $response = [
+            'status' => true,
             'message' => $message,
             'data' => $user
         ];
@@ -474,13 +514,14 @@ class UserController extends Controller
           
             $success['is_verify_provider'] = (int) $is_verify_provider;
             unset($success['media']);
-            unset($user['roles']);
+            unset($success['roles']);
+            $success->makeHidden('national_id_image');
 
             if ($success->user_type == 'handyman' && $success->provider_id == null) {
                 $message = trans('auth.assign_provider_msg');
                 return comman_message_response($message, 406);
             }
-            return response()->json(['data' => $success], 200);
+            return response()->json(['status' => true, 'data' => $success], 200);
         } else {
             $message = trans('auth.failed');
             return comman_message_response($message, 406);
@@ -815,6 +856,10 @@ class UserController extends Controller
 
         $data['why_choose_me'] = ($why_choose_me);
 
+        if ($request->hasFile('national_id_image')) {
+            $data['national_id_image'] = $request->file('national_id_image')->store('providers/national_ids', 'public');
+        }
+
         $user->fill($data)->update();
 
         $provider_zone = ProviderZoneMapping::where('provider_id', $request->id)->pluck('zone_id')->toArray();
@@ -901,8 +946,10 @@ class UserController extends Controller
         unset($user_data['available_zones']);
         unset($user_data['roles']);
         unset($user_data['media']);
+        $user_data->makeHidden('national_id_image');
 
         $response = [
+            'status' => true,
             'data' => $user_data,
             'message' => $message
         ];
@@ -1279,6 +1326,10 @@ class UserController extends Controller
         $input['password'] = Hash::make($password);
 
         if ($input['user_type'] === 'provider') {
+            $input['verification_status'] = 'pending_verification';
+            if ($request->hasFile('national_id_image')) {
+                $input['national_id_image'] = $request->file('national_id_image')->store('providers/national_ids', 'public');
+            }
         }
         $user = User::create($input);
         $user->assignRole($input['user_type']);
@@ -1342,6 +1393,9 @@ class UserController extends Controller
             }
         }
 
+        if ($request->hasFile('national_id_image')) {
+            $data['national_id_image'] = $request->file('national_id_image')->store('providers/national_ids', 'public');
+        }
         $user->fill($request->all())->update();
 
         if (isset($request->profile_image) && $request->profile_image != null) {

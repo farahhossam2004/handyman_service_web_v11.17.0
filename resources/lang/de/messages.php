@@ -1475,4 +1475,30 @@
     'invoice_footer_message' => 'Vielen Dank für Ihr Geschäft!',
     'handyman_provider' => 'Handwerker Anbieter',
     'service_price_must_be_greater_than_commission' => 'Der Servicepreis muss höher sein als der feste Provisionsbetrag von :commission',
+
+    // TODO: Add translations
+    'terms_must_be_accepted' => 'You must accept the terms and conditions to proceed.',
+    'legal_agreement_edit' => 'Edit Legal Agreement',
+    'legal_agreement_update' => 'Legal Agreement updated successfully.',
+    'customer_agreement' => 'Customer Agreement',
+    'provider_agreement' => 'Provider Agreement',
+    'no_agreement_found' => 'No agreement found',
+    'last_updated' => 'Last Updated',
+    'arabic_content' => 'Arabic Content',
+    'english_content' => 'English Content',
+
+    // TODO: Add translations
+    'national_id' => 'National ID',
+    'national_id_image' => 'National ID Image',
+    'verification_status' => 'Verification Status',
+    'pending_verification' => 'Pending Verification',
+    'verification_approved' => 'Verification approved successfully.',
+    'verification_rejected' => 'Verification rejected.',
+    'confirm_approve_verification' => 'Approve Verification',
+    'confirm_approve_verification_msg' => 'Are you sure you want to approve this provider\'s verification?',
+    'confirm_reject_verification' => 'Reject Verification',
+    'confirm_reject_verification_msg' => 'Are you sure you want to reject this provider\'s verification?',
+    'preview' => 'Preview',
+    'provider_verification_pending' => 'This provider\'s verification is pending. Bookings cannot be created until the provider is approved.',
+    'all' => 'All',
 );

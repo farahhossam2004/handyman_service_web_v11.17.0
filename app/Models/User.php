@@ -63,6 +63,9 @@ class User extends Authenticatable implements HasMedia
         'referred_by',
         'latitude',
         'longitude',
+        'national_id',
+        'national_id_image',
+        'verification_status',
     ];
 
     /**
@@ -98,7 +101,12 @@ class User extends Authenticatable implements HasMedia
         'is_email_verified'    => 'integer',
         'referred_by' => 'integer',
         'known_languages' => 'array',
+        'verification_status' => 'string',
         
+    ];
+
+    protected $appends = [
+        'national_id_image_url',
     ];
 
     protected static function boot()
@@ -426,6 +434,14 @@ class User extends Authenticatable implements HasMedia
      *
      * @param  string  $token
      */
+    public function getNationalIdImageUrlAttribute()
+    {
+        if ($this->national_id_image) {
+            return \Storage::url($this->national_id_image);
+        }
+        return null;
+    }
+
     public function sendPasswordResetNotification($token): void
     {
         (new class {

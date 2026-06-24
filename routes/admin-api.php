@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('provider-save', [ App\Http\Controllers\ProviderController::class, 'store' ] );
     Route::post('provider-delete/{id}', [ App\Http\Controllers\ProviderController::class, 'destroy' ] );
     Route::post('provider-action',[ App\Http\Controllers\ProviderController::class, 'action' ]);
+    Route::post('provider-verification-action',[ App\Http\Controllers\ProviderController::class, 'verificationAction' ]);
 
     Route::post('providertype-save', [ App\Http\Controllers\ProviderTypeController::class, 'store' ] );
     Route::post('providertype-delete/{id}', [ App\Http\Controllers\ProviderTypeController::class, 'destroy' ] );

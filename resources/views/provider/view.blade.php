@@ -66,6 +66,44 @@
                                                 <i class="ri-map-2-line"></i>
                                                 <span class="contact-info-text">{{ !empty($providerdata->address) ? $providerdata->address : '-' }}</span>
                                             </li>
+                                            <li>
+                                                <i class="ri-file-text-line"></i>
+                                                <span class="contact-info-text"><strong>{{ __('messages.national_id') }}:</strong> {{ $providerdata->national_id ?? '-' }}</span>
+                                            </li>
+                                            <li>
+                                                <i class="ri-image-line"></i>
+                                                <span class="contact-info-text"><strong>{{ __('messages.national_id_image') }}:</strong>
+                                                    @if($providerdata->national_id_image)
+                                                        <a href="{{ \Storage::url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">
+                                                            <i class="ri-eye-line"></i> {{ __('messages.preview') }}
+                                                        </a>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <i class="ri-shield-check-line"></i>
+                                                <span class="contact-info-text"><strong>{{ __('messages.verification_status') }}:</strong>
+                                                    @if($providerdata->verification_status === 'approved')
+                                                        <span class="badge badge-active text-success bg-success-subtle">{{ __('messages.approved') }}</span>
+                                                    @elseif($providerdata->verification_status === 'rejected')
+                                                        <span class="badge badge-inactive text-danger bg-danger-subtle">{{ __('messages.rejected') }}</span>
+                                                    @else
+                                                        <span class="badge text-warning bg-warning-subtle">{{ __('messages.pending_verification') }}</span>
+                                                    @endif
+                                                    @if(auth()->user()->hasRole(['admin', 'demo_admin']) && $providerdata->verification_status !== 'approved')
+                                                        <a href="{{ route('provider.verification-action', ['id' => $providerdata->id, 'action' => 'approved']) }}" class="btn btn-sm btn-success ms-2" data--submit="confirm_form" data--confirmation='true' data--ajax="true" data-title='{{ __("messages.confirm_approve_verification") }}' data-message='{{ __("messages.confirm_approve_verification_msg") }}'>
+                                                            <i class="ri-check-line"></i> {{ __('messages.approve') }}
+                                                        </a>
+                                                    @endif
+                                                    @if(auth()->user()->hasRole(['admin', 'demo_admin']) && $providerdata->verification_status !== 'rejected')
+                                                        <a href="{{ route('provider.verification-action', ['id' => $providerdata->id, 'action' => 'rejected']) }}" class="btn btn-sm btn-danger ms-1" data--submit="confirm_form" data--confirmation='true' data--ajax="true" data-title='{{ __("messages.confirm_reject_verification") }}' data-message='{{ __("messages.confirm_reject_verification_msg") }}'>
+                                                            <i class="ri-close-line"></i> {{ __('messages.reject') }}
+                                                        </a>
+                                                    @endif
+                                                </span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
