@@ -53,11 +53,24 @@ class UserController extends Controller
         // REMOVED: date_default_timezone_set() - This breaks Laravel's timezone handling
         // Laravel stores all timestamps in UTC and converts them when displaying
         $input = $request->all();
+        $input['user_type'] = isset($input['user_type']) ? $input['user_type'] : 'user';
+
+        // Simplified customer registration: auto-generate username, email, and map name to first/last/display
+        if ($input['user_type'] === 'user') {
+            $name = $input['name'];
+            $input['first_name'] = $name;
+            $input['last_name'] = '';
+            $input['display_name'] = $name;
+            $input['username'] = $this->generateUniqueUsername();
+            $input['email'] = $this->generateUniqueEmail($input['username']);
+            $password = $input['password'];
+        } else {
+            $input['display_name'] = $input['first_name'] . " " . $input['last_name'];
+            $password = $input['password'];
+        }
+
         $email = $input['email'];
         $username = $input['username'];
-        $password = $input['password'];
-        $input['display_name'] = $input['first_name'] . " " . $input['last_name'];
-        $input['user_type'] = isset($input['user_type']) ? $input['user_type'] : 'user';
         $input['password'] = Hash::make($password);
         $input['contact_number'] = $input['contact_number'] ?? null;
 
@@ -1320,8 +1333,19 @@ class UserController extends Controller
             }
         }
         
+        // Support simplified customer creation (name instead of first_name/last_name)
+        if (isset($input['user_type']) && $input['user_type'] === 'user' && !isset($input['username'])) {
+            $name = $input['name'];
+            $input['first_name'] = $name;
+            $input['last_name'] = '';
+            $input['display_name'] = $name;
+            $input['username'] = $this->generateUniqueUsername();
+            $input['email'] = $this->generateUniqueEmail($input['username']);
+        } else {
+            $input['display_name'] = $input['first_name'] . " " . $input['last_name'];
+        }
+        
         $password = $input['password'];
-        $input['display_name'] = $input['first_name'] . " " . $input['last_name'];
         $input['user_type'] = isset($input['user_type']) ? $input['user_type'] : 'user';
         $input['password'] = Hash::make($password);
 
@@ -1515,5 +1539,25 @@ class UserController extends Controller
             'message' => __('messages.Language_preference_updated'),
             'locale' => $locale,
         ], 200);
+    }
+
+    private function generateUniqueUsername(): string
+    {
+        do {
+            $username = 'customer_' . mt_rand(10000, 99999);
+        } while (User::where('username', $username)->exists());
+
+        return $username;
+    }
+
+    private function generateUniqueEmail(string $username): string
+    {
+        $email = $username . '@app.local';
+        while (User::where('email', $email)->exists()) {
+            $username = $this->generateUniqueUsername();
+            $email = $username . '@app.local';
+        }
+
+        return $email;
     }
 }

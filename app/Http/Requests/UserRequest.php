@@ -57,42 +57,58 @@ class UserRequest extends FormRequest
 
         $id = request()->id;
         $nearbyProvider = $this->isNearbyProviderEnabled();
+        $userType = $this->input('user_type');
 
         // Check if this is a registration (no id) or update (has id)
         $isRegistration = empty($id);
-        
-        $rules = [
-            'username'       => 'required|max:255|unique:users,username,' . $id,
-            'email'          => 'required|email|max:255|unique:users,email,' . $id,
-            'contact_number' => 'required|unique:users,contact_number,' . $id,
-            'profile_image'  => 'nullable|mimetypes:image/jpeg,image/png,image/jpg,image/gif',
-            'address'        => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
-            'latitude'       => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
-            'longitude'      => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
-            'terms_accepted' => $isRegistration ? 'required|accepted' : 'nullable',
-        ];
-
-        if ($this->input('user_type') === 'provider' && request()->is('api/*')) {
-            $rules['national_id'] = ['required', 'string', 'max:50'];
-            $rules['national_id_image'] = ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'];
-        } else {
-            $rules['national_id'] = 'nullable|string|max:50';
-            $rules['national_id_image'] = 'nullable|image|mimes:jpg,jpeg,png|max:5120';
-        }
-
-        // Applies to user, provider, and handyman signup via API (register + add-user when no id)
         $passwordRule = 'required|string|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,12}$/';
-        if ($id) {
-            $rules['password'] = 'nullable|string|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,12}$/';
-        } else {
-            $rules['password'] = $passwordRule;
-        }
 
-        // Only validate documents if provider is registering
-        if ($this->input('user_type') === 'provider' && request()->is('api/*')) {
-            $allDocIds = Documents::pluck('id')->toArray();
-            $rules['document_id'] = ['nullable', 'array'];
-            $rules['document_id.*'] = ['in:' . implode(',', $allDocIds)];
+        // Simplified validation for customer registration (user_type = user)
+        if ($userType === 'user') {
+            $rules = [
+                'name'           => 'required|string|max:255',
+                'contact_number' => 'required|unique:users,contact_number,' . $id,
+                'profile_image'  => 'nullable|mimetypes:image/jpeg,image/png,image/jpg,image/gif',
+                'terms_accepted' => $isRegistration ? 'required|accepted' : 'nullable',
+            ];
+
+            if ($id) {
+                $rules['password'] = 'nullable|string|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,12}$/';
+            } else {
+                $rules['password'] = $passwordRule;
+            }
+        } else {
+            // Existing validation for providers, handymen, admin, etc.
+            $rules = [
+                'username'       => 'required|max:255|unique:users,username,' . $id,
+                'email'          => 'required|email|max:255|unique:users,email,' . $id,
+                'contact_number' => 'required|unique:users,contact_number,' . $id,
+                'profile_image'  => 'nullable|mimetypes:image/jpeg,image/png,image/jpg,image/gif',
+                'address'        => ($userType === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
+                'latitude'       => ($userType === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
+                'longitude'      => ($userType === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
+                'terms_accepted' => $isRegistration ? 'required|accepted' : 'nullable',
+            ];
+
+            if ($userType === 'provider' && request()->is('api/*')) {
+                $rules['national_id'] = ['required', 'string', 'max:50'];
+                $rules['national_id_image'] = ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'];
+            } else {
+                $rules['national_id'] = 'nullable|string|max:50';
+                $rules['national_id_image'] = 'nullable|image|mimes:jpg,jpeg,png|max:5120';
+            }
+
+            if ($id) {
+                $rules['password'] = 'nullable|string|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,12}$/';
+            } else {
+                $rules['password'] = $passwordRule;
+            }
+
+            if ($userType === 'provider' && request()->is('api/*')) {
+                $allDocIds = Documents::pluck('id')->toArray();
+                $rules['document_id'] = ['nullable', 'array'];
+                $rules['document_id.*'] = ['in:' . implode(',', $allDocIds)];
+            }
         }
 
         return $rules;
