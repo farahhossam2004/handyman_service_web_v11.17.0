@@ -150,7 +150,7 @@
                                 </div>
                                 @if($providerdata->national_id_image)
                                 <div class="mt-2">
-                                    <a href="{{ \Storage::url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <a href="{{ \Storage::disk('public')->url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                         <i class="ri-eye-line"></i> {{ __('messages.preview') }}
                                     </a>
                                 </div>

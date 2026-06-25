@@ -964,8 +964,8 @@ public function providerSubscription(Request $request, $id)
 
         if (!$provider) {
             $msg = __('messages.not_found_entry', ['name' => __('messages.provider')]);
-            if ($request->is('api/*')) {
-                return comman_message_response($msg, 404);
+            if ($request->is('api/*') || $request->ajax()) {
+                return response()->json(['status' => false, 'message' => $msg], 404);
             }
             return redirect()->back()->withError($msg);
         }
@@ -974,8 +974,8 @@ public function providerSubscription(Request $request, $id)
 
         if (!in_array($action, ['approved', 'rejected'])) {
             $msg = 'Invalid verification action';
-            if ($request->is('api/*')) {
-                return comman_message_response($msg, 400);
+            if ($request->is('api/*') || $request->ajax()) {
+                return response()->json(['status' => false, 'message' => $msg], 400);
             }
             return redirect()->back()->withError($msg);
         }
@@ -987,8 +987,8 @@ public function providerSubscription(Request $request, $id)
             ? __('messages.verification_approved')
             : __('messages.verification_rejected');
 
-        if ($request->is('api/*')) {
-            return comman_message_response($msg);
+        if ($request->is('api/*') || $request->ajax()) {
+            return response()->json(['status' => true, 'message' => $msg]);
         }
 
         return redirect()->back()->withSuccess($msg);

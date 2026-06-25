@@ -180,7 +180,7 @@ Route::group(['middleware' => ['auth', /*'verified',*/ 'prevent.demo.setting']],
         Route::post('provider/{id}', [ProviderController::class, 'destroy'])->name('provider.destroy');
         Route::post('provider-bulk-action', [ProviderController::class, 'bulk_action'])->name('provider.bulk-action');
         Route::get('provider-subscription-data', [ProviderController::class, 'getSubscriptionData'])->name('provider.subscription-data');
-        Route::get('provider-verification-action', [ProviderController::class, 'verificationAction'])->name('provider.verification-action');
+        Route::match(['get', 'post'], 'provider-verification-action', [ProviderController::class, 'verificationAction'])->name('provider.verification-action');
     });
     Route::get('provider_info/{id}', [ProviderController::class, 'show'])->name('provider_info');
 

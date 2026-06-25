@@ -437,7 +437,7 @@ class User extends Authenticatable implements HasMedia
     public function getNationalIdImageUrlAttribute()
     {
         if ($this->national_id_image) {
-            return \Storage::url($this->national_id_image);
+            return \Storage::disk('public')->url($this->national_id_image);
         }
         return null;
     }

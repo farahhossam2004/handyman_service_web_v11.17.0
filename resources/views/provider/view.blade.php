@@ -74,7 +74,7 @@
                                                 <i class="ri-image-line"></i>
                                                 <span class="contact-info-text"><strong>{{ __('messages.national_id_image') }}:</strong>
                                                     @if($providerdata->national_id_image)
-                                                        <a href="{{ \Storage::url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">
+                                                        <a href="{{ \Storage::disk('public')->url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">
                                                             <i class="ri-eye-line"></i> {{ __('messages.preview') }}
                                                         </a>
                                                     @else
@@ -93,14 +93,24 @@
                                                         <span class="badge text-warning bg-warning-subtle">{{ __('messages.pending_verification') }}</span>
                                                     @endif
                                                     @if(auth()->user()->hasRole(['admin', 'demo_admin']) && $providerdata->verification_status !== 'approved')
-                                                        <a href="{{ route('provider.verification-action', ['id' => $providerdata->id, 'action' => 'approved']) }}" class="btn btn-sm btn-success ms-2" data--submit="confirm_form" data--confirmation='true' data--ajax="true" data-title='{{ __("messages.confirm_approve_verification") }}' data-message='{{ __("messages.confirm_approve_verification_msg") }}'>
-                                                            <i class="ri-check-line"></i> {{ __('messages.approve') }}
-                                                        </a>
+                                                        <form method="POST" action="{{ route('provider.verification-action') }}" class="d-inline verification-form">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{ $providerdata->id }}">
+                                                            <input type="hidden" name="action" value="approved">
+                                                            <button type="submit" class="btn btn-sm btn-success ms-2 verification-btn" data-title='{{ __("messages.confirm_approve_verification") }}' data-message='{{ __("messages.confirm_approve_verification_msg") }}'>
+                                                                <i class="ri-check-line"></i> {{ __('messages.approve') }}
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                     @if(auth()->user()->hasRole(['admin', 'demo_admin']) && $providerdata->verification_status !== 'rejected')
-                                                        <a href="{{ route('provider.verification-action', ['id' => $providerdata->id, 'action' => 'rejected']) }}" class="btn btn-sm btn-danger ms-1" data--submit="confirm_form" data--confirmation='true' data--ajax="true" data-title='{{ __("messages.confirm_reject_verification") }}' data-message='{{ __("messages.confirm_reject_verification_msg") }}'>
-                                                            <i class="ri-close-line"></i> {{ __('messages.reject') }}
-                                                        </a>
+                                                        <form method="POST" action="{{ route('provider.verification-action') }}" class="d-inline verification-form">
+                                                            @csrf
+                                                            <input type="hidden" name="id" value="{{ $providerdata->id }}">
+                                                            <input type="hidden" name="action" value="rejected">
+                                                            <button type="submit" class="btn btn-sm btn-danger ms-1 verification-btn" data-title='{{ __("messages.confirm_reject_verification") }}' data-message='{{ __("messages.confirm_reject_verification_msg") }}'>
+                                                                <i class="ri-close-line"></i> {{ __('messages.reject') }}
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                 </span>
                                             </li>
@@ -145,6 +155,28 @@
 
 
     <script type="text/javascript">
+        $(document).on('click', '.verification-btn', function(e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+            var title = $(this).data('title');
+            var message = $(this).data('message');
+
+            Swal.fire({
+                title: title,
+                text: message,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#5F60B9',
+                cancelButtonColor: '#858482',
+                confirmButtonText: '{{ __("messages.yes") }}',
+                cancelButtonText: '{{ __("messages.no") }}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+
         var pendingCount = parseInt("{{ $data['PendingStatusCount'] }}");
         var inProgressCount = parseInt("{{ $data['InProgressstatuscount'] }}");
         var Completedcount = parseInt("{{ $data['Completedstatuscount'] }}");
