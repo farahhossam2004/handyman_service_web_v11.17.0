@@ -150,7 +150,7 @@
                                 </div>
                                 @if($providerdata->national_id_image)
                                 <div class="mt-2">
-                                    <a href="{{ \Storage::disk('public')->url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <a href="{{ $providerdata->national_id_image_url }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                         <i class="ri-eye-line"></i> {{ __('messages.preview') }}
                                     </a>
                                 </div>
@@ -258,7 +258,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{ html()->submit(__('messages.save'))->class('btn btn-md btn-primary float-end') }}
+                        {{ html()->submit(__('messages.save'))->class('btn btn-md btn-primary float-end')->id('saveButton') }}
                         {{ html()->form()->close() }}
                     </div>
                 </div>
@@ -389,6 +389,30 @@
             }
         });
         })(jQuery);
+
+    // Keep save button usable (global Bootstrap Validator disables it with `disable: true`)
+    const providerSubmitBtn = document.getElementById('saveButton');
+    const enforceProviderSubmitEnabled = () => {
+        if (!providerSubmitBtn) return;
+        providerSubmitBtn.disabled = false;
+        providerSubmitBtn.classList.remove('disabled');
+        providerSubmitBtn.style.opacity = '1';
+        providerSubmitBtn.style.pointerEvents = 'auto';
+    };
+    enforceProviderSubmitEnabled();
+    const providerForm = document.getElementById('provider');
+    if (providerForm) {
+        providerForm.addEventListener('input', enforceProviderSubmitEnabled);
+        providerForm.addEventListener('change', enforceProviderSubmitEnabled);
+    }
+    if (providerSubmitBtn) {
+        const submitBtnObserver = new MutationObserver(() => {
+            if (providerSubmitBtn.disabled || providerSubmitBtn.classList.contains('disabled')) {
+                enforceProviderSubmitEnabled();
+            }
+        });
+        submitBtnObserver.observe(providerSubmitBtn, { attributes: true, attributeFilter: ['disabled', 'class'] });
+    }
 
     // When the existing image is removed via the remove-file link,
     // make the file input required so the user must upload a new one.

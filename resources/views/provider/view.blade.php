@@ -74,7 +74,7 @@
                                                 <i class="ri-image-line"></i>
                                                 <span class="contact-info-text"><strong>{{ __('messages.national_id_image') }}:</strong>
                                                     @if($providerdata->national_id_image)
-                                                        <a href="{{ \Storage::disk('public')->url($providerdata->national_id_image) }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">
+                                                        <a href="{{ $providerdata->national_id_image_url }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2">
                                                             <i class="ri-eye-line"></i> {{ __('messages.preview') }}
                                                         </a>
                                                     @else
