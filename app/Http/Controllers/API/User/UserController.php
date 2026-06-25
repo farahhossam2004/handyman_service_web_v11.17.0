@@ -446,11 +446,22 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        // dd($request->all());
+        // Determine login credential field — support both email and contact_number
+        $loginField = 'email';
+        $loginValue = request('email');
+
+        if ($contactNumber = request('contact_number')) {
+            $loginField = 'contact_number';
+            $loginValue = $contactNumber;
+        } elseif ($phoneNumber = request('phone_number')) {
+            $loginField = 'contact_number';
+            $loginValue = $phoneNumber;
+        }
+
         $Isactivate = request('Isactivate');
         if ($Isactivate == 1) {
             $user = User::withTrashed()
-                ->where('email', request('email'))
+                ->where($loginField, $loginValue)
                 ->first();
             if ($user) {
                 $user->restore();
@@ -459,8 +470,8 @@ class UserController extends Controller
                 return comman_message_response($message, 406);
             }
         }
-        // dd(Auth::attempt(['email' => request('email'), 'password' => request('password')]));
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+
+        if (Auth::attempt([$loginField => $loginValue, 'password' => request('password')])) {
 
             $user = Auth::user();
 
