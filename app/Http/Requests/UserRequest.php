@@ -69,7 +69,7 @@ class UserRequest extends FormRequest
             'address'        => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
             'latitude'       => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
             'longitude'      => ($this->input('user_type') === 'provider' && $nearbyProvider) ? 'required' : 'nullable',
-            'terms_accepted' => 'required|accepted',
+            'terms_accepted' => $isRegistration ? 'required|accepted' : 'nullable',
         ];
 
         if ($this->input('user_type') === 'provider' && request()->is('api/*')) {
