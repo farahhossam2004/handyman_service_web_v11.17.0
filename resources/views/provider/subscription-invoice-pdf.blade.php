@@ -31,7 +31,7 @@
             margin-bottom: 4px;
         }
         .invoice-info .id {
-            color: #5F60B9;
+            color: #9CA3AF;
             font-weight: 600;
         }
         .thank-you-message {
@@ -459,7 +459,7 @@
     <div class="footer">
         <div style="margin-bottom: 10px;">
             <span style="color: #6C757D;">For more information, visit our website: </span>
-            <a href="{{ $generaldata->website ?? '#' }}" style="color: #5F60B9; text-decoration: none;">{{ $generaldata->website ?? 'www.handyman.com' }}</a>
+            <a href="{{ $generaldata->website ?? '#' }}" style="color: #9CA3AF; text-decoration: none;">{{ $generaldata->website ?? 'www.handyman.com' }}</a>
         </div>
         <div style="color: #6C757D;">
             {{ $app->site_copyright ?? '© 2025 All Rights Reserved by IQONIC Design' }}

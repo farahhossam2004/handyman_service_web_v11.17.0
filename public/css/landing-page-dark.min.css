@@ -238,7 +238,7 @@ a {
   background-color: rgba(91, 102, 113, 0.15) !important;
 }
 .dark .text-primary {
-  color: #5F60B9 !important;
+  color: #9CA3AF !important;
 }
 .dark .text-secondary {
   color: #EFEFF8 !important;
@@ -384,7 +384,7 @@ a {
   --bs-btn-hover-bg: rgba(95, 96, 185, 0.2);
   --bs-btn-hover-border-color: rgba(95, 96, 185, 0.2);
   --bs-btn-focus-shadow-rgb: 127, 128, 199;
-  --bs-btn-active-color: #5f60b9;
+  --bs-btn-active-color: #9CA3AF;
   --bs-btn-active-bg: rgba(95, 96, 185, 0.3);
   --bs-btn-active-border-color: rgba(95, 96, 185, 0.2);
   --bs-btn-active-shadow: 0 0px 0px rgba(0, 0, 0, 0);
@@ -608,13 +608,13 @@ a {
   border-color: #303346;
 }
 .dark .service-tab-list .nav-link.active {
-  background: #5F60B9;
-  border-color: #5F60B9;
+  background: #9CA3AF;
+  border-color: #9CA3AF;
 }
 .dark .alert-primary {
   --bs-alert-color: #7f80c7;
   --bs-alert-bg: #26264a;
-  --bs-alert-border-color: #5f60b9;
+  --bs-alert-border-color: #9CA3AF;
 }
 .dark .alert-primary .alert-link {
   color: #66669f;
@@ -723,8 +723,8 @@ a {
 }
 .dark .alert-solid.alert-primary {
   --bs-alert-color: #fff;
-  --bs-alert-bg: #5F60B9;
-  --bs-alert-border-color: #5F60B9;
+  --bs-alert-bg: #9CA3AF;
+  --bs-alert-border-color: #9CA3AF;
 }
 .dark .alert-solid.alert-primary .alert-link {
   color: #cccccc;
@@ -832,7 +832,7 @@ a {
   filter: unset;
 }
 .dark .alert-left.alert-primary {
-  border-color: #5F60B9;
+  border-color: #9CA3AF;
 }
 .dark .alert-left.alert-secondary {
   border-color: #EFEFF8;
@@ -862,7 +862,7 @@ a {
   border-color: #343a40;
 }
 .dark .alert-top.alert-primary {
-  border-color: #5F60B9;
+  border-color: #9CA3AF;
 }
 .dark .alert-top.alert-secondary {
   border-color: #EFEFF8;
@@ -892,7 +892,7 @@ a {
   border-color: #343a40;
 }
 .dark .alert-right.alert-primary {
-  border-color: #5F60B9;
+  border-color: #9CA3AF;
 }
 .dark .alert-right.alert-secondary {
   border-color: #EFEFF8;
@@ -922,7 +922,7 @@ a {
   border-color: #343a40;
 }
 .dark .alert-bottom.alert-primary {
-  border-color: #5F60B9;
+  border-color: #9CA3AF;
 }
 .dark .alert-bottom.alert-secondary {
   border-color: #EFEFF8;
@@ -1186,7 +1186,7 @@ a {
 }
 .dark .list-group .list-group-item.list-group-item-action.list-group-item-primary:hover {
   background-color: rgba(95, 96, 185, 0.05);
-  color: #5F60B9;
+  color: #9CA3AF;
 }
 .dark .list-group .list-group-item.list-group-item-action.list-group-item-secondary {
   background-color: rgba(239, 239, 248, 0.1);

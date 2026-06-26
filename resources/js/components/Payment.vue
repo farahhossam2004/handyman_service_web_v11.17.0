@@ -168,7 +168,7 @@ const formSubmit = handleSubmit(async(values) => {
           title: 'Done',
           text: responseData.message,
           icon: 'success',
-          iconColor: '#5F60B9'
+          iconColor: '#9CA3AF'
         }).then((result) => {
 
             if (result.isConfirmed) {
@@ -184,7 +184,7 @@ const formSubmit = handleSubmit(async(values) => {
                 title: 'Error',
                 text: 'Something Went Wrong!',
                 icon: 'error',
-                iconColor: '#5F60B9'
+                iconColor: '#9CA3AF'
               }).then((result) => {
 
               })
@@ -225,7 +225,7 @@ const formSubmit = handleSubmit(async(values) => {
         title: 'Success',
         text: 'Payment recorded successfully!',
         icon: 'success',
-        iconColor: '#5F60B9',
+        iconColor: '#9CA3AF',
       }).then(() => {
         const baseUrl = document.querySelector('meta[name="baseUrl"]').getAttribute('content');
         window.location.href = baseUrl + '/booking-list';
@@ -237,7 +237,7 @@ const formSubmit = handleSubmit(async(values) => {
         title: 'Error',
         text: 'Failed to record cash payment!',
         icon: 'error',
-        iconColor: '#5F60B9',
+        iconColor: '#9CA3AF',
       });
     }
   } else{
@@ -273,7 +273,7 @@ const formSubmit = handleSubmit(async(values) => {
               title: 'Error',
               text: 'check Your Stripe key Integration !',
               icon: 'error',
-              iconColor: '#5F60B9'
+              iconColor: '#9CA3AF'
             }).then((result) => {
     
             })
@@ -288,7 +288,7 @@ const formSubmit = handleSubmit(async(values) => {
               title: 'Error',
               text: 'Something Went Wrong!',
               icon: 'error',
-              iconColor: '#5F60B9'
+              iconColor: '#9CA3AF'
             }).then((result) => {
     
             })
@@ -321,7 +321,7 @@ const formSubmit = handleSubmit(async(values) => {
                  title:'Error',
                  text: responseData.message,
                  icon: 'error', 
-                 iconColor: '#5F60B9'
+                 iconColor: '#9CA3AF'
                }).then((result) => {
        
                })
@@ -336,7 +336,7 @@ const formSubmit = handleSubmit(async(values) => {
               title: 'Error',
               text: 'Something Went Wrong!',
               icon: 'error',
-              iconColor: '#5F60B9'
+              iconColor: '#9CA3AF'
             }).then((result) => {
     
             })

@@ -83,7 +83,7 @@
                <g mask="url(#mask0_952_171)">
                   <path fill-rule="evenodd" clip-rule="evenodd"
                      d="M4.01367 2.21948C2.28501 2.21948 1.33301 3.14148 1.33301 4.81548V10.8481C1.33301 12.5588 2.28501 13.5001 4.01367 13.5001H9.65234C11.381 13.5001 12.333 12.5761 12.333 10.8988V4.81548C12.3357 3.99215 12.1143 3.35215 11.675 2.91215C11.223 2.45882 10.5263 2.21948 9.65834 2.21948H4.01367ZM9.65234 14.5001H4.01367C1.74367 14.5001 0.333008 13.1008 0.333008 10.8481V4.81548C0.333008 2.59682 1.74367 1.21948 4.01367 1.21948H9.65834C10.7977 1.21948 11.7397 1.56082 12.383 2.20548C13.0077 2.83282 13.3363 3.73482 13.333 4.81682V10.8988C13.333 13.1201 11.9223 14.5001 9.65234 14.5001Z"
-                     fill="#5F60B9" />
+                     fill="#9CA3AF" />
                </g>
             </svg>
             @php
@@ -113,7 +113,7 @@
                     <li class="mb-2">
                         <span class="d-flex gap-3">
                             <span class="d-inline-block w-25 fw-bold">{{__('landingpage.service_type')}}:</span>
-                            <span class="d-inline-block" style=" color: #5F60B9; font-weight: bold; font-size: 18px;">
+                            <span class="d-inline-block" style=" color: #9CA3AF; font-weight: bold; font-size: 18px;">
                                 {{ __('landingpage.free') }}
                             </span> <!-- "Free" label with box -->
                         </span>

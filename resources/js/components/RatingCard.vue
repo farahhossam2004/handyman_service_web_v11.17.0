@@ -7,7 +7,7 @@
       :read-only="readonly"
       :show-rating="showrating"
       :rating="ratingvalue"
-      active-color="#5f60b9"
+      active-color="#9CA3AF"
       inactive-color="#e1e2ed"
       @update:rating="updateRatingHandler"
     >

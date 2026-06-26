@@ -1,13 +1,13 @@
     @import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
 
 :root {
-    --c1: #5F60B9;
+    --c1: #9CA3AF;
     --c2: #ff6767;
     --bg-color: #f7f9fc;
     --bg-color2: #eee;
     --text-light-color: #758590;
     --text-color: #4b5864;
-    --link-color: #5F60B9;
+    --link-color: #9CA3AF;
     --input-border-color: #e4e4e4;
     --input-border-color-active: rgba(65, 83, 179, 0.5);
     --title-color: #212b36;
@@ -2507,7 +2507,7 @@ h4.booking-text {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #5F60B9;
+    background-color: #9CA3AF;
     padding: 15px 20px;
 }
 
@@ -2566,7 +2566,7 @@ table.dataTable {
 
 .table thead th,
 .table tr th {
-    background: #5F60B9;
+    background: #9CA3AF;
     color: #fff;
 }
 
@@ -2598,7 +2598,7 @@ table.dataTable>thead .sorting_desc_disabled::before {
 
 .setting-pills .nav-pills .nav-link {
     background-color: rgba(95, 96, 185, 0.1);
-    color: #5F60B9;
+    color: #9CA3AF;
     padding: 12px 16px;
     line-height: normal;
     display: block;
@@ -2606,7 +2606,7 @@ table.dataTable>thead .sorting_desc_disabled::before {
 
 .setting-pills .nav-pills .nav-link.active,
 .setting-pills .nav-pills .nav-link:hover {
-    background-color: #5F60B9;
+    background-color: #9CA3AF;
     color: #fff;
 }
 
@@ -2623,7 +2623,7 @@ table.dataTable>thead .sorting_desc_disabled::before {
 }
 
 #permissionList .btn:hover {
-    background-color: #5F60B9;
+    background-color: #9CA3AF;
 }
 
 #permissionList .btn:hover .permission-text {
@@ -2687,7 +2687,7 @@ body:not(.sidebar-main) .user-profile .avatar {
 
 .nav-tabs .nav-link {
     background-color: rgba(95, 96, 185, 0.1);
-    color: #5F60B9;
+    color: #9CA3AF;
     padding: 12px 16px;
     line-height: normal;
     border-bottom: none;
@@ -2696,7 +2696,7 @@ body:not(.sidebar-main) .user-profile .avatar {
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-link:hover {
-    background-color: #5F60B9;
+    background-color: #9CA3AF;
     color: #fff;
 }
 
@@ -2733,7 +2733,7 @@ body:not(.sidebar-main) .user-profile .avatar {
 
 .provider-detail-tab .nav-item.active .nav-link,
 .provider-detail-tab .nav-item:hover .nav-link {
-    background-color: #5F60B9;
+    background-color: #9CA3AF;
     color: #fff;
 }
 
@@ -2864,12 +2864,12 @@ body:not(.sidebar-main) .user-profile .avatar {
 
 .iq-sidebar-menu .side-menu li:hover>a>svg.sidebar-menu-icon path,
 .iq-sidebar-menu .side-menu li.active>a>svg.sidebar-menu-icon path {
-    fill: #5F60B9;
+    fill: #9CA3AF;
 }
 
 .iq-sidebar-menu .side-menu li.active>a>svg.iq-arrow-right.arrow-active path,
 .iq-sidebar-menu .side-menu li:hover>a>svg.iq-arrow-right path {
-    stroke: #5F60B9;
+    stroke: #9CA3AF;
 }
 
 .sidebar-default .iq-sidebar-menu .side-menu>li.active>a {
@@ -2915,17 +2915,17 @@ table.data-table.provider-booking-data {
 .card.total-provider-card,
 .card.total-booking-card,
 .card.total-revenue {
-    background: #5F60B9;
+    background: #9CA3AF;
     opacity: 1;
 }
 
 .change-mode .custom-switch.custom-switch-icon label.custom-control-label:before {
-    border-color: #5F60B9;
+    border-color: #9CA3AF;
 }
 
 .change-mode .custom-switch.custom-switch-icon label.custom-control-label:after {
-    background-color: #5F60B9;
-    border-color: #5F60B9;
+    background-color: #9CA3AF;
+    border-color: #9CA3AF;
 }
 
 .iq-card-icon.iq-card-icon-booking,
@@ -2943,7 +2943,7 @@ table.data-table.provider-booking-data {
 
 .badge-pending {
     background: rgba(95, 96, 185, 0.1);
-    color: #5F60B9;
+    color: #9CA3AF;
 }
 
 .page-item.disabled .page-link {
@@ -3216,11 +3216,11 @@ table.dataTable>thead .sorting_desc_disabled::after {
 
     body:not(.sidebar-main) .sidebar-default .iq-sidebar-menu .side-menu>li>a[aria-expanded="true"] {
         background: rgba(95, 96, 185, 0.1);
-        color: #5F60B9;
+        color: #9CA3AF;
     }
 
     body:not(.sidebar-main) .sidebar-default .iq-sidebar-menu .side-menu>li.active>a .iq-arrow-right path {
-        stroke: #5F60B9;
+        stroke: #9CA3AF;
     }
 
     body:not(.sidebar-main) .iq-sidebar-menu .side-menu li ul.submenu {
@@ -3317,11 +3317,11 @@ table.dataTable>thead .sorting_desc_disabled::after {
 
     body.sidebar-main .sidebar-default .iq-sidebar-menu .side-menu>li>a[aria-expanded="true"] {
         background: rgba(95, 96, 185, 0.1);
-        color: #5F60B9;
+        color: #9CA3AF;
     }
 
     body.sidebar-main .sidebar-default .iq-sidebar-menu .side-menu>li.active>a .iq-arrow-right path {
-        stroke: #5F60B9;
+        stroke: #9CA3AF;
     }
 
     body.sidebar-main .iq-sidebar-menu .side-menu li ul.submenu {
@@ -3756,7 +3756,7 @@ table.dataTable>thead .sorting_desc_disabled::after {
 }
 
 .dark a.btn-link-hover:hover span {
-    color: #5F60B9;
+    color: #9CA3AF;
 }
 
 .dark .iq-sidebar-menu .side-menu li.category-main a,
@@ -3808,11 +3808,11 @@ table.dataTable>thead .sorting_desc_disabled::after {
 }
 
 .dark .iq-sidebar-menu .side-menu li ul.submenu li:hover .nav-link span {
-    color: #5F60B9;
+    color: #9CA3AF;
 }
 
 .dark .iq-sidebar-menu .side-menu li ul.submenu li.active .nav-link span {
-    color: #5F60B9;
+    color: #9CA3AF;
 }
 
 .dark .common-list .media-body span {
@@ -3831,8 +3831,8 @@ table.dataTable>thead .sorting_desc_disabled::after {
 }
 
 .dark .page-item.active .page-link {
-    background-color: #5F60B9;
-    border-color: #5F60B9;
+    background-color: #9CA3AF;
+    border-color: #9CA3AF;
 }
 
 .dark .pagination .page-item.disabled .page-link {
@@ -3859,7 +3859,7 @@ table.dataTable>thead .sorting_desc_disabled::after {
 
 .dark .nav-tabs .nav-link.active {
     color: #fff;
-    background-color: #5F60B9;
+    background-color: #9CA3AF;
     border-color: transparent;
 }
 
@@ -3872,7 +3872,7 @@ table.dataTable>thead .sorting_desc_disabled::after {
 }
 
 .dark table.dataTable .notify-table-link:hover {
-    color: #5F60B9;
+    color: #9CA3AF;
 }
 
 .dark ul.contact-list li .contact-info-text {
@@ -3889,7 +3889,7 @@ table.dataTable>thead .sorting_desc_disabled::after {
 }
 
 .dark .booking-service-link:hover {
-    color: #5F60B9;
+    color: #9CA3AF;
 }
 
 .dark .bk-summary-table {
@@ -3954,7 +3954,7 @@ table.dataTable>thead .sorting_desc_disabled::after {
 }
 
 .badge-primary1 {
-    background: #5F60B9;
+    background: #9CA3AF;
     color: #fff !important;
 }
 

@@ -82,7 +82,7 @@ $serviceData = json_decode($service->content(), true);
                 title: 'Done',
                 text: response.message,
                 icon: 'success',
-                iconColor: '#5F60B9'
+                iconColor: '#9CA3AF'
                 }).then((result) => {
                    if (result.isConfirmed) {
                       window.location.reload();
@@ -114,7 +114,7 @@ $serviceData = json_decode($service->content(), true);
                 title: 'Done',
                 text: response.message,
                 icon: 'success',
-                iconColor: '#5F60B9'
+                iconColor: '#9CA3AF'
                 }).then((result) => {
                    if (result.isConfirmed) {
                       window.location.reload();

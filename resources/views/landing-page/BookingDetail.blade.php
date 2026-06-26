@@ -42,7 +42,7 @@
                             <!-- Check if serviceType is exactly 'free' -->
                             <span class="d-flex gap-3">
                                 <span class="d-inline-block"
-                                    style="color: #5F60B9; font-weight: bold; font-size: 18px;">
+                                    style="color: #9CA3AF; font-weight: bold; font-size: 18px;">
                                     {{ __('landingpage.free') }} <!-- Display "Free" if service type is 'free' -->
                                 </span>
                             </span>
@@ -1504,7 +1504,7 @@
                     title: 'Done',
                     text: data.message,
                     icon: 'success',
-                    iconColor: '#5F60B9'
+                    iconColor: '#9CA3AF'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         IsLoading = false;
@@ -1602,7 +1602,7 @@
             text: 'Do you want to end this service?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#5F60B9',
+            confirmButtonColor: '#9CA3AF',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes',
             cancelButtonText: 'No'

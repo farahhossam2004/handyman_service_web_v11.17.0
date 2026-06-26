@@ -149,7 +149,7 @@ console.log(responseData);
               title: 'Error',
               text: 'check Your Stripe key Integration !',
               icon: 'error',
-              iconColor: '#5F60B9'
+              iconColor: '#9CA3AF'
             }).then((result) => {
     
             })
@@ -164,7 +164,7 @@ console.log(responseData);
               title: 'Error',
               text: 'Something Went Wrong!',
               icon: 'error',
-              iconColor: '#5F60B9'
+              iconColor: '#9CA3AF'
             }).then((result) => {
     
             })
@@ -195,7 +195,7 @@ const res= await fetch(GET_WALLET_STRIPE_PAYMENT_URL, {
                title:'Error',
                text: responseData.message,
                icon: 'error', 
-               iconColor: '#5F60B9'
+               iconColor: '#9CA3AF'
              }).then((result) => {
      
              })
@@ -210,7 +210,7 @@ const res= await fetch(GET_WALLET_STRIPE_PAYMENT_URL, {
             title: 'Error',
             text: 'Something Went Wrong!',
             icon: 'error',
-            iconColor: '#5F60B9'
+            iconColor: '#9CA3AF'
           }).then((result) => {
   
           })

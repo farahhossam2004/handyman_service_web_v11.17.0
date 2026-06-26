@@ -147,7 +147,7 @@
                                         <div class="card-body">
                                             <p class="opacity-75 fz-12">{{ __('messages.service_type') }}</p>
                                             <p class="opacity-75 fz-12"
-                                                style="color: #5F60B9; font-weight: bold; font-size: 18px;">
+                                                style="color: #9CA3AF; font-weight: bold; font-size: 18px;">
                                                 {{ __('landingpage.free') }}</p>
                                             <!-- Display "Free" if serviceType is 'free' -->
                                         </div>

@@ -132,7 +132,7 @@ const saveFavourite = async(values) => {
                 title: 'Done',
                 text: responseData.message,
                 icon: 'success',
-                iconColor: '#5F60B9'
+                iconColor: '#9CA3AF'
             });
         }
       } catch (error) {
@@ -163,7 +163,7 @@ const deleteFavourite = async(values) => {
             title: 'Done',
             text: responseData.message,
             icon: 'success',
-            iconColor: '#5F60B9'
+            iconColor: '#9CA3AF'
          });
       }
    } catch (error) {

@@ -291,7 +291,7 @@
             title: 'Error',
             text: 'Please enter an email address',
             icon: 'error',
-            iconColor: '#5F60B9'
+            iconColor: '#9CA3AF'
         });
         return;
     }
@@ -300,7 +300,7 @@
                 title: 'Error',
                 text: 'Invalid email address',
                 icon: 'error',
-                iconColor: '#5F60B9'
+                iconColor: '#9CA3AF'
             });
             return;
         }
@@ -317,7 +317,7 @@
                title: 'Done',
                text: response.message,
                icon: 'success',
-               iconColor: '#5F60B9'
+               iconColor: '#9CA3AF'
                }).then((result) => {
                   if (result.isConfirmed) {
                      document.getElementById('email').value = '';
@@ -330,7 +330,7 @@
                 title: 'Error',
                 text: 'Something Went Wrong!',
                 icon: 'error',
-                iconColor: '#5F60B9'
+                iconColor: '#9CA3AF'
                 }).then((result) => {
 
                 });

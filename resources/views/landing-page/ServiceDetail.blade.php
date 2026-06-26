@@ -931,7 +931,7 @@
                             title: 'Done',
                             text: response.message,
                             icon: 'success',
-                            iconColor: '#5F60B9'
+                            iconColor: '#9CA3AF'
                         });
                     },
                     error: function(error) {
@@ -961,7 +961,7 @@
                             title: 'Done',
                             text: response.message,
                             icon: 'success',
-                            iconColor: '#5F60B9'
+                            iconColor: '#9CA3AF'
                         });
                     },
                     error: function(error) {

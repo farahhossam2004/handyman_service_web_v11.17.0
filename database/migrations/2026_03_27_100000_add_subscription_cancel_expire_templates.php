@@ -127,7 +127,7 @@ return new class extends Migration
                 'mail_subject' => 'Forgot Password',
                 'mail_template_detail' => '<p>Hello [[ user_name ]],</p>'
                     . '<p>You are receiving this email because we received a password reset request for your account.</p>'
-                    . '<p><a href="[[ reset_link ]]" style="display:inline-block;padding:12px 24px;background:#5F60B9;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:600;">Reset Password</a></p>'
+                    . '<p><a href="[[ reset_link ]]" style="display:inline-block;padding:12px 24px;background:#9CA3AF;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:600;">Reset Password</a></p>'
                     . '<p>This password reset link will expire in 60 minutes.</p>'
                     . '<p>If you did not request a password reset, no further action is required.</p>'
                     . '<p>If you’re having trouble clicking the button, copy and paste the URL below into your web browser:<br><a href="[[ reset_link ]]">[[ reset_link ]]</a></p>'

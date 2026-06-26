@@ -119,7 +119,7 @@ const formSubmit = handleSubmit(async(values) => {
             title: 'Done',
             text: responseData.message,
             icon: 'success',
-            iconColor: '#5F60B9'
+            iconColor: '#9CA3AF'
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.reload();
@@ -170,7 +170,7 @@ const deleteRating = async(id) =>{
             title: 'Done',
             text: responseData.message,
             icon: 'success',
-            iconColor: '#5F60B9'
+            iconColor: '#9CA3AF'
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.reload();

@@ -20,7 +20,7 @@ class Setting extends Model implements  HasMedia
 
     // Define default theme colors
     const DEFAULT_COLORS = [
-        'primary_color' => '#5F60B9',
+        'primary_color' => '#9CA3AF',
         'secondary_color' => '#8F9FBC'
     ];
 

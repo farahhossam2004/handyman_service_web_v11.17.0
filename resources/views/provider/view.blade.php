@@ -166,7 +166,7 @@
                 text: message,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#5F60B9',
+                confirmButtonColor: '#9CA3AF',
                 cancelButtonColor: '#858482',
                 confirmButtonText: '{{ __("messages.yes") }}',
                 cancelButtonText: '{{ __("messages.no") }}'

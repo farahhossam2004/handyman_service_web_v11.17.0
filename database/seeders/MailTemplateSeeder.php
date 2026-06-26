@@ -1408,7 +1408,7 @@ class MailTemplateSeeder extends Seeder
 
         $forgotPasswordMailBody = '<p>Hello [[ user_name ]],</p>'
             . '<p>You are receiving this email because we received a password reset request for your account.</p>'
-            . '<p><a href="[[ reset_link ]]" style="display:inline-block;padding:12px 24px;background:#5F60B9;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:600;">Forgot Password</a></p>'
+            . '<p><a href="[[ reset_link ]]" style="display:inline-block;padding:12px 24px;background:#9CA3AF;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:600;">Forgot Password</a></p>'
             . '<p>This password reset link will expire in 60 minutes.</p>'
             . '<p>If you did not request a password reset, no further action is required.</p>'
             . '<p>If you’re having trouble clicking the button, copy and paste the URL below into your web browser:<br><a href="[[ reset_link ]]">[[ reset_link ]]</a></p>'
@@ -1727,7 +1727,7 @@ class MailTemplateSeeder extends Seeder
             'user_type' => 'user',
             'status' => 1,
             'subject' => 'Email verification',
-            'template_detail' => '<p>Hello <strong>[[ user_name ]]</strong>,</p><p>Welcome! We\'re glad to have you with us.</p><p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p><div style="text-align:center; margin:30px 0;"><a href="[[ verification_link ]]" style="background:#5f60b9; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a></div><p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p><p>Best regards,<br>The [[ company_name ]] Team</p>',
+            'template_detail' => '<p>Hello <strong>[[ user_name ]]</strong>,</p><p>Welcome! We\'re glad to have you with us.</p><p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p><div style="text-align:center; margin:30px 0;"><a href="[[ verification_link ]]" style="background:#9CA3AF; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a></div><p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p><p>Best regards,<br>The [[ company_name ]] Team</p>',
         ]);
         $template->defaultMailTemplateMap()->create([
             'language' => 'en',
@@ -1736,7 +1736,7 @@ class MailTemplateSeeder extends Seeder
             'user_type' => 'provider',
             'status' => 1,
             'subject' => 'Email verification',
-            'template_detail' => '<p>Hello <strong>[[ user_name ]]</strong>,</p><p>Welcome! We\'re glad to have you with us.</p><p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p><div style="text-align:center; margin:30px 0;"><a href="[[ verification_link ]]" style="background:#5f60b9; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a></div><p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p><p>Best regards,<br>The [[ company_name ]] Team</p>',
+            'template_detail' => '<p>Hello <strong>[[ user_name ]]</strong>,</p><p>Welcome! We\'re glad to have you with us.</p><p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p><div style="text-align:center; margin:30px 0;"><a href="[[ verification_link ]]" style="background:#9CA3AF; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a></div><p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p><p>Best regards,<br>The [[ company_name ]] Team</p>',
         ]);
         $template->defaultMailTemplateMap()->create([
             'language' => 'en',
@@ -1745,7 +1745,7 @@ class MailTemplateSeeder extends Seeder
             'user_type' => 'handyman',
             'status' => 1,
             'subject' => 'Email verification',
-            'template_detail' => '<p>Hello <strong>[[ user_name ]]</strong>,</p><p>Welcome! We\'re glad to have you with us.</p><p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p><div style="text-align:center; margin:30px 0;"><a href="[[ verification_link ]]" style="background:#5f60b9; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a></div><p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p><p>Best regards,<br>The [[ company_name ]] Team</p>',
+            'template_detail' => '<p>Hello <strong>[[ user_name ]]</strong>,</p><p>Welcome! We\'re glad to have you with us.</p><p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p><div style="text-align:center; margin:30px 0;"><a href="[[ verification_link ]]" style="background:#9CA3AF; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a></div><p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p><p>Best regards,<br>The [[ company_name ]] Team</p>',
         ]);
 
 

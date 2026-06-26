@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         btn.removeClass('save_fav').addClass('delete_fav');
                         btn.find('svg').attr('fill', 'currentColor');
                         if (typeof Swal !== 'undefined') {
-                            Swal.fire({ title: 'Done', text: response.message, icon: 'success', iconColor: '#5F60B9' });
+                            Swal.fire({ title: 'Done', text: response.message, icon: 'success', iconColor: '#9CA3AF' });
                         }
                     },
                     error: function(xhr) { console.error('Error:', xhr); }
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             btn.find('svg').attr('fill', 'none');
                         }
                         if (typeof Swal !== 'undefined') {
-                            Swal.fire({ title: 'Done', text: response.message, icon: 'success', iconColor: '#5F60B9' });
+                            Swal.fire({ title: 'Done', text: response.message, icon: 'success', iconColor: '#9CA3AF' });
                         }
                     },
                     error: function(xhr) {

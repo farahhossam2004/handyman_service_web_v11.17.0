@@ -239,7 +239,7 @@
                         title: 'Done',
                         text: response.message,
                         icon: 'success',
-                        iconColor: '#5F60B9'
+                        iconColor: '#9CA3AF'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             setLoading(button, false);
@@ -275,7 +275,7 @@
                         title: 'Done',
                         text: response.message,
                         icon: 'success',
-                        iconColor: '#5F60B9'
+                        iconColor: '#9CA3AF'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             setLoading(button, false);

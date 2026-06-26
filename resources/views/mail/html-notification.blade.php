@@ -10,7 +10,7 @@
         .wrapper { width: 100%; background-color: #f4f6fb; padding: 40px 0; }
         .content { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         .body-cell { padding: 28px 32px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #4b5563; }
-        .body-cell a { color: #5f60b9; }
+        .body-cell a { color: #9CA3AF; }
         .footer-cell { padding: 16px 32px; text-align: center; font-size: 12px; color: #6b7280; font-family: Arial, sans-serif; border-top: 1px solid #e5e7eb; border-radius: 0 0 8px 8px; }
         .title-text { margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #111827; font-family: Arial, sans-serif; text-align: center; }
     </style>

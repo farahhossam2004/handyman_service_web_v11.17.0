@@ -6,10 +6,10 @@ export const confirmSwal = async ({title}) => {
         title: title,
         icon: 'success',
         showCancelButton: true,
-        confirmButtonColor: '#5F60B9',
+        confirmButtonColor: '#9CA3AF',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Confirm',
-        iconColor: '#5F60B9'
+        iconColor: '#9CA3AF'
       }).then((result) => {
         return result
       })
@@ -22,10 +22,10 @@ export const confirmcancleSwal = async ({title,subtitle,text}) => {
         html: text,
         icon: 'success',
         showCancelButton: true,
-        confirmButtonColor: '#5F60B9',
+        confirmButtonColor: '#9CA3AF',
         cancelButtonColor: '#858482',
         confirmButtonText: 'Confirm',
-        iconColor: '#5F60B9'
+        iconColor: '#9CA3AF'
       }).then((result) => {
         return result
       })
@@ -36,10 +36,10 @@ export const confirmcancleWallet = async ({title}) => {
       title: title,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#5F60B9',
+      confirmButtonColor: '#9CA3AF',
       cancelButtonColor: '#858482',
       confirmButtonText: 'Confirm',
-      iconColor: '#5F60B9'
+      iconColor: '#9CA3AF'
     }).then((result) => {
       return result
     })

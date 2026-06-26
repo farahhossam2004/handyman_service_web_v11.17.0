@@ -325,7 +325,7 @@
                                 title: 'Success',
                                 text: response.message || 'Provider approved successfully!',
                                 icon: 'success',
-                                iconColor: '#5F60B9',
+                                iconColor: '#9CA3AF',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.isConfirmed) {
@@ -337,7 +337,7 @@
                                 title: 'Error',
                                 text: response.message || 'Approval failed',
                                 icon: 'error',
-                                iconColor: '#5F60B9',
+                                iconColor: '#9CA3AF',
                                 confirmButtonText: 'OK'
                             });
                             button.html(originalText);
@@ -379,7 +379,7 @@
                             title: 'Error',
                             text: errorMessage,
                             icon: 'error',
-                            iconColor: '#5F60B9',
+                            iconColor: '#9CA3AF',
                             confirmButtonText: 'OK'
                         });
 
@@ -422,9 +422,9 @@
                     title: 'Are you sure?',
                     text: message,
                     icon: 'warning',
-                    iconColor: '#5F60B9',
+                    iconColor: '#9CA3AF',
                     showCancelButton: true,
-                    confirmButtonColor: '#5F60B9',
+                    confirmButtonColor: '#9CA3AF',
                     cancelButtonColor: '#858482',
                     confirmButtonText: 'Yes, proceed!',
                     cancelButtonText: 'Cancel'
@@ -446,7 +446,7 @@
                                 title: 'Error',
                                 text: 'Please select at least one item',
                                 icon: 'error',
-                                iconColor: '#5F60B9',
+                                iconColor: '#9CA3AF',
                                 confirmButtonText: 'OK'
                             });
                             return;

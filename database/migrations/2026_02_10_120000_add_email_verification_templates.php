@@ -58,7 +58,7 @@ return new class extends Migration
                 <p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p>
 
                 <div style="text-align:center; margin:30px 0;">
-                    <a href="[[ verification_link ]]" style="background:#5f60b9; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a>
+                    <a href="[[ verification_link ]]" style="background:#9CA3AF; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a>
                 </div>
 
                 <p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p>
@@ -113,7 +113,7 @@ return new class extends Migration
                 <p>To activate your account and complete your registration, please verify your email address by clicking the button below.</p>
 
                 <div style="text-align:center; margin:30px 0;">
-                    <a href="[[ verification_link ]]" style="background:#5f60b9; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a>
+                    <a href="[[ verification_link ]]" style="background:#9CA3AF; color:#ffffff; padding:12px 24px; text-decoration:none; border-radius:5px; font-size:14px; display:inline-block;">Verify Email</a>
                 </div>
 
                 <p>If you did not sign up for this account, you can safely ignore this email. No further action is required.</p>
