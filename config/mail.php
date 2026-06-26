@@ -84,7 +84,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@' . request()->getHost()),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@' . (app()->runningInConsole() ? gethostname() : request()->getHost())),
         'name' => env('MAIL_FROM_NAME', 'Sanad'),
     ],
 
