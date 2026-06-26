@@ -257,8 +257,8 @@ use Lavary\Menu\Menu;
 <div class="iq-sidebar sidebar-default">
     <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
         <a href="{{ route('home') }}" class="header-logo">
-            <img src="{{ getSingleMedia(imageSession('get'),'logo',null) }}" class="img-fluid rounded-normal light-logo site_logo_preview" alt="logo">
-            <img src="{{ getSingleMedia(imageSession('get'),'logo',null) }}" class="img-fluid rounded-normal darkmode-logo site_logo_preview" alt="logo">
+            <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid rounded-normal light-logo site_logo_preview" alt="logo">
+            <img src="{{ asset('landing-images/whitelogo.png') }}" class="img-fluid rounded-normal darkmode-logo site_logo_preview" alt="logo">
             <span class="white-space-no-wrap">{{ ucfirst(str_replace("_"," ",auth()->user()->user_type)) }}</span>
         </a>
         <div class="side-menu-bt-sidebar-1">

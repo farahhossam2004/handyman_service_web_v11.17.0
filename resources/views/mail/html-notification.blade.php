@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ config('app.name') }}</title>
+    <title>Sanad Dashboard | سند</title>
     <style>
         body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; }
         table { border-collapse: collapse; }
@@ -19,7 +19,7 @@
     <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
             <td align="center">
-                <p class="title-text" style="margin-top: 15px;">{{ config('app.name') }}</p>
+                <p class="title-text" style="margin-top: 15px;">Sanad Dashboard | سند</p>
                 <table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
                         <td class="body-cell">

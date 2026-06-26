@@ -78,7 +78,7 @@
                 </div>
                 <div class="single-msg-content">
                     <div class="msg-detail">
-                    <span>Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                    <span>{{ __('messages.no_messages_yet') }}</span>
                     </div>
                     <div class="msg-action">
                     <span>04:15</span>

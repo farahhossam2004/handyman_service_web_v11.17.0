@@ -20,7 +20,7 @@ class BanksTableSeeder extends Seeder
         $data = [
             [
                 'aadhar_no' => '4584785478547965',
-                'account_no' => '1234567890',
+                'account_no' => '4584785478547965',
                 'bank_name' => 'ITB Bank',
                 'branch_name' => 'North Battleford, SK, Canada',
                 'created_at' => '2023-10-12 07:17:52',

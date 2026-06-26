@@ -107,25 +107,7 @@
                                     <div class="text-center">
                                         <a href="{{route('auth.register')}}" class="btn-link p-0 text-capitalize">{{__('landingpage.handyman_provider_register')}}</a>
                                     </div>
-                                    <div class="mt-5">
-                                        {{-- <h6 class="mb-3 text-capitalize text-center">{{__('landingpage.demo_accounts')}}</h6> --}}
-                                        {{--  <div class="px-5 py-3 bg-primary">
-                                            <ul class="iq-social-list-text d-flex align-items-center justify-content-center flex-wrap m-0 list-inline">
-                                            <li class="me-3 pe-3">
-                                                    <a href="{{ route('auth.login') }}" class="text-capitalize text-white">{{__('landingpage.admin_login')}}</a>
-                                                </li>
-                                                <li class="me-3 pe-3">
-                                                    <a href="{{ route('auth.login', ['email' => 'demo@provider.com', 'password' => '12345678']) }}" class="text-capitalize text-white">{{__('messages.provider')}}</a>
-                                                </li>
-                                                <li class="me-3 pe-3">
-                                                    <a href="{{ route('auth.login', ['email' => 'demo@handyman.com', 'password' => '12345678']) }}" class="text-capitalize text-white">{{__('messages.handyman')}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ route('auth.login', ['email' => 'demo@user.com', 'password' => '12345678']) }}" class="text-capitalize text-white">{{__('landingpage.user')}}</a>
-                                                </li>
-                                            </ul>
-                                        </div>--}}
-                                    </div>
+                                    <div class="mt-5"></div>
                                 </div>
                             </div>
                         </div>

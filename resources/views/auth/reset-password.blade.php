@@ -6,7 +6,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="auth-logo">
-                                <img src="{{ getSingleMedia(imageSession('get'),'logo',null) }}" class="img-fluid rounded-normal" alt="logo">
+                                <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid rounded-normal" alt="logo">
                             </div>
                             <h2 class="mb-2 text-center">{{ __('auth.reset_password') }}</h2>
                             <p>{{ __('messages.reset_password_info') }}</p>

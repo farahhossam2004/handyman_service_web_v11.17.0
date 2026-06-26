@@ -6,7 +6,7 @@
             <div>
                 <small>Project > List</small>
                 <h5>{{ $title }}</h5>
-                <p class="text-ellipsis short-1 mb-0 mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p class="text-ellipsis short-1 mb-0 mt-1">{{ __('messages.no_description') }}</p>
             </div>
             <div>
                 <div class="rounded">

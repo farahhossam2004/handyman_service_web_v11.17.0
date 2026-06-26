@@ -27,7 +27,7 @@ class Installer extends BaseModel
     protected function getFeatureImageAttribute()
     {
         $media = $this->getFirstMediaUrl('feature_image');
-        return isset($media) && ! empty($media) ? $media : 'https://dummyimage.com/600x300/cfcfcf/000000.png';
+        return isset($media) && ! empty($media) ? $media : asset('images/default.jpg');
     }
 
 }

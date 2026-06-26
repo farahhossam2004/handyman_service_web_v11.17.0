@@ -1515,14 +1515,13 @@
 <div class="iq-sidebar sidebar-default">
     <div class="iq-sidebar-logo">
         <a href="{{ route('home') }}" class="header-logo">
-            <img src="{{ getSingleMedia(imageSession('get'), 'logo', null) }}"
-                class="img-fluid rounded-normal light-logo site_logo_preview d-none site-logo" alt="logo">
-            <img src="{{ getSingleMedia(imageSession('get'), 'logo', null) }}"
-                class="img-fluid rounded-normal darkmode-logo site_logo_preview" alt="logo">
-            <span class="white-space-no-wrap">{{ ucfirst(str_replace('_', ' ', auth()->user()->user_type)) }}</span>
+            <img src="{{ asset('landing-images/greylogo.png') }}"
+                class="img-fluid light-logo site_logo_preview d-none site-logo" alt="logo" style="max-height: 36px;">
+            <img src="{{ asset('landing-images/whitelogo.png') }}"
+                class="img-fluid darkmode-logo site_logo_preview" alt="logo" style="max-height: 36px;">
         </a>
         <div class="side-menu-bt-sidebar-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none"
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="24" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -1531,7 +1530,7 @@
     <div class="side-menu-bt-sidebar wide-device-toggle">
         <span class="iq-toggle-arrow">
             <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon arrow-active wrapper-menu" height="14"
-                width="15" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                width="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
         </span>
@@ -1539,49 +1538,17 @@
     <div class="data-scrollbar" data-scroll="1">
         <div class="user-profile">
             <div class="avatar">
-                <img class="avatar-50 rounded-circle bg-light" alt="user-icon"
+                <img class="avatar-50" alt="user-icon"
                     src="{{ getSingleMedia(auth()->user(), 'profile_image', null) }}">
             </div>
             <div class="user-info">
-                <h5 class="user-email">{{ optional(auth()->user())->email ?? '--' }}</h5>
-                <span class="user-name">
+                <small class="text-white-50">{{ optional(auth()->user())->email ?? '--' }}</small>
+                <h6 class="user-name text-white mb-0">
                     {{ optional(auth()->user())->first_name ?? '--' }}
                     {{ optional(auth()->user())->last_name ?? '--' }}
-                </span>
+                </h6>
             </div>
         </div>
-
-         <!-- Commission Earnings Section -->
-         <div class="commission-earnings" style="padding-left: 40px;">
-            @php
-                // Check if the logged-in user has the 'provider' role
-                $isProvider = auth()->user()->hasRole('provider');
-            @endphp
-
-            @if($isProvider)
-                @php
-                    // Fetch the latest commission earning for the logged-in user
-                    $user = auth()->user();
-                    $provider_type = $user->providertype; // Assuming 'provider_type' is a column in the users table
-                @endphp
-
-                @if($provider_type)
-                    <div class="commission-info mt-3">
-                        <!-- Display commission amount -->
-                        <p><strong>Commission Value:</strong> {{ $provider_type->type == 'percent' ? $provider_type->commission. '%' : getPriceFormat($provider_type->commission ?? 0) }}</p>
-
-                        <p><strong>Commission Type:</strong> {{ ucfirst($provider_type->type ?? 'percent') }}</p>
-                    </div>
-                @else
-                    <div class="commission-info mt-3">
-                        <!-- No commission data for the provider -->
-                        <p>No commission amount and earning type available.</p>
-                    </div>
-                @endif
-            @endif
-        </div>
-
-
 
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="side-menu">

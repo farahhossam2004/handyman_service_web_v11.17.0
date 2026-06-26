@@ -7,7 +7,7 @@
                     <div class="card-body">
                        <div class="row align-items-center">
                           <div class="col-lg-12 text-center">
-                             <img src="{{ getSingleMedia(imageSession('get'),'logo',null) }}" class="img-fluid" width="80" alt="">
+                             <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid" width="80" alt="">
                              <h2 class="mt-3 mb-0">Success !</h2>
                              @if (session('status') == 'verification-link-sent')
                                 <div class="alert alert-success">

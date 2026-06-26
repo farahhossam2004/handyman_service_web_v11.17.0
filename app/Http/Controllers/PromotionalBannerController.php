@@ -309,7 +309,7 @@ class PromotionalBannerController extends Controller
             'key' => $gatewayData['razor_key'],
             'amount' => $banner->total_amount * 100,
             'currency' => 'INR',
-            'name' => config('app.name'),
+            'name' => 'Sanad',
             'description' => $banner->title,
             'order_id' => null,
             'banner_id' => $banner->id,

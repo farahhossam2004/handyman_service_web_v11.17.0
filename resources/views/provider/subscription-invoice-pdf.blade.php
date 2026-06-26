@@ -146,34 +146,11 @@
     <div class="header clearfix">
         <div class="logo-section">
             @php
-                // Get logo from theme-setup using Spatie Media Library (collection name is 'logo')
-                $logoMedia = null;
-                if ($themeSetup) {
-                    $logoMedia = $themeSetup->getFirstMedia('logo');
-                }
-                
-                $logoDisplayed = false;
-                
-                // Try to display the logo from media library
-                if ($logoMedia && file_exists($logoMedia->getPath())) {
-                    try {
-                        $imageData = base64_encode(file_get_contents($logoMedia->getPath()));
-                        $mimeType = $logoMedia->mime_type ?? 'image/png';
-                        echo '<img src="data:' . $mimeType . ';base64,' . $imageData . '" style="height: 32px; width: auto; max-width: 100px; vertical-align: middle; margin-right: 10px;">';
-                        $logoDisplayed = true;
-                    } catch (\Exception $e) {
-                        // Continue to fallback
-                    }
-                }
-                
-                // Fallback to default logo if custom logo not found
-                if (!$logoDisplayed) {
-                    $defaultLogoPath = public_path('images/logo.png');
-                    if (file_exists($defaultLogoPath)) {
-                        $imageData = base64_encode(file_get_contents($defaultLogoPath));
-                        $mimeType = 'image/png';
-                        echo '<img src="data:' . $mimeType . ';base64,' . $imageData . '" style="height: 32px; width: auto; max-width: 100px; vertical-align: middle; margin-right: 10px;">';
-                    }
+                // Use static grey logo for PDF header
+                $greyLogoPath = public_path('landing-images/greylogo.png');
+                if (file_exists($greyLogoPath)) {
+                    $imageData = base64_encode(file_get_contents($greyLogoPath));
+                    echo '<img src="data:image/png;base64,' . $imageData . '" style="height: 32px; width: auto; max-width: 100px; vertical-align: middle; margin-right: 10px;">';
                 }
             @endphp
             <span style="font-size: 16px; font-weight: 600; vertical-align: middle;">{{ $siteName }}</span>

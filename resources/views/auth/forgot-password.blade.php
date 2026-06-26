@@ -7,7 +7,7 @@
                     <div class="card-body">
                        <div class="auth-logo">
                            <a href="{{route('frontend.index')}}">
-                              <img src="{{ getSingleMedia(imageSession('get'),'logo',null) }}" class="img-fluid rounded-normal" alt="logo">
+                              <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid rounded-normal" alt="logo">
                            </a>
                        </div>
                        <h3 class="mb-3 text-center">{{__('auth.reset_password')}}</h3>

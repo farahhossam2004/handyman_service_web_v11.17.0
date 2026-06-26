@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>{{ config('app.name') }}</title>
+    <title>Sanad Dashboard | سند</title>
 </head>
 <style type="text/css">
     :root {

@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="baseUrl" content="{{ config('app.url') }}" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Sanad Dashboard | سند</title>
 
     <!-- Scripts -->
 

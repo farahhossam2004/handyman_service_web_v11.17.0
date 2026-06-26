@@ -53,7 +53,7 @@
 
     <title>{{ $pageTitle ?? 'Default Title' }}</title> --}}
 
-    <title>{{ $pageTitle ?? 'Default Title' }}</title>
+    <title>{{ $pageTitle ?? 'Sanad Dashboard' }} | سند</title>
 
 
     <script>

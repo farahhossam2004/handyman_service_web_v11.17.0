@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <div class="row pb-4 mx-0 card-header-border">
                             <div class="col-lg-12 mb-3">
-                                <img class="avatar avatar-50 is-squared" src="{{asset('images/logodemo/02-blue.png')}}">
+                                <img class="avatar avatar-50 is-squared" src="{{asset('landing-images/greylogo.png')}}">
                             </div>
                             <div class="col-lg-6">
                                 <div class="text-left">

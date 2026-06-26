@@ -1,25 +1,24 @@
 <div class="iq-top-navbar">
     <div class="iq-navbar-custom">
         <nav class="navbar navbar-expand-lg navbar-light p-0">
-            <div class="side-menu-bt-sidebar small-device-toggle">
-                <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </div>
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <div class="side-menu-bt-sidebar small-device-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary wrapper-menu" width="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </div>
                 <div class="change-mode">
                     <div class="custom-control custom-switch custom-switch-icon custom-control-inline">
                         <div class="custom-switch-inner">
-                            <p class="mb-0"> </p>
                             <input type="checkbox" class="custom-control-input" id="dark-mode" data-active="true">
-                            <label class="custom-control-label" for="dark-mode" data-mode="toggle">
+                            <label class="custom-control-label" for="dark-mode" data-mode="toggle" style="cursor: pointer;">
                                 <span class="switch-icon-left">
-                                    <svg class="svg-icon" id="h-sun" height="20" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg class="svg-icon" id="h-sun" height="18" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
                                 </span>
                                 <span class="switch-icon-right">
-                                    <svg class="svg-icon" id="h-moon" height="20" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg class="svg-icon" id="h-moon" height="18" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                                     </svg>
                                 </span>
@@ -27,17 +26,18 @@
                         </div>
                     </div>
                 </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-list align-items-center">
                         @if(auth()->user()->hasAnyRole(['admin', 'demo_admin']))
                             <li class="nav-item dropdown iq-dropdown">
                                 <a class="search-toggle nav-link shortcut-toogle" data-bs-toggle="dropdown" href="#" aria-expanded="true">
-                                    <div class="d-flex align-items-center gap-3 btn btn-warning px-2 py-1">
+                                    <div class="d-flex align-items-center gap-3 px-2 py-1" style="background: rgba(212, 175, 55, 0.12); border-radius: 8px; color: #D4AF37;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,176,128Z"/></svg>
                                     </div>
                                 </a>
@@ -165,20 +165,78 @@
                         </li>
 
                         <li class="nav-item nav-icon dropdown">
-                            <a href="#" class="nav-item nav-icon dropdown-toggle search-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ getSingleMedia(auth()->user(),'profile_image') }}" class="img-fluid avatar-rounded bg-light" alt="user">
-                                <span class="mb-0  user-name">{{ auth()->user()->first_name." ".auth()->user()->last_name }}</span>
+                            <a href="#" class="nav-item nav-icon dropdown-toggle search-toggle d-flex align-items-center gap-2" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ getSingleMedia(auth()->user(),'profile_image') }}" class="img-fluid avatar-50" alt="user" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+                                <span class="d-none d-md-inline user-name fw-medium" style="font-size: 0.875rem;">{{ auth()->user()->first_name." ".auth()->user()->last_name }}</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end user-dropdown shadow" aria-labelledby="dropdownMenuButton">
+                            <ul class="dropdown-menu dropdown-menu-end user-dropdown" aria-labelledby="dropdownMenuButton">
                                 <li class="dropdown-item d-flex svg-icon">
-                                    {{-- <svg class="svg-icon me-0 text-secondary" id="h-01-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg> --}}
-                                    <svg class="svg-icon me-0 text-secondary" id="h-01-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg class="svg-icon me-3" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
                                     </svg>
                                     <a href="{{ route('frontend.index') }}">{{ __('messages.home') }}</a>
                                 </li>
+                                <li class="dropdown-item d-flex svg-icon">
+                                    <svg class="svg-icon me-3" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <a href="{{ route('setting.index',['page' => 'profile_form']) }}">{{ __('messages.my_profile') }}</a>
+                                </li>
+                                @role('provider')
+                                <li class="dropdown-item d-flex svg-icon">
+                                    <svg class="svg-icon me-3" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <a href="{{ route('provider_info', ['id' => auth()->id()]) }}">{{ __('messages.my_info') }}</a>
+                                </li>
+                                @endrole
+                                @role('handyman')
+                                <li class="dropdown-item d-flex svg-icon">
+                                    <svg class="svg-icon me-3" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <a href="{{ route('handyman.detail', ['id' => auth()->id()]) }}">{{ __('messages.my_info') }}</a>
+                                </li>
+                                @endrole
+                                @role('provider')
+                                @if(default_earning_type() === 'subscription')
+                                    @php
+                                        $hasSubscription = \App\Models\ProviderSubscription::where('user_id', auth()->user()->id)->exists();
+                                    @endphp
+                                    @if($hasSubscription)
+                                    <li class="dropdown-item d-flex svg-icon">
+                                        <svg class="svg-icon me-3" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path d="M3 10H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M15 6L17 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                            <path d="M21 13V11C21 7.22876 21 5.34315 19.7595 4.17157C18.519 3 16.5225 3 12.5294 3H11.4706C7.47751 3 5.48098 3 4.24049 4.17157C3 5.34315 3 7.22876 3 11V13C3 16.7712 3 18.6569 4.24049 19.8284C5.48098 21 7.47752 21 11.4706 21H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                            <path d="M17.5 17.5L17.5 22M17.5 22L15.5 20M17.5 22L19.5 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <a href="{{ route('provider.my-billing') }}">{{ __('messages.my_billing') }}</a>
+                                    </li>
+                                    @endif
+                                @endif
+                                @endrole
+                                <li class="dropdown-item d-flex svg-icon">
+                                    <svg class="svg-icon me-3" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    <a href="{{  route('setting.index') }}">{{ __('messages.Settings') }}</a>
+                                </li>
+                                <li class="dropdown-item d-flex svg-icon border-top mt-1 pt-2">
+                                    <form method="POST" class="d-flex align-items-center w-100" action="{{ route('logout') }}">
+                                        @csrf
+                                        <svg class="svg-icon me-3" width="18" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="flex-shrink: 0;">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                        </svg>
+                                        <a class="logout-link" href="javascript:void(0)" onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                                            {{ __('messages.log_out') }}
+                                        </a>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
                                 <li class="dropdown-item d-flex svg-icon">
                                     <svg class="svg-icon me-0 text-secondary" id="h-01-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

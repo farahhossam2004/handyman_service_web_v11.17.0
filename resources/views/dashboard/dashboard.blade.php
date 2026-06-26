@@ -19,32 +19,32 @@
             <div class="col-md-12">
                 @php
                 $sandCards = [
-                    ['title' => __('messages.total_inspection_requests'), 'value' => $data['dashboard']['count_total_inspection_requests'] ?? 0, 'icon' => 'fas fa-search', 'color' => 'bg-primary'],
-                    ['title' => __('messages.pending_quotes'), 'value' => $data['dashboard']['count_pending_quotes'] ?? 0, 'icon' => 'fas fa-file-invoice', 'color' => 'bg-warning'],
-                    ['title' => __('messages.approved_quotes'), 'value' => $data['dashboard']['count_approved_quotes'] ?? 0, 'icon' => 'fas fa-file-invoice-dollar', 'color' => 'bg-success'],
-                    ['title' => __('messages.active_orders'), 'value' => $data['dashboard']['count_active_orders'] ?? 0, 'icon' => 'fas fa-briefcase', 'color' => 'bg-info'],
-                    ['title' => __('messages.completed_orders'), 'value' => $data['dashboard']['count_completed_orders'] ?? 0, 'icon' => 'fas fa-check-circle', 'color' => 'bg-success'],
-                    ['title' => __('messages.cancelled_orders'), 'value' => $data['dashboard']['count_cancelled_orders'] ?? 0, 'icon' => 'fas fa-times-circle', 'color' => 'bg-danger'],
-                    ['title' => __('messages.held_payments'), 'value' => $data['dashboard']['count_held_payments'] ?? 0, 'icon' => 'fas fa-lock', 'color' => 'bg-warning'],
-                    ['title' => __('messages.released_payments'), 'value' => $data['dashboard']['count_released_payments'] ?? 0, 'icon' => 'fas fa-unlock', 'color' => 'bg-success'],
-                    ['title' => __('messages.refunded_payments'), 'value' => $data['dashboard']['count_refunded_payments'] ?? 0, 'icon' => 'fas fa-undo', 'color' => 'bg-danger'],
-                    ['title' => __('messages.active_providers'), 'value' => $data['dashboard']['count_active_providers'] ?? 0, 'icon' => 'fas fa-users', 'color' => 'bg-primary'],
-                    ['title' => __('messages.elite_technicians'), 'value' => $data['dashboard']['count_elite_technicians'] ?? 0, 'icon' => 'fas fa-medal', 'color' => 'bg-warning'],
-                    ['title' => __('messages.total_platform_revenue'), 'value' => getPriceFormat($data['total_revenue'] ?? 0), 'icon' => 'fas fa-chart-line', 'color' => 'bg-success'],
+                    ['title' => __('messages.total_inspection_requests'), 'value' => $data['dashboard']['count_total_inspection_requests'] ?? 0, 'icon' => 'fas fa-search', 'color' => 'primary'],
+                    ['title' => __('messages.pending_quotes'), 'value' => $data['dashboard']['count_pending_quotes'] ?? 0, 'icon' => 'fas fa-file-invoice', 'color' => 'warning'],
+                    ['title' => __('messages.approved_quotes'), 'value' => $data['dashboard']['count_approved_quotes'] ?? 0, 'icon' => 'fas fa-file-invoice-dollar', 'color' => 'success'],
+                    ['title' => __('messages.active_orders'), 'value' => $data['dashboard']['count_active_orders'] ?? 0, 'icon' => 'fas fa-briefcase', 'color' => 'info'],
+                    ['title' => __('messages.completed_orders'), 'value' => $data['dashboard']['count_completed_orders'] ?? 0, 'icon' => 'fas fa-check-circle', 'color' => 'success'],
+                    ['title' => __('messages.cancelled_orders'), 'value' => $data['dashboard']['count_cancelled_orders'] ?? 0, 'icon' => 'fas fa-times-circle', 'color' => 'danger'],
+                    ['title' => __('messages.held_payments'), 'value' => $data['dashboard']['count_held_payments'] ?? 0, 'icon' => 'fas fa-lock', 'color' => 'warning'],
+                    ['title' => __('messages.released_payments'), 'value' => $data['dashboard']['count_released_payments'] ?? 0, 'icon' => 'fas fa-unlock', 'color' => 'success'],
+                    ['title' => __('messages.refunded_payments'), 'value' => $data['dashboard']['count_refunded_payments'] ?? 0, 'icon' => 'fas fa-undo', 'color' => 'danger'],
+                    ['title' => __('messages.active_providers'), 'value' => $data['dashboard']['count_active_providers'] ?? 0, 'icon' => 'fas fa-users', 'color' => 'primary'],
+                    ['title' => __('messages.elite_technicians'), 'value' => $data['dashboard']['count_elite_technicians'] ?? 0, 'icon' => 'fas fa-medal', 'color' => 'warning'],
+                    ['title' => __('messages.total_platform_revenue'), 'value' => getPriceFormat($data['total_revenue'] ?? 0), 'icon' => 'fas fa-chart-line', 'color' => 'success'],
                 ];
                 @endphp
-                <div class="row">
+                <div class="row g-3">
                     @foreach($sandCards as $card)
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card dashboard-stat-card border-0 h-100">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <p class="mb-0 text-muted">{{ $card['title'] }}</p>
-                                        <h4 class="mb-0 fw-bold">{{ $card['value'] }}</h4>
+                                        <p class="mb-1 text-muted" style="font-size: 0.813rem; font-weight: 500;">{{ $card['title'] }}</p>
+                                        <h3 class="mb-0 fw-bold">{{ $card['value'] }}</h3>
                                     </div>
-                                    <div class="icon-shape rounded-circle {{ $card['color'] }} text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                        <i class="{{ $card['icon'] }} fs-5"></i>
+                                    <div class="icon-shape bg-{{ $card['color'] }} text-white">
+                                        <i class="{{ $card['icon'] }}"></i>
                                     </div>
                                 </div>
                             </div>
@@ -54,11 +54,111 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="card">
+                <div class="card border-0">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap">
-                            <h4 class="">{{__('messages.monthly_revenue')}}</h4>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                            <h4 class="fw-bold mb-0">{{__('messages.monthly_revenue')}}</h4>
                         </div>
+                        <div id="monthly-revenue" class="custom-chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6">
+                <div class="card card-stretch card-height border-0">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">{{ __('messages.recent_provider') }} <span class="text-muted fw-normal">({{$data['dashboard']['count_total_provider']}})</span></h5>
+                        <a href="{{ route('provider.index') }}" class="btn btn-sm btn-outline-primary">{{__('messages.view_all')}}</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="common-list list-unstyled mb-0">
+                            @foreach($data['dashboard']['new_provider'] as $provider)
+                            <li>
+                                <div class="media">
+                                    <div class="h-avatar is-medium flex-shrink-0">
+                                        <img class="avatar-50" alt="user-icon" src="{{ getSingleMedia($provider,'profile_image', null) }}">
+                                    </div>
+                                    <div class="media-body min-w-0">
+                                        <a href="{{ route('provider_info', $provider->id) }}" class="text-decoration-none">
+                                            <h6 class="mb-0 text-truncate">{{ !empty($provider->display_name) ? $provider->display_name : '-' }}</h6>
+                                            <small class="text-muted text-truncate d-block">{{ $provider->email ?? '-' }}</small>
+                                        </a>
+                                        <small class="common-list_rating">
+                                            <i class="ri-star-s-fill"></i>
+                                            {{round($provider->getServiceRating->avg('rating'), 1)}}
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6">
+                <div class="card card-stretch card-height border-0">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">{{ __('messages.recent_customer') }} <span class="text-muted fw-normal">({{$data['dashboard']['count_total_customer']}})</span></h5>
+                        <a href="{{ route('user.index') }}" class="btn btn-sm btn-outline-primary">{{__('messages.view_all')}}</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="common-list list-unstyled mb-0">
+                            @foreach($data['dashboard']['new_customer'] as $customer)
+                            <li>
+                                <div class="media">
+                                    <div class="h-avatar is-medium flex-shrink-0">
+                                        <img class="avatar-50" alt="user-icon" src="{{ getSingleMedia($customer,'profile_image', null) }}">
+                                    </div>
+                                    <div class="media-body min-w-0">
+                                        <h6 class="mb-0 text-truncate">{{!empty($customer->display_name) ? $customer->display_name : '-'}}</h6>
+                                        <small class="text-muted">
+                                            {{
+                                                optional($data['datetime'])->date_format && optional($data['datetime'])->time_format
+                                                ? \Carbon\Carbon::parse($customer->created_at)
+                                                    ->format(optional($data['datetime'])->date_format) .'  '. \Carbon\Carbon::parse($customer->created_at)
+                                                    ->format(optional($data['datetime'])->time_format)
+                                                : ''
+                                            }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-12">
+                <div class="card card-stretch card-height border-0">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">{{__('messages.recent_booking')}} <span class="text-muted fw-normal">({{$data['dashboard']['count_total_booking']}})</span></h5>
+                        <a href="{{ route('booking.index') }}" class="btn btn-sm btn-outline-primary">{{__('messages.view_all')}}</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="common-list list-unstyled mb-0">
+                            @foreach($data['dashboard']['upcomming_booking'] as $booking)
+                                <li class="d-flex gap-3 align-items-center justify-content-between">
+                                    <div class="media">
+                                        <div class="h-avatar is-medium flex-shrink-0">
+                                            <img class="avatar-50" alt="user-icon" src="{{ getSingleMedia($booking->customer,'profile_image', null) }}">
+                                        </div>
+                                        <div class="media-body min-w-0">
+                                            <a href="{{ route('booking.show', $booking->id) }}" class="text-decoration-none">
+                                                <h6 class="mb-0">#{{$booking->id}}</h6>
+                                            </a>
+                                            <small class="text-muted">{{
+        optional($data['datetime'])->date_format && optional($data['datetime'])->time_format
+        ? date(optional($data['datetime'])->date_format, strtotime($booking->date)) .'  '. date(optional($data['datetime'])->time_format, strtotime($booking->date))
+        : ''
+    }}</small>
+                                        </div>
+                                    </div>
+                                    <span class="badge bg-primary-subtle text-capitalize flex-shrink-0">{{ucwords(str_replace('_', ' ', $booking->status))}}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
                         {{-- <div class="d-flex gap-2 align-items-center">
                             <select id="filter-type" class="form-select">

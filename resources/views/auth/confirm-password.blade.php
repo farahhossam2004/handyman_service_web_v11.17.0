@@ -7,7 +7,7 @@
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-lg-12 text-center">
-                                    <img src="{{ getSingleMedia(imageSession('get'),'logo',null) }}" class="img-fluid" width="80" alt="">
+                                    <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid" width="80" alt="">
                                     <h2>{{__('auth.confirm_password')}}</h2>
                                     <p>{{ __('auth.password_continue') }}</p>
                                     <!-- Validation Errors -->

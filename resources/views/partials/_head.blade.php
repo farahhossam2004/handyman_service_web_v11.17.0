@@ -1,10 +1,11 @@
-<link rel="shortcut icon" class="favicon_preview" href="{{ getSingleMedia(imageSession('get'),'favicon',null) }}" />
+<link rel="shortcut icon" class="favicon_preview" href="{{ asset('landing-images/greylogo.png') }}" />
 <link rel='stylesheet' href="{{ asset('vendor/fullcalendar/core/main.css')}}" />
 <link rel='stylesheet' href="{{ asset('vendor/fullcalendar/daygrid/main.css')}}" />
 <link rel='stylesheet' href="{{ asset('vendor/fullcalendar/timegrid/main.css')}}" />
 <link rel='stylesheet' href="{{ asset('vendor/fullcalendar/list/main.css')}}" />
 <link rel="stylesheet" href="{{ asset('css/backend-plugin.min.css')}}">
 <link rel="stylesheet" href="{{ asset('css/backend.css?v=1.0.2')}}">
+<link rel="stylesheet" href="{{ asset('css/brand-overrides.css?v=1.0.0')}}">
 <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css')}}">
 <link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
 <link rel="stylesheet" href="{{ asset('vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">

@@ -79,7 +79,7 @@
 @if (!empty($metaTags['global_canonical_url']))
     <link rel="canonical" href="{{ $metaTags['global_canonical_url'] }}" />
 @endif
-<link rel="shortcut icon" class="favicon_preview" href="{{ getSingleMedia(imageSession('get'), 'favicon', null) }}" />
+<link rel="shortcut icon" class="favicon_preview" href="{{ asset('landing-images/greylogo.png') }}" />
 <link rel="stylesheet" href="{{ asset('css/landing-page.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/landing-page-rtl.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/landing-page.min.css') }}">
