@@ -1512,6 +1512,7 @@
     });
 
     $sidebarThemeSetup = \App\Models\Setting::where('type', 'theme-setup')->where('key', 'theme-setup')->first();
+@endphp
 <div class="iq-sidebar sidebar-default">
     <div class="iq-sidebar-logo">
         <a href="{{ route('home') }}" class="header-logo">
