@@ -8,7 +8,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="baseUrl" content="{{ config('app.url') }}" />
 
-    <title>Sanad Dashboard | سند</title>
+    @php
+        $titleGeneralSetting = \DB::table('settings')->where('key', 'general-setting')->value('value');
+        $titleSiteName = $titleGeneralSetting ? json_decode($titleGeneralSetting, true)['site_name'] ?? null : null;
+    @endphp
+    <title>{{ $titleSiteName ?? 'Sanad Dashboard' }} | سند</title>
 
     <!-- Scripts -->
 

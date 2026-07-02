@@ -397,7 +397,8 @@ Route::group(['middleware' => ['auth', /*'verified',*/ 'prevent.demo.setting']],
     Route::post('payment-settings/save', [PaymentGatewayController::class, 'paymentsettingsUpdates'])->name('paymentsettingsUpdates');
     Route::post('get_payment_config', [PaymentGatewayController::class, 'getPaymentConfig'])->name('getPaymentConfig');
 
-    Route::post('/razorpay-layout-page', [PaymentGatewayController::class, 'rezorpaypaymentPage'])->name('razorpay_layout_page');
+    // DISABLED: Razorpay – kept for future Saudi gateway migration
+    // Route::post('/razorpay-layout-page', [PaymentGatewayController::class, 'rezorpaypaymentPage'])->name('razorpay_layout_page');
 
     Route::group(['middleware' => ['permission:tax list']], function () {
         Route::resource('tax', TaxController::class)->except(['destroy']);
@@ -750,6 +751,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/stripe-success', [PromotionalBannerController::class, 'handleSuccess'])->name('stripe.success');
     Route::post('promotionalbanner-bulk-action', [PromotionalBannerController::class, 'bulk_action'])->name('promotionalbanner.bulk-action');
     Route::post('promotional-banner/{id}/update-payment-status', [PromotionalBannerController::class, 'updatePaymentStatus'])->name('promotional-banner.update-payment-status');
-    Route::get('rozar-success', [PromotionalBannerController::class, 'handlerozarSuccess'])->name('rozar.success');
+    // DISABLED: Razorpay – kept for future Saudi gateway migration
+    // Route::get('rozar-success', [PromotionalBannerController::class, 'handlerozarSuccess'])->name('rozar.success');
     Route::get('flutter-success', [PromotionalBannerController::class, 'handleFlutterwaveSuccess'])->name('flutter.success');
 });

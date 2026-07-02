@@ -55,7 +55,7 @@
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <div class="d-flex align-items-center gap-3 justify-content-end">
                             <div class="d-flex justify-content-end gap-3">
-                                <div class="datatable-filter ml-auto">
+                                <div class="datatable-filter ms-auto">
                                     <select name="column_status" id="column_status" class="select2 form-select" data-filter="select" style="width: 100%">
                                         <option value="">{{ __('messages.all') }}</option>
                                         <option value="accepted">{{ __('messages.accepted') }}</option>

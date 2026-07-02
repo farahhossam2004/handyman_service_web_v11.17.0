@@ -237,53 +237,42 @@ class WalletController extends Controller
 
             switch($payment_gateway){
 
-                case 'razorpayx':
-                    $razorPayX = PaymentGateway::where('type','razorPayX')->where('status',1)->first();
-                    if($razorPayX == null){
-                        return comman_message_response(__('messages.transfer_admin_contact') ,406);
-
-                    }
-
-                    $response=providerpayout_rezopayX($data);
-
-                    if($response==''){
-                        $data['bank_id'] = $data['bank'];
-                        $data['payment_type'] = $payment_gateway;
-                        $data['datetime'] = Carbon::now();
-                        $data['status'] = 'failed';
-                        $result = WithdrawMoney::create($data);
-                        return comman_message_response(trans('messages.rezorpayx_details'));
-
-                    }
-
-                    $payout_details = json_decode($response,True);
-                    $payout = $payout_details;
-
-                    if (isset($payout_details['status']) && $payout_details['status'] == 'processing') {
-                        $data['status'] = 'paid';
-                    }
-
-                    if($error=$payout['error']['description']  ==''){
-
-                        $payout_id=$payout['id'] ;
-                        $data['paid_date']=Carbon::now();
-
-                    }
-                    else {
-                        $razorpay_message=$payout['error']['description'];
-                        if($payout['error']['code'] == 'BAD_REQUEST_ERROR'){
-                            return comman_message_response(trans('messages.razorpay_message',['razorpay_message' => $razorpay_message]) ,406);
-                        }
-                        $data['bank_id'] = $data['bank'];
-                        $data['payment_type'] = $payment_gateway;
-                        $data['datetime'] = Carbon::now();
-                        $data['status'] = 'failed';
-                        $result = WithdrawMoney::create($data);
-
-                        return comman_message_response(trans('messages.razorpay_message',['razorpay_message' => $razorpay_message]));
-
-                    }
-               break;
+                // DISABLED: RazorpayX – kept for future Saudi gateway migration
+                // case 'razorpayx':
+                //     $razorPayX = PaymentGateway::where('type','razorPayX')->where('status',1)->first();
+                //     if($razorPayX == null){
+                //         return comman_message_response(__('messages.transfer_admin_contact') ,406);
+                //     }
+                //     $response=providerpayout_rezopayX($data);
+                //     if($response==''){
+                //         $data['bank_id'] = $data['bank'];
+                //         $data['payment_type'] = $payment_gateway;
+                //         $data['datetime'] = Carbon::now();
+                //         $data['status'] = 'failed';
+                //         $result = WithdrawMoney::create($data);
+                //         return comman_message_response(trans('messages.rezorpayx_details'));
+                //     }
+                //     $payout_details = json_decode($response,True);
+                //     $payout = $payout_details;
+                //     if (isset($payout_details['status']) && $payout_details['status'] == 'processing') {
+                //         $data['status'] = 'paid';
+                //     }
+                //     if($error=$payout['error']['description']  ==''){
+                //         $payout_id=$payout['id'] ;
+                //         $data['paid_date']=Carbon::now();
+                //     } else {
+                //         $razorpay_message=$payout['error']['description'];
+                //         if($payout['error']['code'] == 'BAD_REQUEST_ERROR'){
+                //             return comman_message_response(trans('messages.razorpay_message',['razorpay_message' => $razorpay_message]) ,406);
+                //         }
+                //         $data['bank_id'] = $data['bank'];
+                //         $data['payment_type'] = $payment_gateway;
+                //         $data['datetime'] = Carbon::now();
+                //         $data['status'] = 'failed';
+                //         $result = WithdrawMoney::create($data);
+                //         return comman_message_response(trans('messages.razorpay_message',['razorpay_message' => $razorpay_message]));
+                //     }
+                //    break;
 
                case 'stripe':
 

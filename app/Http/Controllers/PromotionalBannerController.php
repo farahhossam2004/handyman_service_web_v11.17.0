@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\PromotionalBanner;
 use App\Models\Setting;
+use App\Models\Country;
 use App\Models\User;
 use App\Models\PaymentGateway;
 use App\Models\PaymentHistory;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Carbon\Carbon;
-use Razorpay\Api\Api;
+// use Razorpay\Api\Api; // DISABLED: kept for future Saudi gateway migration
 use Flutterwave\Flutterwave;
 use App\Models\Wallet;
 use App\Traits\NotificationTrait;
@@ -156,7 +157,7 @@ class PromotionalBannerController extends Controller
         $setting = Setting::where('type', 'provider-banner')->first();
         $per_day_charge = $setting ? json_decode($setting->value)->promotion_price : 0;
         $paymentGateways = PaymentGateway::where('status', 1)
-            ->whereNotIn('type', ['cash'])
+            ->whereNotIn('type', ['cash', 'razorPay', 'razorPayX'])
             ->get();
 
         return view('promotionalbanner.create', compact('per_day_charge', 'paymentGateways'));
@@ -240,8 +241,9 @@ class PromotionalBannerController extends Controller
             case 'stripe':
                 return $this->handleStripe($request, $banner);
 
-            case 'razorPay':
-                return $this->handleRazorPay($request, $banner);
+            // DISABLED: Razorpay – kept for future Saudi gateway migration
+            // case 'razorPay':
+            //     return $this->handleRazorPay($request, $banner);
 
             case 'flutterwave':
                 return $this->handleFlutterwave($request, $banner);
@@ -267,12 +269,21 @@ class PromotionalBannerController extends Controller
 
             \Stripe\Stripe::setApiKey($gatewayData['stripe_key']);
 
+            $sitesetup = Setting::getValueByKey('site-setup', 'site-setup');
+            $currencyCode = 'sar';
+            if ($sitesetup && !empty($sitesetup->default_currency)) {
+                $country = Country::find($sitesetup->default_currency);
+                if ($country) {
+                    $currencyCode = strtolower($country->currency_code);
+                }
+            }
+
             $session = \Stripe\Checkout\Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => [
                     [
                         'price_data' => [
-                            'currency' => 'usd',
+                            'currency' => $currencyCode,
                             'product_data' => ['name' => $request->short_description ?? '-'],
                             'unit_amount' => (int) ($banner['total_amount'] * 100),
                         ],
@@ -295,34 +306,41 @@ class PromotionalBannerController extends Controller
             return redirect()->route('promotional-banner')->with('error', 'Payment failed. Please try again.');
         }
     }
-    public function handleRazorPay(Request $request, $banner)
-    {
-        $gateway = PaymentGateway::where('type', 'razorpay')->where('status', 1)->first();
-        $gatewayData = json_decode($gateway?->value ?? '{}', true);
-
-        if (!$gateway || !isset($gatewayData['razor_key'], $gatewayData['razor_secret'])) {
-            return response()->json(['error' => 'Razorpay configuration error.'], 400);
-        }
-
-        DB::commit();
-        return response()->json([
-            'key' => $gatewayData['razor_key'],
-            'amount' => $banner->total_amount * 100,
-            'currency' => 'INR',
-            'name' => 'Sanad',
-            'description' => $banner->title,
-            'order_id' => null,
-            'banner_id' => $banner->id,
-            'prefill' => [
-                'name' => auth()->user()->first_name ?? '',
-                'email' => auth()->user()->email ?? '',
-                'contact' => auth()->user()->contact_number ?? ''
-            ],
-            'success_url' => route('rozar.success'),
-            'status' => true,
-            'payment_method' => 'razorPay'
-        ]);
-    }
+    // DISABLED: Razorpay – kept for future Saudi gateway migration
+    // public function handleRazorPay(Request $request, $banner)
+    // {
+    //     $gateway = PaymentGateway::where('type', 'razorpay')->where('status', 1)->first();
+    //     $gatewayData = json_decode($gateway?->value ?? '{}', true);
+    //     if (!$gateway || !isset($gatewayData['razor_key'], $gatewayData['razor_secret'])) {
+    //         return response()->json(['error' => 'Razorpay configuration error.'], 400);
+    //     }
+    //     $sitesetup = Setting::getValueByKey('site-setup', 'site-setup');
+    //     $currencyCode = 'SAR';
+    //     if ($sitesetup && !empty($sitesetup->default_currency)) {
+    //         $country = Country::find($sitesetup->default_currency);
+    //         if ($country) {
+    //             $currencyCode = strtoupper($country->currency_code);
+    //         }
+    //     }
+    //     DB::commit();
+    //     return response()->json([
+    //         'key' => $gatewayData['razor_key'],
+    //         'amount' => $banner->total_amount * 100,
+    //         'currency' => $currencyCode,
+    //         'name' => 'Sanad',
+    //         'description' => $banner->title,
+    //         'order_id' => null,
+    //         'banner_id' => $banner->id,
+    //         'prefill' => [
+    //             'name' => auth()->user()->first_name ?? '',
+    //             'email' => auth()->user()->email ?? '',
+    //             'contact' => auth()->user()->contact_number ?? ''
+    //         ],
+    //         'success_url' => route('rozar.success'),
+    //         'status' => true,
+    //         'payment_method' => 'razorPay'
+    //     ]);
+    // }
 
     public function handleFlutterwave(Request $request, $banner)
     {
@@ -376,7 +394,7 @@ class PromotionalBannerController extends Controller
     public function handleSuccess(Request $request)
     {
         $session_id = $request->query('session_id'); // Get Stripe session ID (if applicable)
-        $razorpay_payment_id = $request->query('razorpay_payment_id'); // Get Razorpay payment ID (if applicable)
+        // $razorpay_payment_id = $request->query('razorpay_payment_id'); // DISABLED: Razorpay
 
 
         try {
@@ -445,61 +463,57 @@ class PromotionalBannerController extends Controller
         }
     }
 
-    public function handlerozarSuccess(Request $request)
-    {
-
-        $gateway = PaymentGateway::where('type', 'razorpay')->where('status', 1)->first();
-        if (!$gateway) {
-            return response()->json(['error' => 'Razorpay payment gateway configuration not found.'], 400);
-        }
-        $gatewayData = json_decode($gateway->value, true);
-
-        $paymentId = $request->input('razorpay_payment_id');
-        $razorpayOrderId = session('razorpay_order_id');
-        $plan_id = $request->input('plan_id');
-
-        $razorpayKey = $gatewayData['razor_key'];
-        $razorpaySecret = $gatewayData['razor_secret'];
-
-        $api = new \Razorpay\Api\Api($razorpayKey, $razorpaySecret);
-        $payment = $api->payment->fetch($paymentId);
-
-        $banner = PromotionalBanner::findOrFail($request->banner_id);
-        if ($payment->status === 'authorized') {
-            $banner->update([
-                'payment_status' => 'paid',
-                'status' => 'pending',
-            ]);
-            BannerPayment::create([
-                'provider_id' => $banner->provider_id,
-                'banner_id' => $banner->id,
-                'total_amount' => $banner->total_amount,
-                'payment_type' => 'razorpay',
-                'txn_id' => $request->razorpay_payment_id,
-                'payment_status' => 'paid',
-                'datetime' => Carbon::now(),
-            ]);
-            return redirect()->route('promotional-banner')->with('success', 'Payment successful.');
-        } else if ($payment->status === 'authorized') {
-            $banner = PromotionalBanner::findOrFail($request->banner_id);
-            $banner->update([
-                'payment_status' => 'paid',
-                'status' => 'pending', // Adjust based on your business logic
-            ]);
-            BannerPayment::create([
-                'provider_id' => $banner->provider_id,
-                'banner_id' => $banner->id,
-                'total_amount' => $banner->total_amount,
-                'payment_type' => 'razorpay',
-                'txn_id' => $request->razorpay_payment_id,
-                'payment_status' => 'paid',
-                'datetime' => Carbon::now(),
-            ]);
-            return redirect()->route('promotional-banner')->with('success', 'Payment authorized successfully.');
-        } else {
-            return redirect()->route('promotional-banner')->with('error', 'Payment verification failed.');
-        }
-    }
+    // DISABLED: Razorpay – kept for future Saudi gateway migration
+    // public function handlerozarSuccess(Request $request)
+    // {
+    //     $gateway = PaymentGateway::where('type', 'razorpay')->where('status', 1)->first();
+    //     if (!$gateway) {
+    //         return response()->json(['error' => 'Razorpay payment gateway configuration not found.'], 400);
+    //     }
+    //     $gatewayData = json_decode($gateway->value, true);
+    //     $paymentId = $request->input('razorpay_payment_id');
+    //     $razorpayOrderId = session('razorpay_order_id');
+    //     $plan_id = $request->input('plan_id');
+    //     $razorpayKey = $gatewayData['razor_key'];
+    //     $razorpaySecret = $gatewayData['razor_secret'];
+    //     $api = new \Razorpay\Api\Api($razorpayKey, $razorpaySecret);
+    //     $payment = $api->payment->fetch($paymentId);
+    //     $banner = PromotionalBanner::findOrFail($request->banner_id);
+    //     if ($payment->status === 'authorized') {
+    //         $banner->update([
+    //             'payment_status' => 'paid',
+    //             'status' => 'pending',
+    //         ]);
+    //         BannerPayment::create([
+    //             'provider_id' => $banner->provider_id,
+    //             'banner_id' => $banner->id,
+    //             'total_amount' => $banner->total_amount,
+    //             'payment_type' => 'razorpay',
+    //             'txn_id' => $request->razorpay_payment_id,
+    //             'payment_status' => 'paid',
+    //             'datetime' => Carbon::now(),
+    //         ]);
+    //         return redirect()->route('promotional-banner')->with('success', 'Payment successful.');
+    //     } else if ($payment->status === 'authorized') {
+    //         $banner = PromotionalBanner::findOrFail($request->banner_id);
+    //         $banner->update([
+    //             'payment_status' => 'paid',
+    //             'status' => 'pending',
+    //         ]);
+    //         BannerPayment::create([
+    //             'provider_id' => $banner->provider_id,
+    //             'banner_id' => $banner->id,
+    //             'total_amount' => $banner->total_amount,
+    //             'payment_type' => 'razorpay',
+    //             'txn_id' => $request->razorpay_payment_id,
+    //             'payment_status' => 'paid',
+    //             'datetime' => Carbon::now(),
+    //         ]);
+    //         return redirect()->route('promotional-banner')->with('success', 'Payment authorized successfully.');
+    //     } else {
+    //         return redirect()->route('promotional-banner')->with('error', 'Payment verification failed.');
+    //     }
+    // }
 
 
     protected function handleFlutterwaveSuccess(Request $request)
@@ -733,7 +747,7 @@ class PromotionalBannerController extends Controller
     public function show($id)
     {
         $paymentGateways = PaymentGateway::where('status', 1)
-            ->whereNotIn('type', ['cash'])
+            ->whereNotIn('type', ['cash', 'razorPay', 'razorPayX'])
             ->get();
         if (auth()->user()->hasAnyRole(['admin', 'demo_admin'])) {
             $banner = PromotionalBanner::with(['service', 'provider'])->findOrFail($id);

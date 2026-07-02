@@ -104,7 +104,7 @@
 
     {{ html()->hidden('defaultMailTemplateMap[status]', 1)->class('form-control')  }}
 </div>
-<div class="text-left">
+<div class="text-start">
     <label>{{ (__('messages.template')) }} :</label>
     {{ html()->hidden('defaultMailTemplateMap[language]', 'en') }}
 </div>

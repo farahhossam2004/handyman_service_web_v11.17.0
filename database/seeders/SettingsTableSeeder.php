@@ -24,7 +24,7 @@ class SettingsTableSeeder extends Seeder
                 'id' => 1,
                 'key' => 'general-setting',
                 'type' => 'general-setting',
-                'value' => '{"site_name":"Sand","site_description":"On-Demand Home Service Platform — connecting customers with trusted professionals for all your home service needs.","inquriy_email":"","helpline_number":"","website":"","country_id":"231","state_id":"3956","city_id":"47855","zipcode":"12201","address":""}',
+                'value' => '{"site_name":"Sand","site_description":"On-Demand Home Service Platform — connecting customers with trusted professionals for all your home service needs.","inquriy_email":"","helpline_number":"","website":"","country_id":"191","state_id":"3155","city_id":"37420","zipcode":"24252","address":"Makkah, Saudi Arabia"}',
             ),
             1 =>
             array(
@@ -38,7 +38,7 @@ class SettingsTableSeeder extends Seeder
                 'id' => 3,
                 'key' => 'site-setup',
                 'type' => 'site-setup',
-                'value' => '{"date_format":"F j, Y","time_format":"g:i A","time_zone":"America/New_York","language_option":["ar","nl","en","fr","de","hi","it"],"default_currency":"231","currency_position":"left","google_map_keys":"","latitude":"40.7128","longitude":"-74.0060","distance_type":"km","radious":"100","digitafter_decimal_point":"2","android_app_links":0,"playstore_url":"","provider_playstore_url":"","ios_app_links":0,"appstore_url":"","provider_appstore_url":"","site_copyright":"© 2025 All Rights Reserved"}',
+                'value' => '{"date_format":"F j, Y","time_format":"g:i A","time_zone":"Asia/Riyadh","language_option":["ar","nl","en","fr","de","hi","it"],"default_currency":"191","currency_position":"right","google_map_keys":"","latitude":"21.4225","longitude":"39.8262","distance_type":"km","radious":"100","digitafter_decimal_point":"2","android_app_links":0,"playstore_url":"","provider_playstore_url":"","ios_app_links":0,"appstore_url":"","provider_appstore_url":"","site_copyright":"© 2025 All Rights Reserved"}',
             ),
             3 =>
             array(

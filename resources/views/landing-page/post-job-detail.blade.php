@@ -4,7 +4,16 @@
 @section('content')
 @php
     $postJobData = json_decode($postJob->content(), true);
-    $serviceIds = collect($postJobData['post_request_detail']['service'])->pluck('id')->toArray(); 
+    $serviceIds = collect($postJobData['post_request_detail']['service'])->pluck('id')->toArray();
+    $siteSetupCurrency = \App\Models\Setting::where('type', 'SITE_SETUP')->where('key', 'SITE_SETUP')->first();
+    $siteSetupCurrency = json_decode($siteSetupCurrency->value ?? '{}');
+    $currencySymbol = 'ر.س';
+    if ($siteSetupCurrency && !empty($siteSetupCurrency->default_currency)) {
+        $cCountry = \App\Models\Country::find($siteSetupCurrency->default_currency);
+        if ($cCountry && !empty($cCountry->symbol)) {
+            $currencySymbol = $cCountry->symbol;
+        }
+    }
 @endphp
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="section-padding">
@@ -37,7 +46,7 @@
                     </div>
                 </div>
                 <div class="mt-5 pt-3">
-                    <h5 class="mt-0 mb-4 text-capitalize">services</h5>
+                    <h5 class="mt-0 mb-4 text-capitalize">{{ __('messages.services') }}</h5>/h5>
                     
                    
                    @if(count($postJobData['post_request_detail']['service']) < 5)
@@ -83,7 +92,7 @@
 
                 @if($postJobData['post_request_detail']['status'] == 'assigned')
                 <div class="mt-5 pt-3 bidder-list">
-                    <h5 class="mt-0 mb-4 text-capitalize">Assigned Provider</h5>
+                    <h5 class="mt-0 mb-4 text-capitalize">{{ __('messages.assigned_provider') }}</h5>/h5>
                     <div class="row">
                         @foreach($postJobData['bider_data'] as $bidderData)
                             @if($bidderData['provider']['id'] == $postJobData['post_request_detail']['provider_id'])
@@ -122,7 +131,7 @@
 
                 @if(!empty($postJobData['bider_data']))
                 <div class="mt-5 pt-3 bidder-list">
-                    <h5 class="mt-0 mb-4 text-capitalize">bidder list</h5>
+                    <h5 class="mt-0 mb-4 text-capitalize">{{ __('messages.bidder_list') }}</h5>/h5>
                     <div class="row">
                         @foreach($postJobData['bider_data'] as $bidderData)
 
@@ -153,7 +162,7 @@
                                                     <h5 class="text-capitalize text-priamry">{{ getPriceFormat($bidderData['price']) }}</h5>
                                                     @if($postJobData['post_request_detail']['status'] == 'requested')
                                                         <div class="mt-2">
-                                                            <button type="button" class="btn btn-primary px-5 text-capitalize d-block update_post_job" >accept</button>
+                                                            <button type="button" class="btn btn-primary px-5 text-capitalize d-block update_post_job" >{{ __('messages.accept') }}</button>/button>
                                                         </div>
                                                     @endif
                                                 </div>
@@ -169,7 +178,7 @@
 
                 @if(!empty($postJobData['post_request_detail']['provider_id']))
                     <div class="text-center my-4">
-                        <a href="{{ route('book.post_job', ['id' => $postJobData['post_request_detail']['id']]) }}" class="btn btn-lg btn-primary continue-button">Book Now</a>
+                        <a href="{{ route('book.post_job', ['id' => $postJobData['post_request_detail']['id']]) }}" class="btn btn-lg btn-primary continue-button">{{ __('messages.book_now') }}</a>/a>
                     </div>
                 @endif
 
@@ -197,21 +206,21 @@
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <h6>Assigned Provider</h6>
+                                <h6>{{ __('messages.assigned_provider') }}</h5>/h6>
                                 {{-- @if($postJobData['post_request_detail']['status'] == 'assigned')
-                                <h6>Assigned Provider</h6>
+                                <h6>{{ __('messages.assigned_provider') }}</h5>/h6>
                                 @php
                                 $providerId = $postJobData['post_request_detail']['provider_id'];
                                 $bidderData = $postJobData['bider_data'];
                                 $selectedProvider = collect($bidderData)->firstWhere('provider_id', $providerId);
                             @endphp --}}
-                                    {{-- @if($selectedProvider) --}}
+                                    {{-- @if($selectedProvider)
                                     <div>
                                         <p>Profile Image: <img src="" width="100" height="100" class="rounded-circle"></p>
                                         <p>Email: demo@provider.com</p>
-                                        {{-- <p>Profile Image: <img src="{{ $selectedProvider['provider']['profile_image'] }}" width="100" height="100" class="rounded-circle"></p>
-                                        <p>Email: {{ $selectedProvider['provider']['email'] }}</p> --}}
-                                    </div>
+                                        <p>Profile Image: <img src="{{ $selectedProvider['provider']['profile_image'] }}" width="100" height="100" class="rounded-circle"></p>
+                                        <p>Email: {{ $selectedProvider['provider']['email'] }}</p>
+                                    </div> --}}
                                 {{-- @else --}}
                                     <p>No provider details found for the assigned job.</p>
                                 {{-- @endif
@@ -226,8 +235,8 @@
                                         {{-- <h6>{{ $bidder['provider']['first_name'] }} {{ $bidder['provider']['last_name'] }}</h6> --}}
                                     </div>
                                     <div class="mt-3">
-                                        <h6>Bid Price: $67</h6>
-                                        {{-- <h6>Bid Price: ${{ $bidder['price'] }}</h6> --}}
+                                        <h6>Bid Price: {{ $currencySymbol }}67</h6>
+                                        {{-- <h6>Bid Price: {{ $currencySymbol }}{{ $bidder['price'] }}</h6> --}}
                                     </div>
                                     <img src="" alt="booking" width="100" height="100" class="rounded-circle">
                                     {{-- <img src="{{ $bidder['provider']['profile_image'] }}" alt="booking" width="100" height="100" class="rounded-circle"> --}}

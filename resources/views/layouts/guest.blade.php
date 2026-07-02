@@ -1,12 +1,20 @@
+@php
+    $rtlLocales = ['ar', 'dv', 'ff', 'ur', 'he', 'ku', 'fa'];
+    $dir = session()->has('dir') ? session()->get('dir') : (in_array(app()->getLocale(), $rtlLocales, true) ? 'rtl' : 'ltr');
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ $dir }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="baseUrl" content="{{ config('app.url') }}" />
 
-        <title>Sanad Dashboard | سند</title>
+        @php
+            $titleGeneralSetting = \DB::table('settings')->where('key', 'general-setting')->value('value');
+            $titleSiteName = $titleGeneralSetting ? json_decode($titleGeneralSetting, true)['site_name'] ?? null : null;
+        @endphp
+        <title>{{ $titleSiteName ?? 'Sanad Dashboard' }} | سند</title>
 
         @php
             // Get theme color from database

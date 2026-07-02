@@ -29,7 +29,7 @@
                             <a href="{{ route('bank.create', ['user_id' => $payoutdata->provider_id]) }}" class="me-1 btn-link btn-link-hover"><i class="fa fa-plus-circle"></i> {{ trans('messages.add_form_title', ['form' => trans('messages.bank')]) }}</a>
                             <br />
                             {{ html()->select('bank', [])
-                                ->attributes(['class' => 'select2js form-group col-md-12 bank','id' => 'bank', 'data-placeholder' => __('messages.select_bank', ['select' => __('messages.')])]) }}
+                                ->attributes(['class' => 'select2js form-group col-md-12 bank','id' => 'bank', 'data-placeholder' => __('messages.select_bank')]) }}
                         </div>
                         <div class="form-group col-md-4">
                             {{ html()->label(__('messages.amount'), 'amount')->class('form-control-label') }}
@@ -46,11 +46,12 @@
                         </div>
                         <div class="form-group col-md-12"  id='payment_gateway'>
                             <label class="form-control-label">{{__('messages.payment_gateway',['gateway'=>__('messages.payment_gateway')])}}</label><br/>
-                            <div class="form-check-inline">
+                            {{-- DISABLED: RazorpayX – kept for future Saudi gateway migration --}}
+                            {{-- <div class="form-check-inline">
                                       <label class="form-check-label">
                                           <input type="radio" class="form-check-input is_test" value="razorpayx" name="payment_gateway" data-type="razorpayx" {{ old('payment_gateway') == 'razorpayx' || !old('payment_gateway') ? 'checked' : '' }}>{{__('messages.razorx')}}
                                       </label>
-                            </div>
+                            </div> --}}
                             <div class="form-check-inline">
                                       <label class="form-check-label">
                                           <input type="radio" class="form-check-input is_test" value="stripe" name="payment_gateway" data-type="stripe" {{ old('payment_gateway') == 'stripe' ? 'checked' : '' }} >{{__('messages.stripe')}}

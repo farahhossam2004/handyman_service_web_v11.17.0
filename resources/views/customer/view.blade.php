@@ -27,7 +27,7 @@
                                                 <th scope="col">{{__('messages.date')}}</th>
                                                 <th scope="col">{{__('messages.status')}}</th>
                                                 <th scope="col">{{__('messages.provider')}}</th>
-                                                <th scope="col" class="text-right">{{__('messages.total_amount')}}</th>
+                                                <th scope="col" class="text-end">{{__('messages.total_amount')}}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -48,7 +48,7 @@
                                                                 </p>
                                                             </td>
                                                             <td>{{optional($booking->provider)->display_name ?? '-' }}</td>
-                                                            <td class="text-right">{{getPriceFormat($booking->total_amount ?? '0') }}</td>
+                                                            <td class="text-end">{{getPriceFormat($booking->total_amount ?? '0') }}</td>
                                                         </tr>
                                                     @endforeach
                                                 @else
@@ -73,7 +73,7 @@
                                                     <th scope="col">{{__('messages.service')}}</th>
                                                     <th scope="col">{{__('messages.date')}}</th>
                                                     <th scope="col">{{__('messages.payment_status')}}</th>
-                                                    <th scope="col" class="text-right">{{__('messages.total_amount')}}</th>
+                                                    <th scope="col" class="text-end">{{__('messages.total_amount')}}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -83,7 +83,7 @@
                                                             <td>{{$pending->booking->service->name}}</td>
                                                             <td> <div class="d-flex align-items-center">{{date("D, d M Y", strtotime($pending->booking->date))}}</div></td>
                                                             <td>{{ $pending->payment_status}}</td>
-                                                            <td class="text-right">{{ getPriceFormat($pending->total_amount)}}</td>
+                                                            <td class="text-end">{{ getPriceFormat($pending->total_amount)}}</td>
                                                         </tr>
                                                     @endforeach
                                                 @else

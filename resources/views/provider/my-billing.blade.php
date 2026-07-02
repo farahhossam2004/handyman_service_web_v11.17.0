@@ -20,7 +20,7 @@
                                 <div class="d-flex justify-content-end">
                                     <div class="input-group input-group-search" style="max-width: 300px;">
                                         <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                        <input type="text" class="form-control dt-search" id="search-input" placeholder="Search...">
+                                        <input type="text" class="form-control dt-search" id="search-input" placeholder="{{ __('messages.search') }}">
                                     </div>
                                 </div>
                             </div>

@@ -1,3 +1,14 @@
+@php
+    $siteSetupCurrency = \App\Models\Setting::where('type', 'SITE_SETUP')->where('key', 'SITE_SETUP')->first();
+    $siteSetupCurrency = json_decode($siteSetupCurrency->value ?? '{}');
+    $currencySymbol = 'ر.س';
+    if ($siteSetupCurrency && !empty($siteSetupCurrency->default_currency)) {
+        $cCountry = \App\Models\Country::find($siteSetupCurrency->default_currency);
+        if ($cCountry && !empty($cCountry->symbol)) {
+            $currencySymbol = $cCountry->symbol;
+        }
+    }
+@endphp
 {{ html()->form('POST', route('saveEarningTypeSetting'))->attribute('enctype', 'multipart/form-data')->attribute('data-toggle', 'validator')->open() }}
 {{ html()->hidden('id', $earningsetting->id ?? null )->attribute('placeholder', 'id')->class('form-control') }}
 {{ html()->hidden('page', $page)->attribute('placeholder', 'id')->class('form-control') }}
@@ -44,13 +55,13 @@
                 <li>
                     <strong>Commission:</strong> If you choose "Commission," the system will charge providers a percentage or a flat fee on each booking or transaction. <br>
                     &emsp;<i>Logic:</i> This means that every time a customer books a service, the platform takes a cut (based on the chosen commission percentage or flat fee). 
-                    For example, if the commission is set at 20%, and a handyman completes a job for $100, the platform will take $20, and the provider will receive $80.
+                    For example, if the commission is set at 20%, and a handyman completes a job for {{ $currencySymbol }}100, the platform will take {{ $currencySymbol }}20, and the provider will receive {{ $currencySymbol }}80.
                 </li>
                 <br>
                 <li>
                     <strong>Subscription:</strong> If you choose "Subscription," providers will pay a fixed fee periodically (e.g., monthly or yearly) to use the platform's services. <br>
                     &emsp;<i>Logic:</i> This model allows service providers to pay a fixed amount every month or year to stay active on the platform. 
-                    For example, if a provider pays $50 per month as a subscription, regardless of how many jobs they complete, they will continue to have access to the platform.
+                    For example, if a provider pays {{ $currencySymbol }}50 per month as a subscription, regardless of how many jobs they complete, they will continue to have access to the platform.
                 </li>
                 <br>
                 <li>

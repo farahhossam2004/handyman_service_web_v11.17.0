@@ -1511,13 +1511,15 @@
         return checkMenuRoleAndPermission($item);
     });
 
+@php
+    $sidebarThemeSetup = \App\Models\Setting::where('type', 'theme-setup')->where('key', 'theme-setup')->first();
 @endphp
 <div class="iq-sidebar sidebar-default">
     <div class="iq-sidebar-logo">
         <a href="{{ route('home') }}" class="header-logo">
-            <img src="{{ asset('landing-images/greylogo.png') }}"
+            <img src="{{ getSingleMedia($sidebarThemeSetup, 'logo', false) }}"
                 class="img-fluid light-logo site_logo_preview d-none site-logo" alt="logo" style="max-height: 36px;">
-            <img src="{{ asset('landing-images/whitelogo.png') }}"
+            <img src="{{ getSingleMedia($sidebarThemeSetup, 'logo', false) }}"
                 class="img-fluid darkmode-logo site_logo_preview" alt="logo" style="max-height: 36px;">
         </a>
         <div class="side-menu-bt-sidebar-1">

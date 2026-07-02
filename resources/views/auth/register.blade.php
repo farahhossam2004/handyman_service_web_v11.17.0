@@ -1,3 +1,6 @@
+@php
+    $register_ThemeSetup = \App\Models\Setting::where('type', 'theme-setup')->where('key', 'theme-setup')->first();
+@endphp
 <x-guest-layout>
    <section class="login-content">
       <div class="container h-100">
@@ -7,7 +10,7 @@
                   <div class="card-body">
                      <div class="auth-logo">
                         <a href="{{route('frontend.index')}}">
-                           <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid rounded-normal" alt="logo">
+                           <img src="{{ getSingleMedia($register_ThemeSetup ?? null, 'logo', false) }}" class="img-fluid rounded-normal" alt="logo">
                         </a>
                      </div>
                      <h3 class="mb-3 fw-bold text-center">{{__('auth.get_start')}}</h3>

@@ -99,7 +99,7 @@
                                                         <input type="hidden" name="defaultNotificationTemplateMap[status]" value="1" class="form-control">
                                                 </div>
 
-                                                <div class="text-left">
+                                                <div class="text-start">
                                                     <label>{{ (__('messages.template')) }} :</label>
                                                     {{ html()->hidden('defaultNotificationTemplateMap[language]', 'en') }}
                                                 </div>
@@ -122,7 +122,7 @@
                                                     {{ html()->hidden('defaultNotificationTemplateMap[status]', 1)->class('form-control') }}
                                                 </div>
 
-                                                <div class="text-left">
+                                                <div class="text-start">
                                                     <label>{{ (__('messages.template')) }} :</label>
                                                     {{ html()->hidden('defaultNotificationTemplateMap[language]', 'en') }}
                                                 </div>
@@ -149,7 +149,7 @@
                                                     {{ html()->hidden('defaultNotificationTemplateMap[status]', 1)->class('form-control') }}
                                                 </div>
 
-                                                <div class="text-left">
+                                                <div class="text-start">
                                                     <label>{{ (__('messages.template')) }} :</label>
                                                     {{ html()->hidden('defaultNotificationTemplateMap[language]', 'en') }}
                                                 </div>
@@ -175,7 +175,7 @@
                                                     {{ html()->hidden('defaultNotificationTemplateMap[status]', 1)->class('form-control') }}
                                                 </div>
 
-                                                <div class="text-left">
+                                                <div class="text-start">
                                                     <label>{{ (__('messages.template')) }} :</label>
                                                     {{ html()->hidden('defaultNotificationTemplateMap[language]', 'en') }}
                                                 </div>
@@ -192,7 +192,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-12 pt-2 text-right">
+                                    <div class="col-md-12 pt-2 text-end">
                                     <button type="submit" class="btn btn-primary"> {{ (__('save'))}}<i class="md md-lock-open"></i></button>
                                 </div>
                             </div>

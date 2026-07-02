@@ -38,7 +38,7 @@
               </div>
 
               <div class="d-flex justify-content-end gap-3">
-                  <div class="datatable-filter ml-auto">
+                  <div class="datatable-filter ms-auto">
                       <select name="column_status" id="column_status" class="select2 form-select" data-filter="select"
                           style="width: 100%">
                           <option value="">{{ __('messages.all') }}</option>
@@ -50,7 +50,7 @@
                   </div>
                   <div class="input-group input-group-search ms-2">
                       <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
-                      <input type="text" class="form-control dt-search" placeholder="Search..." aria-label="Search"
+                      <input type="text" class="form-control dt-search" placeholder="{{ __('messages.search') }}" aria-label="Search"
                           aria-describedby="addon-wrapping" aria-controls="dataTableBuilder">
                   </div>
               </div>

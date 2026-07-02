@@ -1,3 +1,6 @@
+@php
+    $verify_email_ThemeSetup = \App\Models\Setting::where('type', 'theme-setup')->where('key', 'theme-setup')->first();
+@endphp
 <x-guest-layout>
     <section class="login-content">
         <div class="container-fluid h-100">
@@ -7,7 +10,7 @@
                     <div class="card-body">
                        <div class="row align-items-center">
                           <div class="col-lg-12 text-center">
-                             <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid" width="80" alt="">
+                             <img src="{{ getSingleMedia($verify_email_ThemeSetup ?? null, 'logo', false) }}" class="img-fluid" width="80" alt="">
                              <h2 class="mt-3 mb-0">Success !</h2>
                              @if (session('status') == 'verification-link-sent')
                                 <div class="alert alert-success">

@@ -269,7 +269,7 @@
 
                 <div class="form-group col-md-12">
                     <div class="form-group row">
-                        <div class="col-md-12 text-md-right pe-1">
+                        <div class="col-md-12 text-md-end pe-1">
                             <button type="button" id="add-language" class="button-custom button-added">
                                 <i class="fas fa-plus me-2"></i>{{ __('messages.add_language') }}
                             </button>
@@ -347,7 +347,7 @@
 
                 <div class="form-group col-md-12">
                     <div class="form-group row">
-                        <div class="col-md-9 text-md-right pe-1">
+                        <div class="col-md-9 text-md-end pe-1">
                             <button type="button" id="add-section" class="button-custom button-added">
                                 <i class="fas fa-plus me-2"></i>Add More Reason
                             </button>

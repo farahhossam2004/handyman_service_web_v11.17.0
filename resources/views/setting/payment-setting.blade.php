@@ -13,9 +13,10 @@ $onlinepayment = $othersetting->online_payment;
             <li class="nav-item payment-link">
                 <a href="javascript:void(0)" data-href="{{ route('payment_layout_page') }}?tabpage=stripe" data-target=".payment_paste_here" data-toggle="tabajax"  class="nav-link  {{$tabpage=='stripe'?'active':''}}"   rel="tooltip"> {{__('messages.stripe')}}</a>
             </li>
-            <li class="nav-item payment-link">
+            {{-- DISABLED: Razorpay – kept for future Saudi gateway migration --}}
+            {{-- <li class="nav-item payment-link">
                 <a href="javascript:void(0)" data-href="{{ route('payment_layout_page') }}?tabpage=razorPay" data-target=".payment_paste_here" data-toggle="tabajax"  class="nav-link  {{$tabpage=='razorPay'?'active':''}}"   rel="tooltip"> {{__('messages.razor')}}</a>
-            </li>
+            </li> --}}
             <li class="nav-item payment-link">
                 <a href="javascript:void(0)" data-href="{{ route('payment_layout_page') }}?tabpage=flutterwave" data-target=".payment_paste_here" data-toggle="tabajax"  class="nav-link  {{$tabpage=='flutterwave'?'active':''}}"   rel="tooltip"> {{__('messages.flutterwave')}}</a>
             </li>

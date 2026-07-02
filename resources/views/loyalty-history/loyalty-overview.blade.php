@@ -122,7 +122,7 @@
                         </div>
                         <div class="input-group input-group-search flex-grow-1 flex-md-grow-0" style="max-width: 250px;">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            <input type="text" class="form-control dt-search" placeholder="Search...">
+                            <input type="text" class="form-control dt-search" placeholder="{{ __('messages.search') }}">
                         </div>
                     </div>
                     {{-- Table --}}

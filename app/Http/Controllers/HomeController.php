@@ -196,7 +196,9 @@ class HomeController extends Controller
     public function adminDashboard($data)
     {
 
-        $rezorpayX_details = PaymentGateway::where('type', 'razorPayX')->where('status', 1)->first();
+        // DISABLED: RazorpayX – kept for future Saudi gateway migration
+        // $rezorpayX_details = PaymentGateway::where('type', 'razorPayX')->where('status', 1)->first();
+        $rezorpayX_details = null;
         return view('dashboard.dashboard', compact('data', 'rezorpayX_details'));
     }
     public function providerDashboard($data)

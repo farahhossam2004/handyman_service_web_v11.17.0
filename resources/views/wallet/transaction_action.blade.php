@@ -1,7 +1,7 @@
 @if($exists || $query->status == 'paid')
 <span class="text-center d-block"> - </span>
 @else
-<a href="#" onclick="confirmAction({{ $query->id }})" class="btn btn-md btn-link float-right"><u>{{__('messages.paid_elsewhere')}}</u></a>
+<a href="#" onclick="confirmAction({{ $query->id }})" class="btn btn-md btn-link float-end"><u>{{__('messages.paid_elsewhere')}}</u></a>
 
 @endif
 

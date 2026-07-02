@@ -1,4 +1,7 @@
-<link rel="shortcut icon" class="favicon_preview" href="{{ asset('landing-images/greylogo.png') }}" />
+@php
+    $headThemeSetup = \App\Models\Setting::where('type', 'theme-setup')->where('key', 'theme-setup')->first();
+@endphp
+<link rel="shortcut icon" class="favicon_preview" href="{{ getSingleMedia($headThemeSetup, 'favicon', false) }}" />
 <link rel='stylesheet' href="{{ asset('vendor/fullcalendar/core/main.css')}}" />
 <link rel='stylesheet' href="{{ asset('vendor/fullcalendar/daygrid/main.css')}}" />
 <link rel='stylesheet' href="{{ asset('vendor/fullcalendar/timegrid/main.css')}}" />

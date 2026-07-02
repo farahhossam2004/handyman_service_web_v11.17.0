@@ -55,42 +55,12 @@
                                         <form id="registerForm" method="POST" data-toggle="validator">
                                             {{ csrf_field() }}
                                             <div class="form-group icon-right mb-5 custom-form-field">
-                                                <label>{{ __('auth.first_name') }} <span
+                                                <label>{{ __('messages.name') }} <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" id="first_name" name="first_name" class="form-control"
-                                                    placeholder="{{ __('placeholder.first_name') }}" aria-label="firstname"
+                                                <input type="text" id="name" name="name" class="form-control"
+                                                    placeholder="{{ __('messages.name') }}" aria-label="name"
                                                     aria-describedby="basic-addon1" required>
                                                 <small class="help-block with-errors text-danger"></small>
-                                            </div>
-
-
-                                            <div class="form-group icon-right mb-5 custom-form-field">
-                                                <label>{{ __('auth.last_name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" id="last_name" name="last_name" class="form-control"
-                                                    placeholder="{{ __('placeholder.last_name') }}" aria-label="lastname"
-                                                    aria-describedby="basic-addon2" required>
-                                                <small class="help-block with-errors text-danger"></small>
-                                            </div>
-
-
-                                            <div class="form-group icon-right mb-5 custom-form-field">
-                                                <label>{{ __('landingpage.user_name') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" id="username" name="username" class="form-control"
-                                                    placeholder="{{ __('placeholder.user_name') }}" aria-label="Username"
-                                                    aria-describedby="basic-addon3" required>
-                                                <small id="username-error" class="help-block with-errors text-danger"
-                                                    style="display: none;"></small>
-                                            </div>
-
-                                            <div class="form-group icon-right mb-5 custom-form-field">
-                                                <label>{{ __('landingpage.email') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="email" id="email" name="email" class="form-control"
-                                                    placeholder="{{ __('placeholder.email') }}" aria-label="Email Address"
-                                                    aria-describedby="basic-addon4" required>
-                                                <small id="email-error" class="help-block with-errors text-danger"
-                                                    style="display: none;"></small>
                                             </div>
 
 
@@ -260,18 +230,16 @@
         const baseUrl = document.querySelector('meta[name="baseUrl"]').getAttribute('content');
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-        let isUsernameValid = true;
-        let isEmailValid = true;
         let isContactNumberValid = true;
 
-        function validateInput(inputSelector, fieldName, errorSelector) {
+        function validateContactNumber(inputSelector, fieldName, errorSelector) {
             let debounceTimer = null;
 
             $(inputSelector).on('input', function() {
                 let value = $(this).val().trim();
                 clearTimeout(debounceTimer);
 
-                if (fieldName === 'contact_number' && value !== '') {
+                if (value !== '') {
                     const selectedCountry = iti.getSelectedCountryData();
                     const dialCode = selectedCountry?.dialCode || '';
                     value = `+${dialCode}${value}`;
@@ -281,7 +249,7 @@
                     if (value !== '') {
                         $.ajax({
                             method: 'POST',
-                            url: baseUrl + '/api/check-field', // ✅ use general endpoint
+                            url: baseUrl + '/api/check-field',
                             data: {
                                 _token: csrfToken,
                                 field: fieldName,
@@ -296,41 +264,24 @@
                                 } else {
                                     $(errorSelector).text('').hide();
                                 }
-
-                                // Update validation state
-                                if (fieldName === 'username') isUsernameValid = !
-                                    hasError;
-                                if (fieldName === 'email') isEmailValid = !hasError;
-                                if (fieldName === 'contact_number')
-                                    isContactNumberValid = !hasError;
+                                isContactNumberValid = !hasError;
                             },
                             error: function() {
                                 $(errorSelector).text(
                                     `Error checking ${fieldName.replace('_', ' ')}.`
                                 ).show();
-
-                                if (fieldName === 'username') isUsernameValid =
-                                    false;
-                                if (fieldName === 'email') isEmailValid = false;
-                                if (fieldName === 'contact_number')
-                                    isContactNumberValid = false;
+                                isContactNumberValid = false;
                             }
                         });
                     } else {
                         $(errorSelector).text('').hide();
-
-                        // Reset to true if empty
-                        if (fieldName === 'username') isUsernameValid = true;
-                        if (fieldName === 'email') isEmailValid = true;
-                        if (fieldName === 'contact_number') isContactNumberValid = true;
+                        isContactNumberValid = true;
                     }
                 }, 300);
             });
         }
 
-        validateInput('#username', 'username', '#username-error');
-        validateInput('#email', 'email', '#email-error');
-        validateInput('#contact_number', 'contact_number', '#contact_number-error');
+        validateContactNumber('#contact_number', 'contact_number', '#contact_number-error');
 
         // Initialize phone input handler
         if (typeof PhoneInputHandler !== 'undefined' && typeof window.intlTelInput !== 'undefined') {
@@ -370,8 +321,7 @@
                 return; // Stop further execution
             }
 
-            if (!isUsernameValid || !isEmailValid || !isContactNumberValid) {
-
+            if (!isContactNumberValid) {
                 return;
             }
             // Disable the submit button and show the loader
@@ -407,24 +357,6 @@
                 }
             });
         });
-
-        $('#email').on('input', function() {
-            clearTimeout(debounceTimer);
-
-            debounceTimer = setTimeout(function() {
-                const email = $('#email').val().trim();
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                if (email === '') {
-                    $('#email-error').hide();
-                } else if (!emailRegex.test(email)) {
-                    $('#email-error').text('Invalid Email format').show();
-                } else {
-                    $('#email-error').hide();
-                }
-            }, 300);
-        });
-
 
     });
 

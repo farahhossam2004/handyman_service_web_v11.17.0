@@ -21,7 +21,7 @@ class CurrencyChange
         $sitesetup = Setting::where('type','site-setup')->where('key', 'site-setup')->first();
         $sitesetupdata = $sitesetup ? json_decode($sitesetup->value, true) : null;
 
-        $this->CurrencyId = $sitesetupdata['default_currency'] ?? null;
+        $this->CurrencyId = $sitesetupdata['default_currency'] ?? "191";
         $this->CurrencyPosition = $sitesetupdata['currency_position'] ?? null;
         $this->afterdecimalpoint = $sitesetupdata['digitafter_decimal_point'] ?? null;
         $this->defaultCurrency = Country::where('id', $this->CurrencyId)->first();

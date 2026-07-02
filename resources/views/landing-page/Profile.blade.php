@@ -6,7 +6,7 @@
     <div class="container">
         <div class="bg-light profile-block">
             <div class="text-center">
-                <h3 class="text-capitalize">edit profile</h3>
+                <h3 class="text-capitalize">{{ __('messages.edit_profile') }}</h3>/h3>
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="flex-shrink-0 d-inline-block position-relative">
@@ -15,15 +15,15 @@
                 </div>
                 <div class="profile-desc">
                     <h5>Amine Steward</h5>
-                    <p class="m-0">Upload A New Image.</p>
+                    <p class="m-0">{{ __('messages.upload_new_image') }}</p>/p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 mt-5 mb-3">
-                    <h5 class="text-capitalize">personal detail</h5>
+                    <h5 class="text-capitalize">{{ __('messages.personal_detail') }}</h5>/h5>
                 </div>
                 <div class="col-lg-4">
-                    <h6 class="text-capitalize">first name</h6>
+                    <h6 class="text-capitalize">{{ __('messages.first_name') }}</h6>/h6>
                     <div class="input-group mb-5">
                         <span class="input-group-text" id="basic-addon1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="17" viewBox="0 0 14 17" fill="none">
@@ -31,11 +31,11 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.99013 8.50441C8.8937 8.50441 10.4366 6.96084 10.4366 5.05727C10.4366 3.1537 8.8937 1.61084 6.99013 1.61084C5.08656 1.61084 3.54299 3.1537 3.54299 5.05727C3.53656 6.95441 5.06942 8.49798 6.96585 8.50441H6.99013Z" stroke="currentColor" stroke-width="1.42857" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                         </span>
-                        <input type="text" class="form-control text-capitalize" placeholder="enter first name" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control text-capitalize" placeholder="{{ __('auth.enter_name', ['name' => __('auth.first_name')]) }}" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <h6 class="text-capitalize">last name</h6>
+                    <h6 class="text-capitalize">{{ __('messages.last_name') }}</h6>/h6>
                     <div class="input-group mb-5">
                         <span class="input-group-text" id="basic-addon1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="17" viewBox="0 0 14 17" fill="none">
@@ -43,11 +43,11 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.99013 8.50441C8.8937 8.50441 10.4366 6.96084 10.4366 5.05727C10.4366 3.1537 8.8937 1.61084 6.99013 1.61084C5.08656 1.61084 3.54299 3.1537 3.54299 5.05727C3.53656 6.95441 5.06942 8.49798 6.96585 8.50441H6.99013Z" stroke="currentColor" stroke-width="1.42857" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                         </span>
-                        <input type="text" class="form-control text-capitalize" placeholder="enter last name" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control text-capitalize" placeholder="{{ __('auth.enter_name', ['name' => __('auth.last_name')]) }}" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <h6 class="text-capitalize">username</h6>
+                    <h6 class="text-capitalize">{{ __('messages.username') }}</h6>/h6>
                     <div class="input-group mb-5">
                         <span class="input-group-text" id="basic-addon1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="17" viewBox="0 0 14 17" fill="none">
@@ -55,11 +55,11 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.99013 8.50441C8.8937 8.50441 10.4366 6.96084 10.4366 5.05727C10.4366 3.1537 8.8937 1.61084 6.99013 1.61084C5.08656 1.61084 3.54299 3.1537 3.54299 5.05727C3.53656 6.95441 5.06942 8.49798 6.96585 8.50441H6.99013Z" stroke="currentColor" stroke-width="1.42857" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                         </span>
-                        <input type="text" class="form-control text-capitalize" placeholder="enter username" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control text-capitalize" placeholder="{{ __('auth.enter_name', ['name' => __('auth.username')]) }}" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <h6 class="text-capitalize">email address</h6>
+                    <h6 class="text-capitalize">{{ __('auth.email') }}</h6>/h6>
                     <div class="input-group mb-5">
                         <span class="input-group-text" id="basic-addon1">
                         <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,11 +69,11 @@
                             </g>
                         </svg>
                         </span>
-                        <input type="email" class="form-control text-capitalize" placeholder="enter email" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="email" class="form-control text-capitalize" placeholder="{{ __('auth.email') }}" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <h6 class="text-capitalize">contact number</h6>
+                    <h6 class="text-capitalize">{{ __('auth.contact_number') }}</h6>/h6>
                     <div class="input-group mb-5">
                         <span class="input-group-text" id="basic-addon1">
                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -84,25 +84,25 @@
                             </g>
                         </svg>
                         </span>
-                        <input type="text" class="form-control text-capitalize" placeholder="enter contact number" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control text-capitalize" placeholder="{{ __('auth.contact_number') }}" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                 </div>
                     <div class="col-12 mt-5 mb-3">
-                    <h5 class="text-capitalize">country detail</h5>
+                    <h5 class="text-capitalize">{{ __('messages.country_detail') }}</h5>/h5>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <h6 class="text-capitalize">select country</h6>
+                    <h6 class="text-capitalize">{{ __('messages.select_country') }}</h6>/h6>
                     <select class="form-select select2-basic-single js-states">
-                        <option>United States</option>
-                        <option>Caneda</option>
-                        <option>Indis</option>
-                        <option>London</option>
-                        <option>Africa</option>
-                        <option>Nepal</option>
+                        <option>Saudi Arabia</option>
+                        <option>United Arab Emirates</option>
+                        <option>Qatar</option>
+                        <option>Kuwait</option>
+                        <option>Bahrain</option>
+                        <option>Oman</option>
                     </select>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <h6 class="text-capitalize">select state</h6>
+                    <h6 class="text-capitalize">{{ __('messages.select_state') }}</h6>/h6>
                     <select class="form-select select2-basic-single js-states">
                         <option>Gujrat</option>
                         <option>Maharashtra</option>
@@ -113,7 +113,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <h6 class="text-capitalize">select city</h6>
+                    <h6 class="text-capitalize">{{ __('messages.select_city') }}</h6>/h6>
                     <select class="form-select select2-basic-single js-states">
                         <option>Navsari</option>
                         <option>Ahemdabad</option>
@@ -124,7 +124,7 @@
                     </select>
                 </div>
                 <div class="col-12">
-                    <h6 class="text-capitalize">address</h6>
+                    <h6 class="text-capitalize">{{ __('messages.address') }}</h6>/h6>
                     <div class="input-group custom-form-field">
                         <span class="input-group-text align-items-start">
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 14 15"
@@ -139,7 +139,7 @@
                                     stroke-linejoin="round"></path>
                             </svg>
                         </span>
-                        <textarea class="form-control text-capitalize" rows="5" placeholder="write here..."></textarea>
+                        <textarea class="form-control text-capitalize" rows="5" placeholder="{{ __('messages.write_here') }}"></textarea>
                     </div>
                 </div>
             </div>

@@ -64,7 +64,7 @@
                     @endif
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <div class="d-flex align-items-center gap-3 justify-content-end">
-                            <div class="datatable-filter ml-auto">
+                            <div class="datatable-filter ms-auto">
                                 <select name="column_status" id="column_status" class="select2 form-select" data-filter="select" style="width: 100%">
                                     <option value="">{{ __('messages.all') }}</option>
                                     <option value="0">{{ __('messages.inactive') }}</option>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="input-group input-group-search ms-2">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
-                                <input type="text" class="form-control dt-search" placeholder="Search...">
+                                <input type="text" class="form-control dt-search" placeholder="{{ __('messages.search') }}">
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
 
             // Action column only if edit OR delete allowed
             if (canEdit || canDelete) {
-                columns.push({ data: 'action', title: 'Action', orderable: false, searchable: false });
+                columns.push({ data: 'action', title: '{{ __('messages.action') }}', orderable: false, searchable: false });
             }
 
             window.renderedDataTable = $('#datatable').DataTable({

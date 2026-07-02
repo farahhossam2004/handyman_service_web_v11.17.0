@@ -13,8 +13,8 @@ return [
 */
 
     'CURRENCY' => [
-        'COUNTRY_ID' => '',
-        'POSITION' => ''
+        'COUNTRY_ID' => '191',
+        'POSITION' => 'right'
     ],
 
     // 'ONESIGNAL' => [

@@ -19,27 +19,27 @@
         <div class="chat-detail">
             <div class="row">
                 <div class="col-6 col-md-6 title">Nick Name:</div>
-                <div class="col-6 col-md-6 text-right">{{ $nickName }}</div>
+                <div class="col-6 col-md-6 text-end">{{ $nickName }}</div>
             </div>
             <hr>
             <div class="row">
                 <div class="col-6 col-md-6 title">Tel:</div>
-                <div class="col-6 col-md-6 text-right">{{ $contact }}</div>
+                <div class="col-6 col-md-6 text-end">{{ $contact }}</div>
             </div>
             <hr>
             <div class="row">
                 <div class="col-6 col-md-6 title">Date Of Birth:</div>
-                <div class="col-6 col-md-6 text-right">{{ $dob }}</div>
+                <div class="col-6 col-md-6 text-end">{{ $dob }}</div>
             </div>
             <hr>
             <div class="row">
                 <div class="col-6 col-md-6 title">Gender:</div>
-                <div class="col-6 col-md-6 text-right">{{ $gender }}</div>
+                <div class="col-6 col-md-6 text-end">{{ $gender }}</div>
             </div>
             <hr>
             <div class="row">
                 <div class="col-6 col-md-6 title">Language:</div>
-                <div class="col-6 col-md-6 text-right">{{ $lang }}</div>
+                <div class="col-6 col-md-6 text-end">{{ $lang }}</div>
             </div>
         </div>
         </div>

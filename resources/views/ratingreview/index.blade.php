@@ -10,7 +10,7 @@
                         <div class="col-lg-3 justify-content-end align-items-center">
                             <div class="input-group ">
                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
-                                <input type="text" class="form-control dt-search" placeholder="Search..." aria-label="Search" aria-describedby="addon-wrapping" aria-controls="dataTableBuilder">
+                                <input type="text" class="form-control dt-search" placeholder="{{ __('messages.search') }}" aria-label="Search" aria-describedby="addon-wrapping" aria-controls="dataTableBuilder">
                             </div>
                         </div>
                         <div class="table-responsive">

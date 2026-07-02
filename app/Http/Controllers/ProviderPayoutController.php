@@ -208,32 +208,22 @@ class ProviderPayoutController extends Controller
 
               switch($payment_gateway){
 
-               case 'razorpayx':
-
-                 $response=providerpayout_rezopayX($data);
-
-                 if($response==''){
-
-                    return redirect()->back()->withErrors(trans('messages.rezorpayx_details'))->withInput();
-
-                  }
-
-                 $payout_details = json_decode($response,True);
-                 $payout = $payout_details;
-
-                if($error=$payout['error']['description']  ==''){
-
-                    $payout_id=$payout['id'] ;
-                    $data['paid_date']=Carbon::now();
-
-                  }else {
-
-                     $razorpay_message=$payout['error']['description'];
-
-                     return  redirect()->back()->withErrors(trans('messages.razorpay_message',['razorpay_message' => $razorpay_message]))->withInput();
-
-                   }
-               break;
+            // DISABLED: RazorpayX – kept for future Saudi gateway migration
+            // case 'razorpayx':
+            //     $response=providerpayout_rezopayX($data);
+            //     if($response==''){
+            //         return redirect()->back()->withErrors(trans('messages.rezorpayx_details'))->withInput();
+            //     }
+            //     $payout_details = json_decode($response,True);
+            //     $payout = $payout_details;
+            //     if($error=$payout['error']['description']  ==''){
+            //         $payout_id=$payout['id'] ;
+            //         $data['paid_date']=Carbon::now();
+            //     } else {
+            //         $razorpay_message=$payout['error']['description'];
+            //         return  redirect()->back()->withErrors(trans('messages.razorpay_message',['razorpay_message' => $razorpay_message]))->withInput();
+            //     }
+            //    break;
 
                case 'stripe':
 

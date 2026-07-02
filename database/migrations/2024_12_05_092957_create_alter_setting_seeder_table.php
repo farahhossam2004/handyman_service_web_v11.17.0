@@ -35,7 +35,7 @@ return new class extends Migration
                 'id' => 3,
                 'key' => 'site-setup',
                 'type' => 'site-setup',
-                'value' =>'{"date_format":"F j, Y","time_format":"g:i A","time_zone":"Asia/Kolkata","language_option":["ar","nl","en","fr","de","hi","it","ar"],"default_currency":"231","currency_position":"left","google_map_keys":"AIzaSyCtTed7y_ePqg1QoDMHOyu01FtP_Ot-mDU","latitude":null,"longitude":null,"distance_type":"km","radious":"50","digitafter_decimal_point":"2","android_app_links":1,"ios_app_links":0,"appstore_url":"","provider_appstore_url":"","site_copyright":"© 2024 All Rights Reserved"}',
+                'value' =>'{"date_format":"F j, Y","time_format":"g:i A","time_zone":"Asia/Riyadh","language_option":["ar","nl","en","fr","de","hi","it","ar"],"default_currency":"191","currency_position":"right","google_map_keys":"AIzaSyCtTed7y_ePqg1QoDMHOyu01FtP_Ot-mDU","latitude":"21.4225","longitude":"39.8262","distance_type":"km","radious":"50","digitafter_decimal_point":"2","android_app_links":1,"ios_app_links":0,"appstore_url":"","provider_appstore_url":"","site_copyright":"© 2024 All Rights Reserved"}',
             ),
             3 =>
             array (

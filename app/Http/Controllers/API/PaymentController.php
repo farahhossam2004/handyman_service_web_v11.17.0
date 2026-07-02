@@ -504,7 +504,7 @@ class PaymentController extends Controller
 
     public function paymentGateways(Request $request)
     {
-        $payment = PaymentGateway::where('status', 1)->where('type', '!=', 'razorPayX')->get();
+        $payment = PaymentGateway::where('status', 1)->whereNotIn('type', ['razorPayX', 'razorPay'])->get();
         if ($request->has('is_add_wallet') && $request->is_add_wallet == true) {
             $walletEntry = new \stdClass();
             $walletEntry->id = null; // Or assign a unique identifier if needed

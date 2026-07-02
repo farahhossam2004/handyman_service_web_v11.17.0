@@ -26,17 +26,17 @@ class PlanValidatorService
         // Extract new plan limits
         $newLimits = $this->extractLimits($newPlanLimitation);
 
-        // CASE 1: New plan amount > Premium Plan amount ($100)
+        // CASE 1: New plan amount > Premium Plan amount
         if ($basicPlan && $premiumPlan && $newPlanAmount > $premiumPlan->amount) {
             $premiumLimits = $this->getPlanLimits($premiumPlan);
             $errors = array_merge($errors, $this->validateHigherThanPremium($newLimits, $premiumLimits));
         }
-        // CASE 2: New plan amount < Premium Plan amount ($100)
+        // CASE 2: New plan amount < Premium Plan amount
         elseif ($premiumPlan && $newPlanAmount < $premiumPlan->amount) {
             $premiumLimits = $this->getPlanLimits($premiumPlan);
             $errors = array_merge($errors, $this->validateLowerThanPremium($newLimits, $premiumLimits));
 
-            // Additional check: if new plan amount > Basic Plan amount ($10)
+            // Additional check: if new plan amount > Basic Plan amount
             if ($basicPlan && $newPlanAmount > $basicPlan->amount) {
                 $basicLimits = $this->getPlanLimits($basicPlan);
                 $errors = array_merge($errors, $this->validateHigherThanBasic($newLimits, $basicLimits));

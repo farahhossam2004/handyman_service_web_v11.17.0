@@ -318,11 +318,6 @@
                     case 'paypal':
                         // Add PayPal specific fields
                         break;
-                    case 'razorpay':
-                        // Razorpay specific fields
-                        $('#razorpay_payment_details')
-                            .show(); // This should be the container to input Razorpay-specific details
-                        break;
                     case 'flutterwave':
                         // Add Flutterwave specific fields
                         break;

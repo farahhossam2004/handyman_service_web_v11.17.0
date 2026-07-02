@@ -138,7 +138,7 @@
                 {{-- Filter --}}
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="d-flex align-items-center gap-3 justify-content-end">
-                        <div class="datatable-filter ml-auto">
+                        <div class="datatable-filter ms-auto">
                             <select name="partial_rule_status" id="partial_rule_status" class="select2 form-select"
                                 data-filter="partial_rule_status" style="width: 100%">
                                 <option value="">{{ __('messages.all') }}</option>
@@ -214,7 +214,7 @@
                 columns.push({
                     data: 'action',
                     name: 'action',
-                    title: 'Action',
+                    title: '{{ __('messages.action') }}',
                     orderable: false,
                     searchable: false
                 });

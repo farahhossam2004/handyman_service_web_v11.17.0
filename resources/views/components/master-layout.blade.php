@@ -49,11 +49,7 @@
         $primaryColorFromDB = $themeData['primary_color'] ?? null;
     @endphp
 
-    {{-- <title>{{ $siteName ?? 'Laravel' }}</title>
-
-    <title>{{ $pageTitle ?? 'Default Title' }}</title> --}}
-
-    <title>{{ $pageTitle ?? 'Sanad Dashboard' }} | سند</title>
+    <title>{{ $pageTitle ?? $siteName ?? 'Sanad Dashboard' }} | سند</title>
 
 
     <script>

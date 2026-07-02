@@ -32,6 +32,7 @@
   'contact_number' => 'رقم الجوال',
   'user_type' => 'نوع المستخدم',
   'designation' => 'المسمى الوظيفي',
+  'send_password_reset_link' => 'إرسال رابط إعادة تعيين كلمة المرور',
   'password_mismatch_error' => 'كلمة المرور وتأكيد كلمة المرور غير متطابقتين',
 );
 

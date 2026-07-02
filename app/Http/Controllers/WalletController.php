@@ -325,10 +325,10 @@ class WalletController extends Controller
 
         $sitesetup = Setting::where('type', 'site-setup')->where('key', 'site-setup')->first();
         $sitesetupdata = $sitesetup ? json_decode($sitesetup->value, true) : null;
-        $country_id = $sitesetupdata['default_currency'] ?? null;
+        $country_id = $sitesetupdata['default_currency'] ?? "191";
         $country = Country::find($country_id);
 
-        $data['currency_code'] = $country ? $country->currency_code : "USD";
+        $data['currency_code'] = $country ? $country->currency_code : "SAR";
 
         switch ($data['payment_type']) {
             case 'stripe':

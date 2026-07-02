@@ -538,17 +538,17 @@ function getPriceFormat($price)
     $setting = App\Models\Setting::getValueByKey('site-setup', 'site-setup');
     // $sitesetup = App\Models\Setting::where('type','site-setup')->where('key', 'site-setup')->first();
     // $sitesetupdata = $sitesetup ? json_decode($sitesetup->value) : null;
-    $currencyId = $setting ? $setting->default_currency : "231";
-    $currency_position = $setting ? $setting->currency_position : "left";
+    $currencyId = $setting ? $setting->default_currency : "191";
+    $currency_position = $setting ? $setting->currency_position : "right";
     $afterdecimalpoint = $setting ? $setting->digitafter_decimal_point : "2";
     $country = App\Models\Country::find($currencyId);
 
-    $symbol = '$';
+    $symbol = 'ر.س';
     if (!empty($country)) {
         $symbol = $country->symbol;
     }
 
-    $position = 'left';
+    $position = 'right';
     if (!empty($currency_position)) {
         $position = $currency_position;
     }
@@ -566,17 +566,15 @@ function currency_data()
 {
 
     $setting = App\Models\Setting::getValueByKey('site-setup', 'site-setup');
-    // $sitesetup = App\Models\Setting::where('type','site-setup')->where('key', 'site-setup')->first();
-    // $sitesetupdata = $sitesetup ? json_decode($sitesetup->value) : null;
-    $currencyId = $setting ? $setting->default_currency : "231";
-    $currency_position = $setting ? $setting->currency_position : "left";
+    $currencyId = $setting ? $setting->default_currency : "191";
+    $currency_position = $setting ? $setting->currency_position : "right";
     $country = App\Models\Country::find($currencyId);
 
-    $symbol = '$';
+    $symbol = 'ر.س';
     if (!empty($country)) {
         $symbol = $country->symbol;
     }
-    $position = 'left';
+    $position = 'right';
     if (!empty($currency_position)) {
         $position = $currency_position;
     }
@@ -1868,7 +1866,7 @@ function providerpayout_rezopayX($data)
         // $sitesetup = App\Models\Setting::where('type','site-setup')->where('key', 'site-setup')->first();
         // $sitesetupdata = $sitesetup ? json_decode($sitesetup->value) : null;
 
-        $currency_country_id = $setting ? $setting->default_currency : "231";
+        $currency_country_id = $setting ? $setting->default_currency : "191";
 
         $country_data = \App\Models\Country::where('id', $currency_country_id)->first();
 
@@ -1974,7 +1972,7 @@ function providerpayout_stripe($data)
         // $sitesetup = App\Models\Setting::where('type','site-setup')->where('key', 'site-setup')->first();
         // $sitesetupdata = $sitesetup ? json_decode($sitesetup->value) : null;
 
-        $currency_country_id = $setting ? $setting->default_currency : "231";
+        $currency_country_id = $setting ? $setting->default_currency : "191";
 
         $country_data = \App\Models\Country::where('id', $currency_country_id)->first();
 
@@ -2383,9 +2381,9 @@ function countrySymbol()
     // $sitesetup = App\Models\Setting::where('type','site-setup')->where('key', 'site-setup')->first();
     // $sitesetupdata = $sitesetup ? json_decode($sitesetup->value) : null;
 
-    $currencyId = $setting ? $setting->default_currency : "231";
+    $currencyId = $setting ? $setting->default_currency : "191";
     $country = \App\Models\Country::find($currencyId);
-    $symbol = '$';
+    $symbol = 'ر.س';
     if (!empty($country)) {
         $symbol = $country->symbol;
     }

@@ -21,7 +21,7 @@
                             (version {{ $phpSupportInfo['minimum'] }} required)
                         </small>
                     </strong>
-                    <span class="float-right">
+                    <span class="float-end">
                         <strong>
                             {{ $phpSupportInfo['current'] }}
                         </strong>

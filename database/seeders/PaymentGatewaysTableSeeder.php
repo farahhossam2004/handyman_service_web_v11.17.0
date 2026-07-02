@@ -47,22 +47,23 @@ class PaymentGatewaysTableSeeder extends Seeder
                     "stripe_publickey" => ""
                 ])
             ),
-            2 =>
-            array (
-                'created_at' => '2023-09-05 09:49:30',
-                'id' => 3,
-                'is_test' => 1,
-                'live_value' => NULL,
-                'status' => 1,
-                'title' => 'Razor Pay',
-                'type' => 'razorPay',
-                'updated_at' => '2023-09-05 09:49:30',
-               'value' => json_encode([
-                    "razor_url" => "https://api.razorpay.com/v1/orders",
-                    "razor_key" => "",
-                    "razor_secret" => ""
-                ]),
-            ),
+            // DISABLED: Razorpay – kept for future Saudi gateway migration
+            // 2 =>
+            // array (
+            //     'created_at' => '2023-09-05 09:49:30',
+            //     'id' => 3,
+            //     'is_test' => 1,
+            //     'live_value' => NULL,
+            //     'status' => 0,
+            //     'title' => 'Razor Pay',
+            //     'type' => 'razorPay',
+            //     'updated_at' => '2023-09-05 09:49:30',
+            //    'value' => json_encode([
+            //         "razor_url" => "https://api.razorpay.com/v1/orders",
+            //         "razor_key" => "",
+            //         "razor_secret" => ""
+            //     ]),
+            // ),
             3 =>
             array (
                 'created_at' => '2023-09-05 09:50:14',

@@ -30,10 +30,10 @@ class PaymentGatewayController extends Controller
                 $data  = view('paymentgateway.'.$tabpage, compact('user_data','tabpage','payment_data'))->render();
                 break;
 
-            case 'razorPay':
-                $tabpage = 'razorPay';
-                $data  = view('paymentgateway.rezorpay_option', compact('user_data', 'tabpage', 'payment_data'))->render();
-                break;
+            // case 'razorPay':
+            //     $tabpage = 'razorPay';
+            //     $data  = view('paymentgateway.rezorpay_option', compact('user_data', 'tabpage', 'payment_data'))->render();
+            //     break;
 
             case 'flutterwave':
                 if(!empty($payment_data['value'])){
@@ -134,51 +134,40 @@ class PaymentGatewayController extends Controller
         return response()->json($data);
     }
 
-     public function rezorpaypaymentPage(Request $request)
-    {
-       $tabpage = $request->tabpage;
-
-        $auth_user = authSession();
-        $user_id = $auth_user->id;
-        $user_data = User::find($user_id);
-        $payment_data = PaymentGateway::where('type',$tabpage)->first();
-
-        switch($tabpage) {
-    
-            case 'razorPay':
-
-                if(!empty($payment_data['value'])){
-                    $decodedata = json_decode($payment_data['value']);
-
-                    $payment_data['razor_url'] = $decodedata->razor_url;
-                    $payment_data['razor_key'] = $decodedata->razor_key;
-                    $payment_data['razor_secret'] = $decodedata->razor_secret;
-                }
-                $data  = view('paymentgateway.'.$tabpage, compact('user_data','tabpage','payment_data'))->render();
-                break;
-
-                case 'razorPayX':
-
-                    if(!empty($payment_data['value'])){
-                        $decodedata = json_decode($payment_data['value']);
-    
-                        $payment_data['razorx_url'] = $decodedata->razorx_url;
-                        $payment_data['razorx_account'] = $decodedata->razorx_account;
-                        $payment_data['razorx_key'] = $decodedata->razorx_key;
-                        $payment_data['razorx_secret'] = $decodedata->razorx_secret;
-                    }
-                    $data  = view('paymentgateway.'.$tabpage, compact('user_data','tabpage','payment_data'))->render();
-                    break;
-            
-          
-            default:
-              
-                $data  = view('paymentgateway.'.$tabpage,compact('tabpage','payment_data'))->render();
-                break;
-        }
-        return response()->json($data);
-       
-    }
+    // DISABLED: Razorpay/RazorpayX – kept for future Saudi gateway migration
+    // public function rezorpaypaymentPage(Request $request)
+    // {
+    //    $tabpage = $request->tabpage;
+    //    $auth_user = authSession();
+    //    $user_id = $auth_user->id;
+    //    $user_data = User::find($user_id);
+    //    $payment_data = PaymentGateway::where('type',$tabpage)->first();
+    //    switch($tabpage) {
+    //        case 'razorPay':
+    //            if(!empty($payment_data['value'])){
+    //                $decodedata = json_decode($payment_data['value']);
+    //                $payment_data['razor_url'] = $decodedata->razor_url;
+    //                $payment_data['razor_key'] = $decodedata->razor_key;
+    //                $payment_data['razor_secret'] = $decodedata->razor_secret;
+    //            }
+    //            $data  = view('paymentgateway.'.$tabpage, compact('user_data','tabpage','payment_data'))->render();
+    //            break;
+    //        case 'razorPayX':
+    //            if(!empty($payment_data['value'])){
+    //                $decodedata = json_decode($payment_data['value']);
+    //                $payment_data['razorx_url'] = $decodedata->razorx_url;
+    //                $payment_data['razorx_account'] = $decodedata->razorx_account;
+    //                $payment_data['razorx_key'] = $decodedata->razorx_key;
+    //                $payment_data['razorx_secret'] = $decodedata->razorx_secret;
+    //            }
+    //            $data  = view('paymentgateway.'.$tabpage, compact('user_data','tabpage','payment_data'))->render();
+    //            break;
+    //        default:
+    //            $data  = view('paymentgateway.'.$tabpage,compact('tabpage','payment_data'))->render();
+    //            break;
+    //    }
+    //    return response()->json($data);
+    // }
 
     public function paymentsettingsUpdates(Request $request){
         if(demoUserPermission()){
@@ -209,22 +198,24 @@ class PaymentGatewayController extends Controller
                 ];
                 break;
 
-            case 'razorPay':
-                $config_data = [
-                    'razor_url' => $data['razor_url'],
-                    'razor_key' => $data['razor_key'],
-                    'razor_secret' => $data['razor_secret']
-                ];
-                break;
+            // DISABLED: Razorpay – kept for future Saudi gateway migration
+            // case 'razorPay':
+            //     $config_data = [
+            //         'razor_url' => $data['razor_url'],
+            //         'razor_key' => $data['razor_key'],
+            //         'razor_secret' => $data['razor_secret']
+            //     ];
+            //     break;
 
-                case 'razorPayX':
-                    $config_data = [
-                        'razorx_url' => $data['razorx_url'],
-                        'razorx_account' => $data['razorx_account'],
-                        'razorx_key' => $data['razorx_key'],
-                        'razorx_secret' => $data['razorx_secret']
-                    ];
-               break;
+            // DISABLED: RazorpayX – kept for future Saudi gateway migration
+            // case 'razorPayX':
+            //     $config_data = [
+            //         'razorx_url' => $data['razorx_url'],
+            //         'razorx_account' => $data['razorx_account'],
+            //         'razorx_key' => $data['razorx_key'],
+            //         'razorx_secret' => $data['razorx_secret']
+            //     ];
+            //    break;
 
             case 'flutterwave':
                 $config_data = [

@@ -1,18 +1,29 @@
 <x-master-layout>
+    @php
+        $siteSetupCurrency = \App\Models\Setting::where('type', 'SITE_SETUP')->where('key', 'SITE_SETUP')->first();
+        $siteSetupCurrency = json_decode($siteSetupCurrency->value ?? '{}');
+        $currencySymbol = 'ر.س';
+        if ($siteSetupCurrency && !empty($siteSetupCurrency->default_currency)) {
+            $cCountry = \App\Models\Country::find($siteSetupCurrency->default_currency);
+            if ($cCountry && !empty($cCountry->symbol)) {
+                $currencySymbol = $cCountry->symbol;
+            }
+        }
+    @endphp
     <div class="container-fluid">
         <div class="row">
 
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between my-schedule mb-4">
                     <div class="d-flex align-items-center justify-content-between">
-                        <h4 class="fw-bold">All Invoice</h4>
+                        <h4 class="fw-bold">{{ __('messages.all') }} {{ __('messages.invoice') }}</h4>
                     </div>
                     <div class="create-workform">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="modal-product-search d-flex">
                                 <form class="me-3 position-relative">
                                     <div class="form-group mb-0">
-                                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="textHelp" placeholder="Search Invoice">
+                                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="textHelp" placeholder="{{ __('messages.search') }}">
                                         <a class="search-link" href="#">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -24,7 +35,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>
-                                    Add Invoice
+                                    {{ __('messages.add_new') }} {{ __('messages.invoice') }}
                                 </a>
                             </div>
                         </div>
@@ -36,12 +47,12 @@
                         <div class="card card-block card-stretch">
                             <div class="card-body p-0">
                                 <div class="d-flex justify-content-between align-items-center p-3">
-                                    <h5 class="fw-bold">Invoices List</h5>
+                                    <h5 class="fw-bold">{{ __('messages.invoice') }} {{ __('messages.list_form_title', ['form' => '']) }}</h5>
                                     <button class="btn btn-secondary btn-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="me-1" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                         </svg>
-                                        Export
+                                        {{ __('messages.export') }}
                                     </button>
                                 </div>
                                 <div class="table-responsive">
@@ -57,22 +68,22 @@
                                                 </div>
                                             </th>
                                             <th scope="col">
-                                                <label class="text-muted m-0" for="text1">Customer</label>
+                                                <label class="text-muted m-0" for="text1">{{ __('messages.customer') }}</label>
                                             </th>
                                             <th scope="col" class="dates">
-                                                <label class="text-muted mb-0" for="validationServer01">Date</label>
+                                                <label class="text-muted mb-0" for="validationServer01">{{ __('messages.date') }}</label>
                                             </th>
                                             <th scope="col">
-                                                <label class="text-muted mb-0" for="text2">ID</label>
+                                                <label class="text-muted mb-0" for="text2">{{ __('messages.invoice_id') }}</label>
                                             </th>
-                                            <th scope="col" class="text-right">
-                                                <label class="text-muted mb-0" for="text3">Total</label>
+                                            <th scope="col" class="text-end">
+                                                <label class="text-muted mb-0" for="text3">{{ __('messages.total') }}</label>
                                             </th>
                                             <th scope="col">
-                                                <label class="text-muted mb-0" for="validationServer02">Status</label>
+                                                <label class="text-muted mb-0" for="validationServer02">{{ __('messages.status') }}</label>
                                             </th>
-                                            <th scope="col" class="text-right">
-                                                <span class="text-muted" for="validationServer01">Action</span>
+                                            <th scope="col" class="text-end">
+                                                <span class="text-muted" for="validationServer01">{{ __('messages.action') }}</span>
                                             </th>
                                         </tr>
                                         </thead>
@@ -103,23 +114,23 @@
                                             <td>
                                                 IN-325560
                                             </td>
-                                            <td class="text-right">
-                                                $104.98
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}104.98
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-success fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Paid
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.paid') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -153,23 +164,23 @@
                                             <td>
                                                 IN-120010
                                             </td>
-                                            <td class="text-right">
-                                                $99.00
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}99.00
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-success fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Paid
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.paid') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -203,23 +214,23 @@
                                             <td>
                                                 IN-125623
                                             </td>
-                                            <td class="text-right">
-                                                $249.49
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}249.49
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-warning fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Pending
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.pending') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -253,23 +264,23 @@
                                             <td>
                                                 IN-662210
                                             </td>
-                                            <td class="text-right">
-                                                $9.99
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}9.99
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-success fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Paid
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.paid') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -303,23 +314,23 @@
                                             <td>
                                                 IN-901020
                                             </td>
-                                            <td class="text-right">
-                                                $90.49
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}90.49
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-danger fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Cancelled
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.cancelled') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -353,23 +364,23 @@
                                             <td>
                                                 IN-902210
                                             </td>
-                                            <td class="text-right">
-                                                $39.99
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}39.99
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-success fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Paid
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.paid') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -403,23 +414,23 @@
                                             <td>
                                                 IN-902559
                                             </td>
-                                            <td class="text-right">
-                                                $19.22
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}19.22
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-warning fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Pending
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.pending') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -453,23 +464,23 @@
                                             <td>
                                                 IN-911211
                                             </td>
-                                            <td class="text-right">
-                                                $102.9
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}102.9
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-danger fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Cancelled
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.cancelled') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -503,23 +514,23 @@
                                             <td>
                                                 IN-902559
                                             </td>
-                                            <td class="text-right">
-                                                $13.99
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}13.99
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-success fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Paid
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.paid') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>
@@ -553,23 +564,23 @@
                                             <td>
                                                 IN-302240
                                             </td>
-                                            <td class="text-right">
-                                                $25.99
+                                            <td class="text-end">
+                                                {{ $currencySymbol }}25.99
                                             </td>
                                             <td>
                                                 <p class="mb-0 text-success fw-bold d-flex justify-content-start align-items-center">
-                                                    <small><i class="fas fa-circle me-2"></i></small>Paid
+                                                    <small><i class="fas fa-circle me-2"></i></small>{{ __('messages.paid') }}
                                                 </p>
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-end align-items-center">
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="View" href="{{route('invoice.view')}}">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.view') }}" href="{{route('invoice.view')}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary mx-4" width="20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
-                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print" href="#">
+                                                    <a class="" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __('messages.print') }}" href="#">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                         </svg>

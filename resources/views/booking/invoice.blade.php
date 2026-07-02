@@ -434,7 +434,7 @@
             background: rgb(65, 83, 179)
         }
 
-    .text-right {
+    .text-end {
         text-align: right;
     }
 
@@ -535,7 +535,7 @@
                                         }
 
                                      @endphp
-                                   <td class="text-right">{{!empty($sub_total) ? getPriceFormat($sub_total) : 0}}</td>
+                                   <td class="text-end">{{!empty($sub_total) ? getPriceFormat($sub_total) : 0}}</td>
                                 </tr>
                                 @php 
                                     $addonTotalPrice = $bookingdata->bookingAddonService->count() > 0 ? $bookingdata->bookingAddonService->sum('price') : 0;
@@ -544,14 +544,14 @@
                                     <tr>
                                         <td colspan="3"></td>
                                         <td >{{__('messages.add_ons')}}</span></td>
-                                        <td class="text-right" style="width: 20%;">{{ getPriceFormat($addonTotalPrice) }}</td>
+                                        <td class="text-end" style="width: 20%;">{{ getPriceFormat($addonTotalPrice) }}</td>
                                     </tr>
                                 @endif
                                 @if ($bookingdata->bookingPackage == null)
                                 <tr>
                                     <td colspan="3"></td>
                                     <td >{{__('messages.discount') }}   ({{ !empty($bookingdata->discount) ? $bookingdata->discount : 0}}%)</span> </td>
-                                    <td class="text-right" style="width: 20%;">{{getPriceFormat(!empty($bookingdata->discount) ? $sub_total * $bookingdata->discount / 100 : 0)}}</td>
+                                    <td class="text-end" style="width: 20%;">{{getPriceFormat(!empty($bookingdata->discount) ? $sub_total * $bookingdata->discount / 100 : 0)}}</td>
                                 </tr>
                                 @endif
                                 @php
@@ -573,7 +573,7 @@
                                             ({{ optional($bookingdata->couponAdded)->discount }}%)
                                         @endif
                                     )</span> </td>
-                                    <td class="text-right" style="width: 20%;">{{ getPriceFormat($bookingdata->final_coupon_discount_amount) ?? 0}}</td>
+                                    <td class="text-end" style="width: 20%;">{{ getPriceFormat($bookingdata->final_coupon_discount_amount) ?? 0}}</td>
                                 </tr>
                                 @endif
                                
@@ -581,12 +581,12 @@
                                 <tr>
                                     <td colspan="3"></td>
                                     <td >{{__('messages.extra_charge')}}</span></td>
-                                    <td class="text-right" style="width: 20%;">{{!empty($extraValue) ? getPriceFormat($extraValue) : 0}}</td>
+                                    <td class="text-end" style="width: 20%;">{{!empty($extraValue) ? getPriceFormat($extraValue) : 0}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
                                     <td >{{__('messages.Sub_Total')}}</span> </td>
-                                    <td class="text-right" class="text-right" style="width: 20%;">{{!empty($bookingdata->final_sub_total) ? getPriceFormat($bookingdata->final_sub_total) : 0}}</td>
+                                    <td class="text-end" class="text-end" style="width: 20%;">{{!empty($bookingdata->final_sub_total) ? getPriceFormat($bookingdata->final_sub_total) : 0}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
@@ -602,19 +602,19 @@
                                         @endif
                                     </td>
                                     
-                                    <td class="text-right" style="width: 20%;">{{!empty($bookingdata->final_total_tax) ? getPriceFormat($bookingdata->final_total_tax) : 0}}</td>
+                                    <td class="text-end" style="width: 20%;">{{!empty($bookingdata->final_total_tax) ? getPriceFormat($bookingdata->final_total_tax) : 0}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
                                     <td style="width: 20%; font-weight: bold;">{{__('messages.Total_Payable')}}</span></td>
-                                    <td class="text-right" style="width: 20%;font-weight: bold;">{{!empty($bookingdata->total_amount) ? getPriceFormat($bookingdata->total_amount) : 0}}</td>
+                                    <td class="text-end" style="width: 20%;font-weight: bold;">{{!empty($bookingdata->total_amount) ? getPriceFormat($bookingdata->total_amount) : 0}}</td>
                                 </tr>
 
                                 @if($bookingdata->service->is_enable_advance_payment == 1)
                             <tr>
                                 <td colspan="3"></td>
                                 <td style="width: 20%; font-weight: bold;">{{ __('messages.advance_payment_amount') }} ({{ $bookingdata->service->advance_payment_amount }}%)</td>
-                                <td class="text-right" style="width: 20%;font-weight: bold;">{{ getPriceFormat($bookingdata->advance_paid_amount) }}</td>
+                                <td class="text-end" style="width: 20%;font-weight: bold;">{{ getPriceFormat($bookingdata->advance_paid_amount) }}</td>
                             </tr>
                             @if($bookingdata->status !== "cancelled")
                             <tr>
@@ -627,7 +627,7 @@
                                     @endif
                                 </td>
 
-                                <td class="text-right" style="width: 20%; font-weight: bold;">
+                                <td class="text-end" style="width: 20%; font-weight: bold;">
                                     @if($payment != null && $payment->payment_status == 'paid') 
                                         {{ __('messages.paid') }}
                                     @else
@@ -640,7 +640,7 @@
                                 <tr>
                                     <td colspan="3"></td>
                                     <td style="width: 20%; font-weight: bold;">{{ __('messages.cancellation_charge') }} ({{ $bookingdata->cancellation_charge }}%)</td>
-                                    <td class="text-right" style="width: 20%;font-weight: bold;">{{getPriceFormat($bookingdata->cancellation_charge_amount )?? 0}}</td>
+                                    <td class="text-end" style="width: 20%;font-weight: bold;">{{getPriceFormat($bookingdata->cancellation_charge_amount )?? 0}}</td>
                                 </tr>
                                 @if($bookingdata->advance_paid_amount > 0)
                                     @php 
@@ -651,7 +651,7 @@
                                         <td colspan="3"></td>
                                         <td style="width: 20%; font-weight: bold;">{{ __('messages.refund_amount') }}</td>
                                     
-                                        <td class="text-right" style="width: 20%;font-weight: bold;">{{getPriceFormat($refundamount) ?? 0}} </td>
+                                        <td class="text-end" style="width: 20%;font-weight: bold;">{{getPriceFormat($refundamount) ?? 0}} </td>
                                     
                                     </tr>
                                     @endif

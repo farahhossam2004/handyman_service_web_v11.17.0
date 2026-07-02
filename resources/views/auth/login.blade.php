@@ -7,9 +7,12 @@
                    <div class="card-body p-4 p-lg-5">
                       <div class="auth-logo text-center mb-4">
                          <a href="{{ route('frontend.index') }}">
-                            <img src="{{ asset('landing-images/greylogo.png') }}" class="img-fluid" alt="logo" style="max-height: 48px;">
-                         </a>
-                      </div>
+                             @php
+                                 $loginThemeSetup = \App\Models\Setting::where('type', 'theme-setup')->where('key', 'theme-setup')->first();
+                             @endphp
+                             <img src="{{ getSingleMedia($loginThemeSetup ?? null, 'logo', false) }}" class="img-fluid" alt="logo" style="max-height: 48px;">
+                          </a>
+                       </div>
 
                       @if (session('success'))
                          <div class="alert alert-success alert-dismissible fade show" role="alert">

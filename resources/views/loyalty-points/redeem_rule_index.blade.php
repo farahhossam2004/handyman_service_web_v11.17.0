@@ -40,7 +40,7 @@
     {{-- Filter --}}
     <div class="col-md-6 col-lg-4 col-xl-4">
         <div class="d-flex align-items-center gap-3 justify-content-end">
-            <div class="datatable-filter ml-auto">
+            <div class="datatable-filter ms-auto">
                 <select name="redeem_rule_status" id="redeem_rule_status" class="select2 form-select"
                     data-filter="redeem_rule_status" style="width: 100%">
                     <option value="">{{ __('messages.all') }}</option>
@@ -51,7 +51,7 @@
             <div class="d-flex justify-content-end">
                 <div class="input-group input-group-search ms-2">
                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
-                    <input type="text" class="form-control dt-search" id="redeem_rule_search" placeholder="Search..."
+                    <input type="text" class="form-control dt-search" id="redeem_rule_search" placeholder="{{ __('messages.search') }}"
                         aria-label="Search" aria-describedby="addon-wrapping" aria-controls="dataTableBuilder">
                 </div>
             </div>

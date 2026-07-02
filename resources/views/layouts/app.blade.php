@@ -1,5 +1,9 @@
+@php
+    $rtlLocales = ['ar', 'dv', 'ff', 'ur', 'he', 'ku', 'fa'];
+    $dir = session()->has('dir') ? session()->get('dir') : (in_array(app()->getLocale(), $rtlLocales, true) ? 'rtl' : 'ltr');
+@endphp
 <!doctype html>
-<html data-bs-theme="light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html data-bs-theme="light" lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ $dir }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +13,11 @@
     <meta name="baseUrl" content="{{ config('app.url') }}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <title>Sanad Dashboard | سند</title>
+    @php
+        $titleGeneralSetting = \DB::table('settings')->where('key', 'general-setting')->value('value');
+        $titleSiteName = $titleGeneralSetting ? json_decode($titleGeneralSetting, true)['site_name'] ?? null : null;
+    @endphp
+    <title>{{ $pageTitle ?? $titleSiteName ?? 'Sanad Dashboard' }} | سند</title>
 
     @yield('meta')
 
@@ -43,12 +51,12 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
 
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -68,7 +76,7 @@
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu  dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

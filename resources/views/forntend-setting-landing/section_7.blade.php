@@ -130,7 +130,7 @@
 
     <div class="form-group col-md-12">
         <div class="form-group row">
-            <div class="col-md-9 text-md-right pe-1">
+            <div class="col-md-9 text-md-end pe-1">
                 <button type="button" id="add-section" class="button-custom button-added">
                     <i class="fas fa-plus me-2"></i>Add More
                 </button>
@@ -201,7 +201,7 @@
                         {{ html()->label(__('messages.subdescription'), 'subdescription')->class('form-control-label') }}
                         {{ html()->textarea('subdescription[]', '')->class('form-control textarea')->rows(2)->placeholder(__('messages.subdescription'))->required() }}
                     </div>
-                    <div class="col-md-6 text-md-left pe-1">
+                    <div class="col-md-6 text-md-start pe-1">
                         <button class="remove-section button-custom button-remove" title="Remove" data--confirmation1="true">
                             <i class="far fa-trash-alt"></i>
                         </button>

@@ -34,7 +34,7 @@
                             </div>
 
                             <a href="#" data-bs-toggle="modal" data-bs-target="#breakdownModal"
-                                class="text-success">View Breakdown</a>
+                                class="text-success">{{ __('messages.view_breakdown') }}</a>/a>
                             @endif
                             <button type="button" class="btn btn-sm btn-primary ms-2" data-bs-toggle="modal"
                                 data-bs-target="#Export">{{ __('messages.export') }}</button>
@@ -47,7 +47,7 @@
                         <div class="d-flex justify-content-end gap-2">
                             <div class="input-group input-group-search ms-2">
                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
-                                <input type="text" class="form-control dt-search" placeholder="Search..."
+                                <input type="text" class="form-control dt-search" placeholder="{{ __('messages.search') }}"
                                     aria-label="Search" aria-describedby="addon-wrapping"
                                     aria-controls="dataTableBuilder">
                             </div>
@@ -682,14 +682,14 @@ console.log(data);
                 if (userRole === 'admin' || userRole === 'demo_admin' || userRole === 'provider') {
                     html += `
                     <li class="py-2 d-flex justify-content-between">
-                        <span>Provider Earned:</span>
+                        <span>{{ __('messages.provider_earned') }}</span>
                         <span class="text-warning">${earnings.provider}</span>
                     </li>`;
                 }
 
                 html += `
                     <li class="py-2 d-flex justify-content-between">
-                        <span>Handyman Earned:</span>
+                        <span>{{ __('messages.handyman_earned') }}</span>
                         <span class="fw-bold text-info">${earnings.handyman}</span>
                     </li>
                     <li class="py-2 d-flex justify-content-between">
@@ -914,7 +914,11 @@ console.log(data);
 
 
             function getPriceFormat(price) {
-                return '$' + parseFloat(price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                var currency_data = @json(currency_data());
+                var symbol = currency_data.currency_symbol || 'ر.س';
+                var position = currency_data.currency_position || 'right';
+                var formatted = parseFloat(price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                return position === 'left' ? symbol + formatted : formatted + symbol;
             }
             updateTotalEarnings();
         });

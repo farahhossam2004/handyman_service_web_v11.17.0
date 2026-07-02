@@ -75,7 +75,7 @@ class AlterSettingsTable extends Migration
                     'time_format' => $appsetting->time_format ?? "g:i A",
                     'time_zone' => $appsetting->time_zone ?? "Asia/Kolkata",
                     'language_option' => $appsetting->language_option ?? ["nl", "fr", "it", "pt", "es", "en"],
-                    'default_currency' => $appsetting->default_currency ?? "231",
+                    'default_currency' => $appsetting->default_currency ?? "191",
                     'currency_position' => $appsetting->currency_position ?? "left",
                     'google_map_keys' => $appsetting->google_map_keys ?? "AIzaSyCtTed7y_ePqg1QoDMHOyu01FtP_Ot-mDU",
                     'latitude' => $appsetting->latitude ?? null,

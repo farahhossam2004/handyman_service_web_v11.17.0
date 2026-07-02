@@ -147,7 +147,6 @@
     </div>
 </div>
 </x-master-layout>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://checkout.flutterwave.com/v3.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -268,10 +267,6 @@ $(document).ready(function() {
                 case 'paypal':
                     // Add PayPal specific fields
                     break;
-                case 'razorpay':
-                    // Razorpay specific fields
-                    $('#razorpay_payment_details').show(); // This should be the container to input Razorpay-specific details
-                    break;
                 case 'flutterwave':
                     // Add Flutterwave specific fields
                     break;
@@ -304,35 +299,16 @@ $(document).ready(function() {
             success: function(response) {
                 console.log(response);
 
-                if (response.payment_method == 'razorPay') {
-                    var options = {
-                            "key": response.key,
-                            "amount": response.amount,
-                            "currency": response.currency,
-                            "name": response.name,
-
-                            "order_id": response.order_id,
-                            "handler": function (paymentResponse){
-                                const successUrl = new URL(response.success_url);
-                                successUrl.searchParams.append('gateway', 'razorpay');
-                                successUrl.searchParams.append('razorpay_payment_id', paymentResponse.razorpay_payment_id);
-                                successUrl.searchParams.append('banner_id', response.banner_id);
-
-                                window.location.href = successUrl.toString();
-                            },
-                            "prefill": {
-                                "name": response.prefill.name??'-',
-                                "email": response.prefill.email,
-                                "contact": response.prefill.contact??'-',
-                            },
-                            "theme": {
-                                "color": "#F37254"
-                            }
-                        };
-                        console.log("Razorpay Options:", options);
-                        var rzp1 = new Razorpay(options);
-                        rzp1.open();
-                }
+                if (false) { // Razorpay disabled
+                //             },
+                //             "theme": {
+                //                 "color": "#F37254"
+                //             }
+                //         };
+                //         console.log("Razorpay Options:", options);
+                //         var rzp1 = new Razorpay(options);
+                //         rzp1.open();
+                // }
 
                 if (response.data && response.data.payment_method == 'flutterwave') {
                     const config = response.data;
@@ -433,7 +409,5 @@ $(document).ready(function() {
 
 @push('scripts')
 <script src="https://js.stripe.com/v3/"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="https://checkout.flutterwave.com/v3.js"></script>
 <script src="https://checkout.flutterwave.com/v3.js"></script>
 @endpush

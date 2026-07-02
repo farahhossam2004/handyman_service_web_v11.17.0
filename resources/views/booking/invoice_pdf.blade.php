@@ -352,7 +352,7 @@
         </div>
 
         @php
-            $invoiceCurrencySymbol = '$';
+            $invoiceCurrencySymbol = 'ر.س';
             $siteSetupCurrency = \App\Models\Setting::getValueByKey('site-setup', 'site-setup');
             if ($siteSetupCurrency && !empty($siteSetupCurrency->default_currency)) {
                 $cCountry = \App\Models\Country::find($siteSetupCurrency->default_currency);
