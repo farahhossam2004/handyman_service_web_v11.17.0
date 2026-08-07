@@ -107,6 +107,8 @@ class MsegatService
 
         $number = $this->normalizePhoneForSend($phone);
 
+        $url = rtrim((string) config('services.msegat.base_url'), '/').self::ENDPOINT_SEND_OTP;
+
         $payload = [
             'apiKey'     => config('services.msegat.api_key'),
             'userName'   => config('services.msegat.username'),
@@ -115,32 +117,50 @@ class MsegatService
             'number'     => $number,
         ];
 
-        $url = rtrim((string) config('services.msegat.base_url'), '/').self::ENDPOINT_SEND_OTP;
+        // TEMP DIAGNOSTIC: sanitized request metadata. Intentional NO apiKey / NO userName.
+        $meta = [
+            'endpoint' => $url,
+            'number'   => $number,
+            'sender'   => config('services.msegat.sender'),
+            'lang'     => $lang,
+        ];
 
         try {
             $response = $this->client()->post($url, $payload);
 
+            $httpStatus = $response->status();
+            $body       = $response->body();
+
+            // TEMP DIAGNOSTIC: never logs apiKey/userName; MSEGAT response body + status code.
+            Log::channel('daily')->info('MSEGAT send-otp response', $meta + [
+                'http_status' => $httpStatus,
+                'body'        => $body,
+                'msegat_code' => $response->json('code'),
+                'success'     => $response->json('success'),
+                'request_id'  => $response->json('id'),
+            ]);
+
             if ($response->failed()) {
-                $this->log('send', $number, ['http_status' => $response->status(), 'body' => $response->body()]);
-                return $this->failure('HTTP '.$response->status());
+                return $this->failure('HTTP '.$httpStatus);
             }
 
             $data = $response->json();
             $success = ! empty($data['success']) && $data['success'] === true;
-            $message = $data['message'] ?? $response->body();
-
-            $this->log('send', $number, [
-                'raw' => $this->scrub(is_array($data) ? $data : ['message' => $message]),
-            ]);
+            $message = $data['message'] ?? $body;
 
             return [
-                'success'  => $success,
+                'success'    => $success,
                 'request_id' => $data['id'] ?? null,
-                'code'     => (string) ($data['code'] ?? ''),
-                'message'  => $message,
+                'code'       => (string) ($data['code'] ?? ''),
+                'message'    => $message,
             ];
         } catch (\Throwable $e) {
-            $this->log('send', $number, ['exception' => $e->getMessage()]);
+            // TEMP DIAGNOSTIC: log the real exception instead of hiding it.
+            Log::channel('daily')->warning('MSEGAT send-otp exception', $meta + [
+                'exception'       => $e->getMessage(),
+                'exception_class' => get_class($e),
+            ]);
+
             return $this->failure('network');
         }
     }
@@ -154,6 +174,8 @@ class MsegatService
     {
         $this->assertConfigured();
 
+        $url = rtrim((string) config('services.msegat.base_url'), '/').self::ENDPOINT_VERIFY_OTP;
+
         $payload = [
             'apiKey'     => config('services.msegat.api_key'),
             'userName'   => config('services.msegat.username'),
@@ -163,24 +185,35 @@ class MsegatService
             'code'       => $code,
         ];
 
-        $url = rtrim((string) config('services.msegat.base_url'), '/').self::ENDPOINT_VERIFY_OTP;
+        // TEMP DIAGNOSTIC: sanitized metadata. Intentional NO apiKey / NO userName / NO OTP code.
+        $meta = [
+            'endpoint'   => $url,
+            'request_id' => $requestId,
+            'lang'       => $lang,
+        ];
 
         try {
             $response = $this->client()->post($url, $payload);
 
+            $httpStatus = $response->status();
+            $body       = $response->body();
+
+            // TEMP DIAGNOSTIC: response code is MSEGAT's result code (e.g. "1"), not the OTP.
+            Log::channel('daily')->info('MSEGAT verify-otp response', $meta + [
+                'http_status' => $httpStatus,
+                'body'        => $body,
+                'msegat_code' => $response->json('code'),
+                'success'     => $response->json('success'),
+            ]);
+
             if ($response->failed()) {
-                $this->log('verify', $requestId, ['http_status' => $response->status(), 'body' => $response->body()]);
-                return $this->failure('HTTP '.$response->status());
+                return $this->failure('HTTP '.$httpStatus);
             }
 
             $data = $response->json();
 
             $responseCode = (string) ($data['code'] ?? '');
-            $message = $data['message'] ?? $response->body();
-
-            $this->log('verify', $requestId, [
-                'raw' => $this->scrub(is_array($data) ? $data : ['message' => $message]),
-            ]);
+            $message = $data['message'] ?? $body;
 
             // MSEGAT returns code "1" on successful verification.
             $success = $responseCode === '1' || (bool) ($data['success'] ?? false);
@@ -191,7 +224,12 @@ class MsegatService
                 'message' => $message,
             ];
         } catch (\Throwable $e) {
-            $this->log('verify', $requestId, ['exception' => $e->getMessage()]);
+            // TEMP DIAGNOSTIC: log the real exception instead of hiding it.
+            Log::channel('daily')->warning('MSEGAT verify-otp exception', $meta + [
+                'exception'       => $e->getMessage(),
+                'exception_class' => get_class($e),
+            ]);
+
             return $this->failure('network');
         }
     }
@@ -232,34 +270,5 @@ class MsegatService
             'code'    => $reason,
             'message' => 'MSEGAT request failed.',
         ];
-    }
-
-    /**
-     * Log technical details server-side WITHOUT exposing API credentials.
-     */
-    private function log(string $op, ?string $number, array $context = []): void
-    {
-        if (isset($context['raw'])) {
-            $context['raw'] = $this->scrub((array) $context['raw']);
-        }
-
-        Log::channel('daily')->info('[MSEGAT] '.$op, [
-            'number'  => $number,
-            'context' => $context,
-        ]);
-    }
-
-    /**
-     * Remove credential fields from any structure before logging.
-     */
-    private function scrub(?array $arr): ?array
-    {
-        if ($arr === null) {
-            return null;
-        }
-
-        unset($arr['apiKey'], $arr['userName'], $arr['userSender']);
-
-        return $arr;
     }
 }
