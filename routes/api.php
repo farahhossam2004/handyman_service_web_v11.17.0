@@ -64,6 +64,10 @@ Route::post('social-login', [API\User\UserController::class, 'socialLogin']);
 Route::post('contact-us', [API\User\UserController::class, 'contactUs']);
 // Route::post('user-email-verify', [API\User\UserController::class, 'verify']);
 
+// MSEGAT SMS OTP for customer registration
+Route::post('auth/send-otp', [API\Auth\OtpController::class, 'sendOtp'])->middleware('throttle:otp_send');
+Route::post('auth/verify-otp', [API\Auth\OtpController::class, 'verifyOtp'])->middleware('throttle:otp_verify');
+
 
 
 Route::get('dashboard-detail', [API\DashboardController::class, 'dashboardDetail']);

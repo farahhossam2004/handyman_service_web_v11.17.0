@@ -60,5 +60,21 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+
+        // Max 1 OTP send per phone per minute (matches the 60s cooldown).
+        RateLimiter::for('otp_send', function (Request $request) {
+            $phone = (string) $request->input('phone', '');
+            $key = 'otp_send:'.($phone !== '' ? $phone : $request->ip());
+
+            return Limit::perMinutes(1, (int) config('services.msegat.otp_send_rate_limit', 1))->by($key);
+        });
+
+        // Cap verification attempts per phone to protect against brute forcing.
+        RateLimiter::for('otp_verify', function (Request $request) {
+            $id = (string) $request->input('verification_id', '');
+            $key = 'otp_verify:'.($id !== '' ? $id : $request->ip());
+
+            return Limit::perMinutes(5, (int) config('services.msegat.otp_max_attempts', 5))->by($key);
+        });
     }
 }

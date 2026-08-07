@@ -40,6 +40,20 @@ return [
         'path' => env('DO_SPACES_PATH', ''),
     ],
 
+    'msegat' => [
+        'username' => env('MSEGAT_USERNAME'),
+        'api_key'  => env('MSEGAT_API_KEY'),
+        'sender'   => env('MSEGAT_SENDER'),
+        'base_url' => env('MSEGAT_BASE_URL', 'https://www.msegat.com/gw'),
+        'timeout'  => 15,
+        'connect_timeout' => 5,
+        // OTP lifecycle limits (seconds / minutes / attempts)
+        'otp_expires_in_minutes' => env('MSEGAT_OTP_EXPIRES_MINUTES', 8),
+        'otp_max_attempts'       => (int) env('MSEGAT_OTP_MAX_ATTEMPTS', 5),
+        'otp_resend_cooldown'    => (int) env('MSEGAT_OTP_RESEND_COOLDOWN', 60),
+        'otp_send_rate_limit'    => (int) env('MSEGAT_OTP_SEND_RATE_LIMIT', 1),
+    ],
+
 
     // 'onesignal' => [
     //     'app_id' => env('ONESIGNAL_API_KEY'),
